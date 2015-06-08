@@ -1,0 +1,10 @@
+# Docker build process
+
+# inside the respective folder (eg: ./ssh/)
+docker build -t tagname
+
+# running the build
+docker run -d -P --name containername tagname
+
+# adding listener port
+docker port containername XPortNum
