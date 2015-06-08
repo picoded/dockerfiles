@@ -4,7 +4,11 @@
 docker build -t tagname
 
 # running the build
-docker run -d -P --name containername tagname
+docker run -d --name containername tagname
+
+-d : detach mode
+-P : auto publish all ports
+-e : set env key=value pairs
 
 # adding listener port
 docker port containername XPortNum

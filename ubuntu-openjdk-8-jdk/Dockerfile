@@ -5,8 +5,8 @@
 # Reference: http://ubuntuhandbook.org/index.php/2015/01/install-openjdk-8-ubuntu-14-04-12-04-lts/
 # -> Important note, this is missing the -secret parameter info
 #
-# This takes ubuntu 14.04 LTS, and forces openjdk-8-jdk to be installed. 
-# Where future docker images can extend from
+# This takes ubuntu 14.04 LTS, and forces openjdk-8-jdk to be installed via backports. 
+# Where future docker images can extend from (eg. jenkins-slave)
 #
 FROM ubuntu:14.04
 MAINTAINER Eugene Cheah <picoded@socialoctet.com>
