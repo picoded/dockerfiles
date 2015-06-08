@@ -1,6 +1,6 @@
 # jenkins-slave
 #
-# VERSION               0.0.2
+# VERSION               0.0.3
 #
 # Reference: https://wiki.jenkins-ci.org/display/JENKINS/Distributed+builds
 # -> Important note, this is missing the -secret parameter info
@@ -20,7 +20,7 @@ ENV JENKINS_SLAVE_NAME docker-slave
 ENV JENKINS_SLAVE_SECRET replace_this_with_jenkins_secret_key
 
 # install git-core
-RUN apt-get install -y git-core
+RUN apt-get update && apt-get install -y git unzip
 
 # Copy over the slave script
 COPY run-slave.sh ./
