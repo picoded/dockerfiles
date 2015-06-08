@@ -31,7 +31,7 @@ RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/ss
 # Expose port 22 (SSH)
 EXPOSE 22
 
-# Run sshd, on build, this is used for downstream images
+# Run sshd, on build in the background, this is used for downstream images
 ONBUILD RUN /usr/sbin/sshd
 
 # This image "command"
