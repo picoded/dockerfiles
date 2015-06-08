@@ -1,4 +1,4 @@
-# jenkins-build-slave
+# jenkins-apache-php
 #
 # VERSION               0.0.1
 #
@@ -10,20 +10,19 @@
 FROM picoded/jenkins-slave
 MAINTAINER Eugene Cheah <picoded@socialoctet.com>
 
-# install build essentials
-RUN apt-get update && apt-get install -y build-essential
-
-# install php5-cli
-RUN apt-get install -y php5-cli php5-mcrypt
+# run update
+RUN apt-get update
 
 # install python
 RUN apt-get install -y python
 
-# install apache ant
-RUN apt-get install -y ant
-
 # install apache webhost stack
-# RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mcrypt
+RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mcrypt php5-cli
+
+# expose port 80
+EXPOSE 80
+
+RUN /usr/sbin/apache2ctl -k start
 
 # And start up the slave
 CMD ["./run-slave.sh"]
