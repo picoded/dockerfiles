@@ -22,6 +22,9 @@ RUN apt-get install -y python
 # install apache ant
 RUN apt-get install -y ant
 
+# install doxygen
+RUN apt-get install -y doxygen
+
 # install apache webhost stack
 # RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mcrypt
 
