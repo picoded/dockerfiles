@@ -20,7 +20,7 @@ ENV JENKINS_SLAVE_NAME docker-slave
 ENV JENKINS_SLAVE_SECRET replace_this_with_jenkins_secret_key
 
 # install git-core
-RUN apt-get update && apt-get install -y git unzip
+RUN apt-get update && apt-get install -y git unzip zip
 
 # Copy over the slave script
 COPY run-slave.sh ./

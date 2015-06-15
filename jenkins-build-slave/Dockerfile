@@ -11,7 +11,7 @@ FROM picoded/jenkins-slave
 MAINTAINER Eugene Cheah <picoded@socialoctet.com>
 
 # install build essentials
-RUN apt-get update && apt-get install -y build-essential zip
+RUN apt-get update && apt-get install -y build-essential
 
 # install php5-cli
 RUN apt-get install -y php5-cli php5-mcrypt

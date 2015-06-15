@@ -22,6 +22,7 @@ RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mcrypt php5-cli
 # expose port 80
 EXPOSE 80
 
+# Start apache
 RUN /usr/sbin/apache2ctl -k start
 
 # And start up the slave
