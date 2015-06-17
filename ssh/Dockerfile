@@ -32,7 +32,7 @@ RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/ss
 EXPOSE 22
 
 # Run sshd, on build in the background, this is used for downstream images
-ONBUILD RUN /usr/sbin/sshd
+# ONBUILD RUN /usr/sbin/sshd
 
 # This image "command"
 CMD ["/usr/sbin/sshd", "-D"]
