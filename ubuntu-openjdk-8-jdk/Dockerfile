@@ -26,5 +26,9 @@ RUN add-apt-repository ppa:openjdk-r/ppa
 # Install java8
 RUN apt-get update && apt-get install -y openjdk-8-jdk
 
+# Setup JAVA_HOME, this is useful for docker commandline
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+export JAVA_HOME
+
 # Show java version (for debugging)
 # RUN java -version
