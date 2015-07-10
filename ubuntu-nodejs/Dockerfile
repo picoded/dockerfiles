@@ -16,3 +16,4 @@ RUN locale-gen $LANG
 
 # Install the python repo (2.7 ?)
 RUN apt-get update && apt-get install git nodejs npm -y
+
