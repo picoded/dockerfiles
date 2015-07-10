@@ -15,4 +15,4 @@ ENV LANG en_US.UTF-8
 RUN locale-gen $LANG
 
 # Install the python repo (2.7 ?)
-RUN apt-get install python -y
+RUN apt-get install git python -y
