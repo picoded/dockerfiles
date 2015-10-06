@@ -17,11 +17,11 @@ RUN locale-gen $LANG
 # Setup mysql user / pass for headless install
 ENV MYSQL_ROOT_PASSWORD password_pls_change
 
-RUN sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD'
-RUN sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD'
+RUN sudo debconf-set-selections << 'mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD'
+RUN sudo debconf-set-selections << 'mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD'
 
 # MySQL installation
-RUN apt-get update && apt-get install -y mysql
+RUN apt-get update && apt-get install -y mysql-server
 
 # Expose port 3306 (Mysql)
 EXPOSE 3306
@@ -36,5 +36,5 @@ RUN php5enmod mcrypt
 EXPOSE 80
 
 # Run mysql service & apache
-ENTRYPOINT service mysqld start && /usr/sbin/apache2ctl -D FOREGROUND
-CMD service mysqld start && /usr/sbin/apache2ctl -D FOREGROUND
+ENTRYPOINT service mysql start && /usr/sbin/apache2ctl -D FOREGROUND
+CMD service mysql start && /usr/sbin/apache2ctl -D FOREGROUND
