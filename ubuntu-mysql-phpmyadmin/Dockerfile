@@ -17,8 +17,8 @@ RUN locale-gen $LANG
 # Setup mysql user / pass for headless install
 ENV MYSQL_ROOT_PASSWORD password_pls_change
 
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD'
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD'
+RUN sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD'
+RUN sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD'
 
 # MySQL installation
 RUN apt-get update && apt-get install -y mysql
