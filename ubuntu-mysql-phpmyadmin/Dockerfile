@@ -1,4 +1,4 @@
-# ubuntu-nodejs
+# ubuntu-mysql-phpmyadmin
 #
 # VERSION               0.0.1
 #
