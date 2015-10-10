@@ -16,7 +16,5 @@ EXPOSE 8080
 ENV MANAGER_USER the-manager
 ENV MANAGER_PASS needs-a-new-password-here
 
-RUN echo "<?xml version='1.0' encoding='utf-8'?>\n<tomcat-users>\n<role rolename=\"manager-gui\"/>\n<user username=\"$MANAGER_USER\" password=\"$MANAGER_PASS\" roles=\"manager-gui\"/>\n</tomcat-users>\n" > ./conf/tomcat-users.xml
-
-# Back to the official run script
-CMD ["catalina.sh", "run"]
+# Runs with manager user / pass, and start command
+CMD echo "<?xml version='1.0' encoding='utf-8'?>\n<tomcat-users>\n<role rolename=\"manager-gui\"/>\n<user username=\"$MANAGER_USER\" password=\"$MANAGER_PASS\" roles=\"manager-gui\"/>\n</tomcat-users>\n" > ./conf/tomcat-users.xml && catalina.sh run
