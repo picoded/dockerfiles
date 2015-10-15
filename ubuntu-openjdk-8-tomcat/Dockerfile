@@ -2,9 +2,7 @@
 #
 # VERSION               8.0.28
 #
-# Setsup and configure a codebox, with openjdk8 and apache installed
-#
-# See: https://github.com/CodeboxIDE/codebox
+# Setsup and configure ubuntu, with openjdk 8, and tomcat 8
 #
 FROM picoded/ubuntu-openjdk-8-jdk
 MAINTAINER Eugene Cheah <picoded@socialoctet.com>
@@ -17,8 +15,9 @@ RUN mkdir /workspace
 
 # download and unzip the tomcat package, and rename it as tomcat
 RUN cd /workspace &&  \
-	wget http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.zip && \
-	unzip apache-tomcat-8.0.28.zip -d tomcat
+	wget http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.tar.gz && \
+	tar xvzf apache-tomcat-8.0.28.tar.gz && \
+	mv apache-tomcat-8.0.28 ./tomcat
 
 # Setup workdir
 WORKDIR /workspace/tomcat
