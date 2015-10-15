@@ -18,8 +18,7 @@ RUN mkdir /workspace
 # download and unzip the tomcat package, and rename it as tomcat
 RUN cd /workspace &&  \
 	wget http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.zip && \
-	tar xvzf apache-tomcat-8.0.28.tar.gz && \
-	mv apache-tomcat-8.0.28 ./tomcat
+	unzip apache-tomcat-8.0.28.zip -d tomcat
 
 # Setup workdir
 WORKDIR /workspace/tomcat
