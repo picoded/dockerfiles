@@ -17,4 +17,4 @@ ENV MANAGER_USER the-manager
 ENV MANAGER_PASS needs-a-new-password-here
 
 # Runs with manager user / pass, and start command
-CMD echo "<?xml version='1.0' encoding='utf-8'?>\n<tomcat-users>\n<role rolename=\"manager-gui\"/>\n<user username=\"$MANAGER_USER\" password=\"$MANAGER_PASS\" roles=\"manager-gui\"/>\n</tomcat-users>\n" > ./conf/tomcat-users.xml && catalina.sh run
+CMD echo "<?xml version='1.0' encoding='utf-8'?>\n<tomcat-users>\n<user username=\"$MANAGER_USER\" password=\"$MANAGER_PASS\" roles=\"standard,manager,admin,manager-gui,manager-script\"/>\n</tomcat-users>\n" > ./conf/tomcat-users.xml && catalina.sh run
