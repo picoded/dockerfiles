@@ -26,4 +26,5 @@ CMD echo "<?xml version='1.0' encoding='utf-8'?>" > ./conf/tomcat-users.xml && \
 	echo "	<role rolename=\"manager\"/>" >> ./conf/tomcat-users.xml && \
 	echo "	<user username=\"$MANAGER_USER\" password=\"$MANAGER_PASS\" roles=\"standard,manager,admin,manager-gui,manager-script\"/>" >> ./conf/tomcat-users.xml && \
 	echo "</tomcat-users>" >> ./conf/tomcat-users.xml && \
-	catalina.sh run 2> /dev/null; 
+	./bin/startup.sh run 2> /dev/null && \
+	tail -f /dev/null; 
