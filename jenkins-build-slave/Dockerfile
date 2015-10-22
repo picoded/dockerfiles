@@ -1,6 +1,6 @@
 # jenkins-build-slave
 #
-# VERSION               0.0.1
+# VERSION               0.0.2
 #
 # This extends jenkins-slave by installing the following
 # build-essential, openjdk-8-jdk, php5, python, ant. 
@@ -8,7 +8,7 @@
 # This is setup to function as a "build-slave", for most common stuff
 #
 FROM picoded/jenkins-slave
-MAINTAINER Eugene Cheah <picoded@socialoctet.com>
+MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # install build essentials
 RUN apt-get update && apt-get install -y build-essential
@@ -21,6 +21,9 @@ RUN apt-get install -y python
 
 # install apache ant
 RUN apt-get install -y ant
+
+# install zip
+RUN apt-get install -y zip
 
 # install doxygen
 RUN apt-get install -y doxygen
