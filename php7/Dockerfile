@@ -10,7 +10,7 @@ FROM php:7-apache
 MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # install common package utility
-RUN apt-get install -y git unzip zip
+RUN apt-get update && apt-get install -y git unzip zip
 
 # move the default /var/www contents to /workspace/www
 RUN mkdir /workspace && mkdir /workspace/www && mv /var/www/html/index.html /workspace/www/ 
