@@ -12,6 +12,9 @@ MAINTAINER Eugene Cheah <eugene@picoded.com>
 # install common package utility
 RUN apt-get update && apt-get install -y git unzip zip
 
+# Install pdo_mysql
+RUND docker-php-ext-install mysqli pdo_mysql
+
 # move the default /var/www contents to /workspace/www
 RUN mkdir /workspace && mkdir /workspace/www && mv /var/www/html/index.html /workspace/www/ 
 
