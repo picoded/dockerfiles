@@ -34,9 +34,13 @@ RUN mkdir /workspace/www && mv /var/www/html/index.html /workspace/www/
 # and relinks /var/www/html to /workspace/www
 RUN rmdir /var/www/html && ln -s /workspace/www /var/www && cd /var/www && mv www html 
 
+# Setup the workspace
+WORKDIR /workspace;
+
 # download tomcat 8, and uncompress it
 RUN wget http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.tar.gz;
-RUN tar xvf apache-tomcat-8*tar.gz -C /workspace/tomcat --strip-components=1;
+RUN tar xvf apache-tomcat-8*tar.gz && rm apache-tomcat-8*.tar.gz;
+RUN mv apache-tomcat-8* tomcat8;
 
 # expose port 80, 443 for apache, 8000 for code box, 8080 for tomcat (if added)
 EXPOSE 80 443 8000 8080
