@@ -1,4 +1,4 @@
-# php7
+# php5
 #
 # Reorganised to fit our standard /workspace model
 #
@@ -6,7 +6,7 @@
 #
 # Note this is referenced from : https://hub.docker.com/_/php/
 #
-FROM php:7-apache
+FROM php:5-apache
 MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # install common package utility
