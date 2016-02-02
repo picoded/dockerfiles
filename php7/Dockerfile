@@ -21,10 +21,11 @@ RUN docker-php-ext-install curl sockets mbstring mcrypt zip
 RUN a2enmod rewrite
 
 # move the default /var/www contents to /workspace/www
-RUN mkdir /workspace && mkdir /workspace/www && mv /var/www/html/index.html /workspace/www/ 
+RUN mkdir /workspace && mkdir /workspace/www 
+RUN mv /var/www/html/* /workspace/www/ 2> /dev/null
 
 # and relinks /var/www/html to /workspace/www
-RUN rmdir /var/www/html && ln -s /workspace/www /var/www && cd /var/www && mv www html 
+RUN rm -R /var/www/html && ln -s /workspace/www /var/www && cd /var/www && mv www html
 
 # Volume links
 VOLUME ["/workspace/www", "/var/log/apache2", "/etc/apache2"]
