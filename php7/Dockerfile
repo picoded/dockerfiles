@@ -18,6 +18,7 @@ RUN apt-get install libmcrypt-dev libssl-dev libcurl4-openssl-dev ftp
 # Install pdo_mysql
 RUN docker-php-ext-install mysqli pdo_mysql
 RUN docker-php-ext-install curl sockets mbstring mcrypt zip
+RUN a2enmod rewrite
 
 # move the default /var/www contents to /workspace/www
 RUN mkdir /workspace && mkdir /workspace/www && mv /var/www/html/index.html /workspace/www/ 
