@@ -13,7 +13,7 @@ MAINTAINER Eugene Cheah <eugene@picoded.com>
 RUN apt-get update && apt-get install -y git unzip zip
 
 # install dependency module
-RUN apt-get install libmcrypt-dev libssl-dev libcurl4-openssl-dev ftp
+RUN apt-get update && apt-get install -y libmcrypt-dev libssl-dev libcurl4-openssl-dev ftp
 
 # Install pdo_mysql
 RUN docker-php-ext-install mysqli pdo_mysql
