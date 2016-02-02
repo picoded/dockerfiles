@@ -22,7 +22,7 @@ RUN a2enmod rewrite
 
 # move the default /var/www contents to /workspace/www
 RUN mkdir /workspace && mkdir /workspace/www 
-RUN mv /var/www/html/* /workspace/www/ 2> /dev/null
+RUN cp -R /var/www/html/* /workspace/www/ || true
 
 # and relinks /var/www/html to /workspace/www
 RUN rm -R /var/www/html && ln -s /workspace/www /var/www && cd /var/www && mv www html
