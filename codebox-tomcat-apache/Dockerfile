@@ -38,7 +38,7 @@ RUN rmdir /var/www/html && ln -s /workspace/www /var/www && cd /var/www && mv ww
 WORKDIR /workspace;
 
 # download tomcat 8, and uncompress it
-RUN wget http://www.eu.apache.org/dist/tomcat/tomcat-8/v8.0.28/bin/apache-tomcat-8.0.28.tar.gz;
+RUN wget http://www-us.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/apache-tomcat-8.0.32.tar.gz;
 RUN tar xvf apache-tomcat-8*tar.gz && rm apache-tomcat-8*.tar.gz;
 RUN mv apache-tomcat-8* tomcat8;
 
