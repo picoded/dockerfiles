@@ -30,9 +30,9 @@ RUN a2enmod rewrite
 
 RUN mkdir /phabricator && \
 	cd /phabricator && \
-	git clone https://github.com/phacility/libphutil.git && \
-	git clone https://github.com/phacility/arcanist.git && \
-	git clone https://github.com/phacility/phabricator.git
+	git clone -b stable https://github.com/phacility/libphutil.git && \
+	git clone -b stable https://github.com/phacility/arcanist.git && \
+	git clone -b stable https://github.com/phacility/phabricator.git
 
 # Overwrite document root
 #
