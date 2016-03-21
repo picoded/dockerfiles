@@ -12,3 +12,11 @@ docker run -d --name containername tagname
 
 # adding listener port
 docker port containername XPortNum
+
+Docker commands
+——————————
+
+# Delete all containers
+docker rm $(docker ps -a -q)
+# Delete all images
+docker rmi $(docker images -q)
