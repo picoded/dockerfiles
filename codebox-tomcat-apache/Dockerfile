@@ -13,10 +13,10 @@ MAINTAINER Eugene Cheah <eugene@picoded.com>
 RUN apt-get update && apt-get install -y git unzip zip build-essential 
 
 # install common command line utilities
-RUN apt-get update && apt-get install -y php5-cli php5-mcrypt python ant doxygen wget
+RUN apt-get update && apt-get install -y php5-cli php5-mcrypt python ant doxygen wget 
 
 # install apache webhost stack
-RUN apt-get update && apt-get install -y apache2 php5 libapache2-mod-php5 php5-mcrypt php5-cli
+RUN apt-get update && apt-get install -y apache2 php5 libapache2-mod-php5 php5-mcrypt php5-cli php5-curl
 
 # install nodejs stack
 RUN apt-get update && apt-get install -y nodejs npm nodejs-legacy
