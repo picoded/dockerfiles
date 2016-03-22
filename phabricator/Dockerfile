@@ -10,14 +10,20 @@ FROM php:7-apache
 MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # install common package utility and dependencies
-RUN apt-get update && apt-get install -y git unzip zip libmcrypt-dev libssl-dev libcurl4-openssl-dev ftp libpng-dev
+RUN apt-get update && apt-get install -y \
+	git unzip zip \
+	libmcrypt-dev libssl-dev libcurl4-openssl-dev \
+	ftp sendmail python-pygments \
+	libpng-dev libjpeg-dev \
+	libfreetype6-dev libjpeg62-turbo-dev libpng12-dev
 
 # Install pdo_mysql
 RUN docker-php-ext-install mysqli pdo_mysql
 
 # Install phabricator dependencies
-RUN docker-php-ext-install curl sockets mbstring mcrypt zip iconv curl pcntl gd
-RUN docker-php-ext-install ftp opcache json
+RUN docker-php-ext-install -j$(nproc) curl sockets mbstring mcrypt zip iconv curl pcntl ftp opcache json && \
+	docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+	docker-php-ext-install -j$(nproc) gd
 
 # Note that since opcache comes preinstalled in php7
 # APC is not installed (nor is there a way to do so in docker build)
@@ -56,6 +62,11 @@ RUN cd /etc/apache2/ && \
 	echo '' >> apache2.conf && \
 	echo '	ServerName localhost' >> apache2.conf && \
 	echo '	DocumentRoot /phabricator/phabricator/webroot' >> apache2.conf && \
+	echo '' >> apache2.conf && \
+	echo '	php_value post_max_size 32M' >> apache2.conf && \
+	echo '	php_value upload_max_filesize 32M' >> apache2.conf && \
+	echo '	php_value opcache.validate_timestamps 0' >> apache2.conf && \
+	echo '' >> apache2.conf && \
 	echo '	DirectoryIndex index.php' >> apache2.conf && \
 	echo '	RewriteEngine on' >> apache2.conf && \
 	echo '	RewriteRule ^/rsrc/(.*)     -                       [L,QSA]  ' >> apache2.conf && \
@@ -91,8 +102,8 @@ RUN echo "#!/bin/bash" > update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/phd start' >> update-and-setup.sh && \
 	chmod +x update-and-setup.sh
 
-# expose port 80
-EXPOSE 80
+# expose port 22 & 80
+EXPOSE 22 80
 
 # And start up the slave
 ENTRYPOINT ./update-and-setup.sh && apache2-foreground
