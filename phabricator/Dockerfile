@@ -76,9 +76,7 @@ RUN cd /etc/apache2/ && \
 	echo '' >> apache2.conf && \
 	chmod +x sites-available/000-default.conf;
 
-#RUN ls /etc/apache2/
 #RUN cat /etc/apache2/apache2.conf
-#WORKDIR /phabricator
 #RUN cd /phabricator/phabricator && ls conf/local
 
 WORKDIR /phabricator
