@@ -1,6 +1,6 @@
 # phabricator
 #
-# VERSION               0.0.1
+# VERSION               0.0.2
 #
 # Note this is referenced from 
 # - https://hub.docker.com/_/php/
@@ -81,6 +81,7 @@ RUN cd /etc/apache2/ && \
 
 WORKDIR /phabricator
 
+ENV BASE_URL "http://localhost/"
 ENV MYSQL_HOST mysql_host_here
 ENV MYSQL_PORT 3306
 ENV MYSQL_USER phabricator
@@ -92,6 +93,7 @@ RUN echo "#!/bin/bash" > update-and-setup.sh && \
 	echo 'cd $INSTALL_DIR/arcanist && git pull;' >> update-and-setup.sh && \
 	echo 'cd $INSTALL_DIR/phabricator && git pull;' >> update-and-setup.sh && \
 	echo 'PHAB_DIR="/phabricator/phabricator"' >> update-and-setup.sh && \
+	echo '$PHAB_DIR/bin/config set phabricator.base-uri "${BASE_URL}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.host "${MYSQL_HOST}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.port "${MYSQL_PORT}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.user "${MYSQL_USER}"' >> update-and-setup.sh && \
