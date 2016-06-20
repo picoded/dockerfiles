@@ -10,7 +10,7 @@ FROM php:7-apache
 MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # install common package utility
-RUN apt-get update && apt-get install -y git unzip zip
+RUN apt-get update && apt-get install -y git unzip zip vim
 
 # install dependency module
 RUN apt-get update && apt-get install -y libmcrypt-dev libssl-dev libcurl4-openssl-dev ftp
