@@ -94,8 +94,8 @@ RUN echo "#!/bin/bash" > update-and-setup.sh && \
 	echo 'cd $INSTALL_DIR/arcanist && git pull;' >> update-and-setup.sh && \
 	echo 'cd $INSTALL_DIR/phabricator && git pull;' >> update-and-setup.sh && \
 	echo 'PHAB_DIR="/phabricator/phabricator";' >> update-and-setup.sh && \
-	echo 'echo "<?php ${PREAMBLE_SCRIPT} ?>" > $PHAB_DIR/preamble.php;' >> update-and-setup.sh && \
-	echo 'chmod +x $PHAB_DIR/preamble.php;' >> update-and-setup.sh && \
+	echo 'echo "<?php ${PREAMBLE_SCRIPT} ?>" > $PHAB_DIR/support/preamble.php;' >> update-and-setup.sh && \
+	echo 'chmod +x $PHAB_DIR/support/preamble.php;' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set phabricator.base-uri "${BASE_URL}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.host "${MYSQL_HOST}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.port "${MYSQL_PORT}"' >> update-and-setup.sh && \
