@@ -1,6 +1,6 @@
 # jenkins-build-slave
 #
-# VERSION               0.0.2
+# VERSION               0.0.3
 #
 # This extends jenkins-slave by installing the following
 # build-essential, openjdk-8-jdk, php5, python, ant. 
@@ -33,4 +33,4 @@ RUN apt-get update && apt-get install -y build-essential php5-cli php5-mcrypt py
 # RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mcrypt
 
 # And start up the slave
-CMD ["./run-slave.sh"]
+CMD ["./setup-and-run.sh"]

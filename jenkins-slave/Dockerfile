@@ -1,6 +1,6 @@
 # jenkins-slave
 #
-# VERSION               0.0.3
+# VERSION               0.0.4
 #
 # Reference: https://wiki.jenkins-ci.org/display/JENKINS/Distributed+builds
 # -> Important note, this is missing the -secret parameter info
@@ -20,13 +20,18 @@ ENV JENKINS_SLAVE_NAME docker-slave
 ENV JENKINS_SLAVE_SECRET replace_this_with_jenkins_secret_key
 
 # install git-core
-RUN apt-get update && apt-get install -y git unzip zip
+RUN apt-get update && apt-get install -y git unzip zip wget
 
 # Copy over the slave script
-COPY run-slave.sh ./
+# COPY run-slave.sh ./
 
 # Download the slave jar
-ADD $JENKINS_HOST/jnlpJars/slave.jar ./
+# ADD $JENKINS_HOST/jnlpJars/slave.jar ./
+
+RUN echo "#!/bin/bash" > setup-and-run.sh && \
+ 	echo 'wget -o slave.jar "$JENKINS_HOST/jnlpJars/slave.jar";' >> setup-and-run.sh && \
+ 	echo 'java -jar slave.jar -jnlpUrl $JENKINS_HOST/computer/$JENKINS_SLAVE_NAME/slave-agent.jnlp -secret $JENKINS_SLAVE_SECRET;' >> setup-and-run.sh && \
+ 	chmod +x setup-and-run.sh
 
 # And start up the slave
-CMD ["./run-slave.sh"]
+CMD ["./setup-and-run.sh"]
