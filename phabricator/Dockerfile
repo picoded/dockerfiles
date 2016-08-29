@@ -6,7 +6,7 @@
 # - https://hub.docker.com/_/php/
 # - https://secure.phabricator.com/book/phabricator/article/installation_guide/
 #
-FROM php:7-apache
+FROM php:5-apache
 MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # install common package utility and dependencies
