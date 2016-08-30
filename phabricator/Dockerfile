@@ -86,6 +86,7 @@ ENV MYSQL_HOST mysql_host_here
 ENV MYSQL_PORT 3306
 ENV MYSQL_USER phabricator
 ENV MYSQL_PASS password_over_here
+ENV MYSQL_FILE_STORAGE 9000000
 ENV PREAMBLE_SCRIPT ""
 
 RUN echo "#!/bin/bash" > update-and-setup.sh && \
@@ -101,6 +102,7 @@ RUN echo "#!/bin/bash" > update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.port "${MYSQL_PORT}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.user "${MYSQL_USER}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.pass "${MYSQL_PASS}"' >> update-and-setup.sh && \
+	echo '$PHAB_DIR/bin/config set storage.mysql-engine.max-size "${MYSQL_FILE_STORAGE}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/storage upgrade --force' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/phd start' >> update-and-setup.sh && \
 	chmod +x update-and-setup.sh
