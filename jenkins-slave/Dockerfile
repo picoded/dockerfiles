@@ -20,7 +20,7 @@ ENV JENKINS_SLAVE_NAME docker-slave
 ENV JENKINS_SLAVE_SECRET replace_this_with_jenkins_secret_key
 
 # install git-core
-RUN apt-get update && apt-get install -y git unzip zip wget
+RUN apt-get update && apt-get install -y git unzip zip wget curl ant
 
 # Copy over the slave script
 # COPY run-slave.sh ./
@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y git unzip zip wget
 
 RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	echo 'rm -f slave.jar 2> /dev/null;' && \
-	echo 'wget "$JENKINS_HOST/jnlpJars/slave.jar" --no-check-certificate;' >> setup-and-run.sh && \
+	echo ‘curl "$JENKINS_HOST/jnlpJars/slave.jar" --insecure;' >> setup-and-run.sh && \
 	echo 'chmod +x slave.jar;' >> setup-and-run.sh && \
 	echo 'java -jar slave.jar -jnlpUrl $JENKINS_HOST/computer/$JENKINS_SLAVE_NAME/slave-agent.jnlp -secret $JENKINS_SLAVE_SECRET;' >> setup-and-run.sh && \
 	chmod +x setup-and-run.sh
