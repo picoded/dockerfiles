@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y git unzip zip wget curl ant
 
 RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	echo 'rm -f slave.jar 2> /dev/null;' && \
-	echo ‘curl "$JENKINS_HOST/jnlpJars/slave.jar" --insecure;' >> setup-and-run.sh && \
+	echo 'curl "$JENKINS_HOST/jnlpJars/slave.jar" --insecure;' >> setup-and-run.sh && \
 	echo 'chmod +x slave.jar;' >> setup-and-run.sh && \
 	echo 'java -jar slave.jar -jnlpUrl $JENKINS_HOST/computer/$JENKINS_SLAVE_NAME/slave-agent.jnlp -secret $JENKINS_SLAVE_SECRET;' >> setup-and-run.sh && \
 	chmod +x setup-and-run.sh
