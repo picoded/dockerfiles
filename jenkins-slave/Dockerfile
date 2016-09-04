@@ -35,9 +35,6 @@ ENV JENKINS_SLAVE_SECRET super-not-so-secure-token
 # ENV JENKINS_URL
 #-------------------------------------------------------
 
-# Setsup the jenkins secret password
-ENV JENKINS_SLAVE_SECRET replace_this_with_jenkins_secret_key
-
 # install git-core
 RUN apt-get update && apt-get install -y git unzip zip wget curl
 
