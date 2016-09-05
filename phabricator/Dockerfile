@@ -1,6 +1,7 @@
+#
 # phabricator
 #
-# VERSION               0.0.2
+# VERSION               0.1.1
 #
 # Note this is referenced from 
 # - https://hub.docker.com/_/php/
@@ -8,6 +9,12 @@
 #
 FROM php:5-apache
 MAINTAINER Eugene Cheah <eugene@picoded.com>
+
+#########################################
+#
+# Depencies fetch and setup
+#
+#########################################
 
 # install common package utility and dependencies
 RUN apt-get update && apt-get install -y \
@@ -40,6 +47,7 @@ RUN mkdir /phabricator && \
 	git clone -b stable https://github.com/phacility/arcanist.git && \
 	git clone -b stable https://github.com/phacility/phabricator.git
 
+#
 # Overwrite document root
 #
 # @TODO remove the "require all granted" global overwrite : I do not know why the Directory ruling is not working
@@ -76,10 +84,16 @@ RUN cd /etc/apache2/ && \
 	echo '' >> apache2.conf && \
 	chmod +x sites-available/000-default.conf;
 
-#RUN cat /etc/apache2/apache2.conf
-#RUN cd /phabricator/phabricator && ls conf/local
-
+#
+# Point and start setup in the work directory
+#
 WORKDIR /phabricator
+
+#########################################
+#
+# Declare environment variables
+#
+#########################################
 
 # Performs a phabricator upgrade on boot
 # (note this can backfire, so do make due consideration on its usage)
@@ -104,6 +118,15 @@ ENV PRE_SCRIPT ""
 # Enables / Disable background phd thread
 ENV BACKGROUND_THREAD true
 
+#########################################
+#
+# Create actual setup-and-run script
+#
+#########################################
+
+#
+# The actual giant setup script
+#
 RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	echo 'INSTALL_DIR="/phabricator"' >> setup-and-run.sh && \
 	echo 'PHAB_DIR="/phabricator/phabricator";' >> setup-and-run.sh && \
@@ -152,6 +175,10 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 # expose port 22 & 80
 EXPOSE 22 80
 
-# And start up the slave
+#########################################
+#
+# Actually run it
+#
+#########################################
 ENTRYPOINT ./setup-and-run.sh && apache2-foreground
 CMD ./setup-and-run.sh && apache2-foreground
