@@ -148,7 +148,7 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	echo '	eval $PRE_SCRIPT;' >> setup-and-run.sh && \
 	echo 'fi' >> setup-and-run.sh && \
 	echo '' >> setup-and-run.sh && \
-	echo 'if [[ ! -z "$BASE_URL" ]];' >> setup-and-run.sh && \
+	echo 'if [[ ! -z "$BASE_URL" ]]; then' >> setup-and-run.sh && \
 	echo '	echo "## Applying base URL = ${BASE_URL}";' >> setup-and-run.sh && \
 	echo '	set phabricator.base-uri "${BASE_URL}";' >> setup-and-run.sh && \
 	echo 'fi' >> setup-and-run.sh && \
