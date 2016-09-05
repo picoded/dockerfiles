@@ -189,7 +189,7 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	#
 	echo 'echo "## Applying MySQL configurations - ${MYSQL_HOST}";' >> setup-and-run.sh && \
 	echo 'echo "	\"mysql.host\":\"${MYSQL_HOST}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
-	echo 'echo "	\"mysql.port\":${MYSQL_PORT}," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'echo "	\"mysql.port\":\"${MYSQL_PORT}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	echo 'echo "	\"mysql.user\":\"${MYSQL_USER}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	echo 'echo "	\"mysql.pass\":\"${MYSQL_PASS}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	#
