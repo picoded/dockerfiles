@@ -103,7 +103,7 @@ RUN echo "#!/bin/bash" > update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.user "${MYSQL_USER}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set mysql.pass "${MYSQL_PASS}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/config set storage.mysql-engine.max-size "${MYSQL_FILE_STORAGE}"' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/storage upgrade --force' >> update-and-setup.sh && \
+	echo '$PHAB_DIR/bin/storage upgrade --force ---host "${MYSQL_HOST}" -user "${MYSQL_USER}" --password "${MYSQL_PASS}"' >> update-and-setup.sh && \
 	echo '$PHAB_DIR/bin/phd start' >> update-and-setup.sh && \
 	chmod +x update-and-setup.sh
 
