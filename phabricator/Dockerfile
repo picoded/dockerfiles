@@ -81,35 +81,77 @@ RUN cd /etc/apache2/ && \
 
 WORKDIR /phabricator
 
-ENV BASE_URL "http://localhost/"
+# Performs a phabricator upgrade on boot
+# (note this can backfire, so do make due consideration on its usage)
+ENV UPGRADE_ON_BOOT false
+
+# Site base url to use
+ENV BASE_URL ""
+
+# MYSQL storage, host, port, user, passwords
+ENV MYSQL_FILE_STORAGE 9000000
 ENV MYSQL_HOST mysql_host_here
 ENV MYSQL_PORT 3306
 ENV MYSQL_USER phabricator
 ENV MYSQL_PASS password_over_here
-ENV MYSQL_FILE_STORAGE 9000000
+
+# PHP script to inject
 ENV PREAMBLE_SCRIPT ""
 
-RUN echo "#!/bin/bash" > update-and-setup.sh && \
-	echo 'INSTALL_DIR="/phabricator"' >> update-and-setup.sh && \
-	echo 'cd $INSTALL_DIR/libphutil && git pull;' >> update-and-setup.sh && \
-	echo 'cd $INSTALL_DIR/arcanist && git pull;' >> update-and-setup.sh && \
-	echo 'cd $INSTALL_DIR/phabricator && git pull;' >> update-and-setup.sh && \
-	echo 'PHAB_DIR="/phabricator/phabricator";' >> update-and-setup.sh && \
-	echo 'echo "<?php ${PREAMBLE_SCRIPT} ?>" > $PHAB_DIR/support/preamble.php;' >> update-and-setup.sh && \
-	echo 'chmod +x $PHAB_DIR/support/preamble.php;' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/config set phabricator.base-uri "${BASE_URL}"' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/config set mysql.host "${MYSQL_HOST}"' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/config set mysql.port "${MYSQL_PORT}"' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/config set mysql.user "${MYSQL_USER}"' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/config set mysql.pass "${MYSQL_PASS}"' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/config set storage.mysql-engine.max-size "${MYSQL_FILE_STORAGE}"' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/storage upgrade --force ---host "${MYSQL_HOST}" -user "${MYSQL_USER}" --password "${MYSQL_PASS}"' >> update-and-setup.sh && \
-	echo '$PHAB_DIR/bin/phd start' >> update-and-setup.sh && \
-	chmod +x update-and-setup.sh
+# Additional script options
+ENV PRE_SCRIPT ""
+
+# Enables / Disable background phd thread
+ENV BACKGROUND_THREAD true
+
+RUN echo "#!/bin/bash" > setup-and-run.sh && \
+	echo 'INSTALL_DIR="/phabricator"' >> setup-and-run.sh && \
+	echo 'PHAB_DIR="/phabricator/phabricator";' >> setup-and-run.sh && \
+	echo '' >> setup-and-run.sh && \
+	echo 'echo "<?php ${PREAMBLE_SCRIPT} ?>" > $PHAB_DIR/support/preamble.php;' >> setup-and-run.sh && \
+	echo 'chmod +x $PHAB_DIR/support/preamble.php;' >> setup-and-run.sh && \
+	echo '' >> setup-and-run.sh && \
+	echo 'if [ "$UPGRADE_ON_BOOT" = true ]; then' >> setup-and-run.sh && \
+	echo '	echo "## Doing library update on bootup (UPGRADE_ON_BOOT=true)";' >> setup-and-run.sh && \
+	echo '	cd $INSTALL_DIR/libphutil && git pull;' >> setup-and-run.sh && \
+	echo '	cd $INSTALL_DIR/arcanist && git pull;' >> setup-and-run.sh && \
+	echo '	cd $INSTALL_DIR/phabricator && git pull;' >> setup-and-run.sh && \
+	echo 'else' >> setup-and-run.sh && \
+	echo '	echo "## Skipping library update (UPGRADE_ON_BOOT=false)";' >> setup-and-run.sh && \
+	echo 'fi' >> setup-and-run.sh && \
+	echo '' >> setup-and-run.sh && \
+	echo 'if [[ ! -z "$PRE_SCRIPT" ]]; then' >> setup-and-run.sh && \
+	echo '	echo "## Running PRE_SCRIPT";' >> setup-and-run.sh && \
+	echo '	eval $PRE_SCRIPT;' >> setup-and-run.sh && \
+	echo 'fi' >> setup-and-run.sh && \
+	echo '' >> setup-and-run.sh && \
+	echo 'if [[ ! -z "$BASE_URL" ]];' >> setup-and-run.sh && \
+	echo '	echo "## Applying base URL = ${BASE_URL}";' >> setup-and-run.sh && \
+	echo '	set phabricator.base-uri "${BASE_URL}";' >> setup-and-run.sh && \
+	echo 'fi' >> setup-and-run.sh && \
+	echo '' >> setup-and-run.sh && \
+	echo 'echo "## Applying MySQL configurations - ${MYSQL_HOST}";' >> setup-and-run.sh && \
+	echo '$PHAB_DIR/bin/config set mysql.host "${MYSQL_HOST}";' >> setup-and-run.sh && \
+	echo '$PHAB_DIR/bin/config set mysql.port "${MYSQL_PORT}";' >> setup-and-run.sh && \
+	echo '$PHAB_DIR/bin/config set mysql.user "${MYSQL_USER}";' >> setup-and-run.sh && \
+	echo '$PHAB_DIR/bin/config set mysql.pass "${MYSQL_PASS}";' >> setup-and-run.sh && \
+	echo '' >> setup-and-run.sh && \
+	echo 'echo "## Applying storage configurations";' >> setup-and-run.sh && \
+	echo '$PHAB_DIR/bin/config set storage.mysql-engine.max-size "${MYSQL_FILE_STORAGE}";' >> setup-and-run.sh && \
+	echo '' >> setup-and-run.sh && \
+	echo 'echo "## Running storage upgrade";' >> setup-and-run.sh && \
+	echo '$PHAB_DIR/bin/storage upgrade --force;' >> setup-and-run.sh && \
+	echo '' >> setup-and-run.sh && \
+	echo 'if [ "$BACKGROUND_THREAD" = true ]; then' >> setup-and-run.sh && \
+	echo '	echo "## Starting background thread";' >> setup-and-run.sh && \
+	echo '	$PHAB_DIR/bin/phd start;' >> setup-and-run.sh && \
+	echo 'fi' >> setup-and-run.sh && \
+	chmod +x setup-and-run.sh
+# echo '$PHAB_DIR/bin/storage upgrade --force ---host "${MYSQL_HOST}" -user "${MYSQL_USER}" --password "${MYSQL_PASS}"' >> setup-and-run.sh && \
 
 # expose port 22 & 80
 EXPOSE 22 80
 
 # And start up the slave
-ENTRYPOINT ./update-and-setup.sh && apache2-foreground
-CMD ./update-and-setup.sh && apache2-foreground
+ENTRYPOINT ./setup-and-run.sh && apache2-foreground
+CMD ./setup-and-run.sh && apache2-foreground

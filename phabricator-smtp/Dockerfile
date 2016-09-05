@@ -6,7 +6,7 @@
 # - https://hub.docker.com/_/php/
 # - https://secure.phabricator.com/book/phabricator/article/installation_guide/
 #
-FROM picoded/phabricator:base-mysql
+FROM picoded/phabricator:latest
 MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 WORKDIR /phabricator
