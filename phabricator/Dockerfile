@@ -130,6 +130,11 @@ ENV SMTP_PASS ""
 ENV SMTP_PROT ""
 ENV MAIL_ADAPTER "PhabricatorMailImplementationPHPMailerAdapter"
 
+#
+# More JSON local config (to add-on)
+#
+ENV JSON_PARAMS ""
+
 #########################################
 #
 # Create actual setup-and-run script
@@ -204,6 +209,12 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	echo '	echo "	\"phpmailer.smtp-password\":\"${SMTP_PASS}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	echo '	echo "	\"phpmailer.smtp-protocol\":\"${SMTP_PROT}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	echo '	echo "	\"metamta.mail-adapter\":\"${MAIL_ADAPTER}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'fi' >> setup-and-run.sh && \
+	#
+	# JSON_PARAMS - for more JSON parameters!
+	#
+	echo 'if [[ ! -z "$JSON_PARAMS" ]]; then' >> setup-and-run.sh && \
+	echo '	echo "	$JSON_PARAMS," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	echo 'fi' >> setup-and-run.sh && \
 	#
 	# END of local.json configuration setup
