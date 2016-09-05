@@ -102,7 +102,9 @@ ENV UPGRADE_ON_BOOT false
 # Site base url to use
 ENV BASE_URL ""
 
+#
 # MYSQL storage, host, port, user, passwords
+#
 ENV MYSQL_FILE_STORAGE 9000000
 ENV MYSQL_HOST mysql_host_here
 ENV MYSQL_PORT 3306
@@ -117,6 +119,16 @@ ENV PRE_SCRIPT ""
 
 # Enables / Disable background phd thread
 ENV BACKGROUND_THREAD true
+
+#
+# SMTP settings, provide atleast an SMTP host to configure
+#
+ENV SMTP_HOST ""
+ENV SMTP_PORT 25
+ENV SMTP_USER "phabricator"
+ENV SMTP_PASS ""
+ENV SMTP_PROT ""
+ENV MAIL_ADAPTER "PhabricatorMailImplementationPHPMailerAdapter"
 
 #########################################
 #
@@ -150,7 +162,7 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	#
 	# PRE_SCRIPT call ( To let you inject viruses via environment variables XD )
 	#
-	echo 'if [[ ! -z "${PRE_SCRIPT}" ]]; then' >> setup-and-run.sh && \
+	echo 'if [[ ! -z "$PRE_SCRIPT" ]]; then' >> setup-and-run.sh && \
 	echo '	echo "## Running PRE_SCRIPT";' >> setup-and-run.sh && \
 	echo '	eval ${PRE_SCRIPT};' >> setup-and-run.sh && \
 	echo 'fi' >> setup-and-run.sh && \
@@ -180,6 +192,19 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	#
 	echo 'echo "## Applying storage configurations";' >> setup-and-run.sh && \
 	echo 'echo "	\"storage.mysql-engine.max-size\":\"${MYSQL_FILE_STORAGE}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	#
+	# SMTP_HOST setup - for NOTIFICATION SPAM!
+	#
+	echo 'if [[ ! -z "$SMTP_HOST" ]]; then' >> setup-and-run.sh && \
+	echo '	echo "## Applying SMTP config";' >> setup-and-run.sh && \
+	echo '	echo "	\"phpmailer.mailer\":\"smtp\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo '	echo "	\"phpmailer.smtp-host\":\"${SMTP_HOST}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo '	echo "	\"phpmailer.smtp-port\":\"${SMTP_PORT}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo '	echo "	\"phpmailer.smtp-user\":\"${SMTP_USER}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo '	echo "	\"phpmailer.smtp-password\":\"${SMTP_PASS}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo '	echo "	\"phpmailer.smtp-protocol\":\"${SMTP_PROT}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo '	echo "	\"metamta.mail-adapter\":\"${MAIL_ADAPTER}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'fi' >> setup-and-run.sh && \
 	#
 	# END of local.json configuration setup
 	#
