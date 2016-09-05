@@ -191,7 +191,7 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	# Storage configuration - increased default
 	#
 	echo 'echo "## Applying storage configurations";' >> setup-and-run.sh && \
-	echo 'echo "	\"storage.mysql-engine.max-size\":\"${MYSQL_FILE_STORAGE}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'echo "	\"storage.mysql-engine.max-size\":${MYSQL_FILE_STORAGE}," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	#
 	# SMTP_HOST setup - for NOTIFICATION SPAM!
 	#
@@ -208,7 +208,7 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	#
 	# END of local.json configuration setup
 	#
-	echo 'echo "	\"end\":\"end\"" >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'echo "	\"\":\"\"" >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	echo 'echo "}" >> ${PHAB_LOCAL_JSON}' >> setup-and-run.sh && \
 	#
 	# Run the storage update
