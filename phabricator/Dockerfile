@@ -130,10 +130,15 @@ ENV BACKGROUND_THREAD true
 RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	echo 'INSTALL_DIR="/phabricator"' >> setup-and-run.sh && \
 	echo 'PHAB_DIR="/phabricator/phabricator";' >> setup-and-run.sh && \
-	echo '' >> setup-and-run.sh && \
+	echo 'PHAB_LOCAL_JSON="$PHAB_DIR/conf/local/local.json";' >> setup-and-run.sh && \
+	#
+	# Paths configured above, now to do PREAMBLE_SCRIPT in PHP
+	#
 	echo 'echo "<?php ${PREAMBLE_SCRIPT} ?>" > $PHAB_DIR/support/preamble.php;' >> setup-and-run.sh && \
 	echo 'chmod +x $PHAB_DIR/support/preamble.php;' >> setup-and-run.sh && \
-	echo '' >> setup-and-run.sh && \
+	#
+	# UPGRADE_ON_BOOT option
+	#
 	echo 'if [ "$UPGRADE_ON_BOOT" = true ]; then' >> setup-and-run.sh && \
 	echo '	echo "## Doing library update on bootup (UPGRADE_ON_BOOT=true)";' >> setup-and-run.sh && \
 	echo '	cd $INSTALL_DIR/libphutil && git pull;' >> setup-and-run.sh && \
@@ -142,36 +147,61 @@ RUN echo "#!/bin/bash" > setup-and-run.sh && \
 	echo 'else' >> setup-and-run.sh && \
 	echo '	echo "## Skipping library update (UPGRADE_ON_BOOT=false)";' >> setup-and-run.sh && \
 	echo 'fi' >> setup-and-run.sh && \
-	echo '' >> setup-and-run.sh && \
-	echo 'if [[ ! -z "$PRE_SCRIPT" ]]; then' >> setup-and-run.sh && \
+	#
+	# PRE_SCRIPT call ( To let you inject viruses via environment variables XD )
+	#
+	echo 'if [[ ! -z "${PRE_SCRIPT}" ]]; then' >> setup-and-run.sh && \
 	echo '	echo "## Running PRE_SCRIPT";' >> setup-and-run.sh && \
-	echo '	eval $PRE_SCRIPT;' >> setup-and-run.sh && \
+	echo '	eval ${PRE_SCRIPT};' >> setup-and-run.sh && \
 	echo 'fi' >> setup-and-run.sh && \
-	echo '' >> setup-and-run.sh && \
+	#
+	# START of local.json configuration setup
+	# https://secure.phabricator.com/T11589
+	#
+	echo 'echo "## Preparing ./conf/local/local.json (See: https://secure.phabricator.com/T11589)";' >> setup-and-run.sh && \
+	echo 'echo "{" > ${PHAB_LOCAL_JSON}' >> setup-and-run.sh && \
+	#
+	# Base URL setup
+	#
 	echo 'if [[ ! -z "$BASE_URL" ]]; then' >> setup-and-run.sh && \
 	echo '	echo "## Applying base URL = ${BASE_URL}";' >> setup-and-run.sh && \
-	echo '	set phabricator.base-uri "${BASE_URL}";' >> setup-and-run.sh && \
+	echo '	echo "	\"phabricator.base-uri\":\"${BASE_URL}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
 	echo 'fi' >> setup-and-run.sh && \
-	echo '' >> setup-and-run.sh && \
+	#
+	# MySQL setup
+	#
 	echo 'echo "## Applying MySQL configurations - ${MYSQL_HOST}";' >> setup-and-run.sh && \
-	echo '$PHAB_DIR/bin/config set mysql.host "${MYSQL_HOST}";' >> setup-and-run.sh && \
-	echo '$PHAB_DIR/bin/config set mysql.port "${MYSQL_PORT}";' >> setup-and-run.sh && \
-	echo '$PHAB_DIR/bin/config set mysql.user "${MYSQL_USER}";' >> setup-and-run.sh && \
-	echo '$PHAB_DIR/bin/config set mysql.pass "${MYSQL_PASS}";' >> setup-and-run.sh && \
-	echo '' >> setup-and-run.sh && \
+	echo 'echo "	\"mysql.host\":\"${MYSQL_HOST}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'echo "	\"mysql.port\":\"${MYSQL_PORT}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'echo "	\"mysql.user\":\"${MYSQL_USER}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'echo "	\"mysql.pass\":\"${MYSQL_PASS}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	#
+	# Storage configuration - increased default
+	#
 	echo 'echo "## Applying storage configurations";' >> setup-and-run.sh && \
-	echo '$PHAB_DIR/bin/config set storage.mysql-engine.max-size "${MYSQL_FILE_STORAGE}";' >> setup-and-run.sh && \
-	echo '' >> setup-and-run.sh && \
+	echo 'echo "	\"storage.mysql-engine.max-size\":\"${MYSQL_FILE_STORAGE}\"," >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	#
+	# END of local.json configuration setup
+	#
+	echo 'echo "	\"end\":\"end\"" >> ${PHAB_LOCAL_JSON};' >> setup-and-run.sh && \
+	echo 'echo "}" >> ${PHAB_LOCAL_JSON}' >> setup-and-run.sh && \
+	#
+	# Run the storage update
+	#
 	echo 'echo "## Running storage upgrade";' >> setup-and-run.sh && \
 	echo '$PHAB_DIR/bin/storage upgrade --force;' >> setup-and-run.sh && \
-	echo '' >> setup-and-run.sh && \
+	#
+	# Start background thread if needed
+	#
 	echo 'if [ "$BACKGROUND_THREAD" = true ]; then' >> setup-and-run.sh && \
 	echo '	echo "## Starting background thread";' >> setup-and-run.sh && \
 	echo '	$PHAB_DIR/bin/phd start;' >> setup-and-run.sh && \
 	echo 'fi' >> setup-and-run.sh && \
-	chmod +x setup-and-run.sh
-# echo '$PHAB_DIR/bin/storage upgrade --force ---host "${MYSQL_HOST}" -user "${MYSQL_USER}" --password "${MYSQL_PASS}"' >> setup-and-run.sh && \
-
+	#
+	# Chmod the script to be runnable
+	#
+	chmod +x setup-and-run.sh;
+	
 # expose port 22 & 80
 EXPOSE 22 80
 
