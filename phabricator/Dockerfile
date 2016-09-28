@@ -41,11 +41,22 @@ RUN a2enmod rewrite
 # List possible modules to be installed
 # RUN docker-php-ext-install
 
+#
+# Download phabricator and its related branches
+#
 RUN mkdir /phabricator && \
 	cd /phabricator && \
 	git clone -b stable https://github.com/phacility/libphutil.git && \
 	git clone -b stable https://github.com/phacility/arcanist.git && \
-	git clone -b stable https://github.com/phacility/phabricator.git
+	git clone -b stable https://github.com/phacility/phabricator.git && \
+	git clone https://github.com/PHPOffice/PHPExcel.git && \
+	chmod -R +x .;
+
+#
+# Included PHPExcel
+#
+RUN cd /usr/local/etc/php/conf.d/ && \
+	echo 'include_path = ".:/usr/local/lib/php:/phabricator/PHPExcel/Classes"' > include_path.ini;
 
 #
 # Overwrite document root
