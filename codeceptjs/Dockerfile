@@ -16,4 +16,4 @@ WORKDIR /workspace
 VOLUME ["/workspace"]
 
 # The node running
-CMD ["sleep", "infinity"]
+CMD ["codeceptjs", "run"]
