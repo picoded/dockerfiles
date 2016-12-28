@@ -16,6 +16,9 @@ docker run -d -P --name $(basename "$PWD") $(basename "$PWD")
 # adding listener port
 docker port containername XPortNum
 
+# build, run
+docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
+
 # nuke, build, run
 docker rm $(docker ps -a -q) && docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
