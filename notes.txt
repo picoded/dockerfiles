@@ -1,4 +1,5 @@
-# Docker build process
+Docker build process
+————————————————————
 
 # inside the respective folder (eg: ./ssh/)
 # docker build -t {tagname} .
@@ -15,10 +16,22 @@ docker run -d -P --name $(basename "$PWD") $(basename "$PWD")
 # adding listener port
 docker port containername XPortNum
 
+# nuke, build, run
+docker rm $(docker ps -a -q) && docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
+
 Docker commands
-——————————
+————————————————————
 
 # Delete all containers
 docker rm $(docker ps -a -q)
 # Delete all images
 docker rmi $(docker images -q)
+
+
+ENTRYPOINT vs CMD
+————————————————————
+
+- ENTRYPOINT is runs WITH cmd,
+- CMD is commonly overwritten by user
+- Technically user can overwrite ENTRYPOINT with additional command "flags"
+- Final executed command : ENTRYPOINT CMD
