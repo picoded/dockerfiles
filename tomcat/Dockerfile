@@ -20,6 +20,7 @@ ENV MANAGER_PASS needs-a-new-password-here
 # Set the upload size maximum (100mb default)
 #
 ENV UPLOAD_MAX 100000000
+ENV PRE_SCRIPT ""
 
 #
 # Runs with manager user / pass, and start command
@@ -36,4 +37,7 @@ CMD sed -i -e "s/<Connector port=\"8080\" protocol=\"HTTP\/1\.1\"[^\n]*/<Connect
 	echo "	<role rolename=\"manager\"/>" >> ./conf/tomcat-users.xml && \
 	echo "	<user username=\"$MANAGER_USER\" password=\"$MANAGER_PASS\" roles=\"standard,manager,admin,manager-gui,manager-script\"/>" >> ./conf/tomcat-users.xml && \
 	echo "</tomcat-users>" >> ./conf/tomcat-users.xml && \
-	./bin/catalina.sh run;
+	echo "#!/bin/bash" > ./prescript.sh && \
+	echo "${PRE_SCRIPT}" >> ./prescript.sh && \
+	chmod +x ./prescript.sh && \
+	./prescript.sh && ./bin/catalina.sh run;
