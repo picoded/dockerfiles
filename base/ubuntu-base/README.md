@@ -1,7 +1,7 @@
 # picoded/ubuntu-base
 
-Represents the base package for man other Docker images, normalize to conform to our requirements as outlined
-inside the `base/README.md`, read it up for more details.
+Represents the base package for many other Docker images, normalize to conform to our requirements as outlined
+inside the [base/README](https://github.com/picoded/dockerfiles/tree/master/base), read it up for more details.
 
 ## Standard environment variables
 
