@@ -34,8 +34,11 @@ ENV APTGET_POSTSCRIPT=""
 # Core folders setup
 #
 
-# Make sure the basic folder is setup
-RUN mkdir /workspace && mkdir /entrypoint && mkdir /appspace
+# Make sure the basic folder is setup, with permission nukes
+RUN mkdir /workspace && mkdir /entrypoint && \
+	ln -s /workspace /appspace && \
+	chmod -R 0777 /workspace && chmod +x /workspace;
+	
 WORKDIR /workspace
 VOLUME /workspace
 
@@ -109,7 +112,7 @@ RUN echo '#!/bin/bash'                                                          
 	echo ''                                                                             >> /entrypoint/primer.sh && \
 	echo '# Chain the execution commands'                                               >> /entrypoint/primer.sh && \
 	echo 'exec "$@"'                                                                    >> /entrypoint/primer.sh && \
-	chmod +x /entrypoint/primer.sh && chmod -R 0777 /workspace && chmod +x /workspace;
+	chmod +x /entrypoint/primer.sh;
 	
 #
 # Useful for build debugging
@@ -120,4 +123,4 @@ RUN echo '#!/bin/bash'                                                          
 # Runs with entry point and command
 #
 ENTRYPOINT ["/entrypoint/primer.sh"] 
-CMD echo "hello world : run your actual command here"
+CMD echo "### hello world : overwrite your actual command here"
