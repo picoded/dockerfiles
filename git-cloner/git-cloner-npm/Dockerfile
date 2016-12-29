@@ -9,5 +9,5 @@ FROM picoded/git-cloner-base:latest
 
 # This is in accordance to : https://nodejs.org/en/download/package-manager/
 RUN apt-get update; \
-	apt-get install -y nodejs && \
-	apt-get install -y npm; \
+	apt-get install -y npm && \
+	apt-get install -y nodejs; \

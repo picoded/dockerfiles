@@ -12,5 +12,5 @@ FROM picoded/git-cloner-base:latest
 RUN apt-get update; \
 	apt-get install -y default-jdk && \
 	apt-get install -y ant && \
-	apt-get install -y nodejs && \
-	apt-get install -y npm; \
+	apt-get install -y npm && \
+	apt-get install -y nodejs; \
