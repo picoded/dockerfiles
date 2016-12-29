@@ -1,6 +1,6 @@
 # picoded/ubuntu-base
 
-Represents the base package for many other Docker images, normalize to conform to our requirements as outlined
+Represents the base package for many other Docker images, normalised to conform to our requirements as outlined
 inside the [base/README](https://github.com/picoded/dockerfiles/tree/master/base), read it up for more details.
 
 ## Standard environment variables
@@ -12,10 +12,10 @@ inside the [base/README](https://github.com/picoded/dockerfiles/tree/master/base
 + `APTGET_UPGRADE=""` : Performs an apt-get upgrade on bootup
 + `APTGET_POSTSCRIPT=""` : Commands to execute after aptget install/upgrade on bootup
 
-See `base/README.md` for more details.
+See [base/README](https://github.com/picoded/dockerfiles/tree/master/base) for more details.
 
 ## Standard volume mount point
 
 + `/workspace` : Contains all the various persistant files related to the image
 
-See `base/README.md` for more details.
+See [base/README](https://github.com/picoded/dockerfiles/tree/master/base) for more details.
