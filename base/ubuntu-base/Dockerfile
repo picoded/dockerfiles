@@ -11,7 +11,7 @@ FROM ubuntu:16.04
 # Add some core repos
 RUN apt-get update && apt-get install -y sudo curl zip openssl build-essential python-software-properties;
 # Add nodejs distribution
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo bash - && apt-get update;
+RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo bash - && apt-get update;
 
 #
 # Default environment variables
