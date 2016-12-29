@@ -12,14 +12,18 @@ That gradually overtime, I would be refactoring these various file to a more str
 See their respective README for more details. These Dockerfile, typically represents various iterations,
 of all my DevOps docker experiences. Refined for multiple use cases.
 
-+ base
-	+ ubuntu-base
-
++ (base)[https://github.com/picoded/dockerfiles/tree/master/base]
+	+ (ubuntu-base)[https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-base]
++ git-cloner
+	+ (git-cloner-base)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-base]
+	+ (git-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-plus]
+	+ git-cloner-* (see: git-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-plus]
+	
 # Unorganized Dockerfile
 
 Every other folder not in organized Dockerfile, these ranges from awesome, to crap, to not working.
 
-Even I was a noob once, and had to start from somewhere =P
+Even I was a Docker noob once, and had to start from somewhere =P
 
 # License 
 
