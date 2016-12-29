@@ -3,7 +3,7 @@
 https://hub.docker.com/r/picoded/git-cloner-base/
 https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-base
 
-Clones a repository, do whatever you want with it. If you are intending of using this with 
+Clones a repository, do whatever you want with it! If you are intending of using this with 
 openjdk, or nodejs, you may want to refer to [git-cloner-plus](https://hub.docker.com/r/picoded/git-cloner-plus/) instead
 
 ## Environment variables
