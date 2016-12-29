@@ -29,7 +29,7 @@ Sets language to UTF8 : this works in almost all cases, except very region and l
 Not convinced?, let [Joel (on software) Spolsky convince you then](https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses)
 
 Runs the following in primer (if not blank) : 
-`locale-gen "$LANG"`
+`locale-gen "$LANGUAGE"`
 
 ## APTGET_PRESCRIPT
 `ENV APTGET_PRESCRIPT=""`
@@ -70,7 +70,7 @@ Runs the following in primer (if not blank) :
 
 # Standard /workspace folder
 This generally represents the data storage directory. In several cases one can simply mount the `/workspace` folder. 
-And be done with, for all you data backup requirements.
+And be done with, for all you data backup requirements. This greatly simplify the backup process.
 
 However for certain repositories it might be more "complicated". Check the README of those image for more details.
 
@@ -90,4 +90,4 @@ However its meant for the application specific folder space.
 Which maybe changed / updated / upgraded over various versions. If the application have a `/var/app-installation` 
 `/appspace` will be a symbolic link to `/var/app-installation`.
 
-Actual usage will be image specific
+Actual usage will be image specific.

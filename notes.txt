@@ -20,7 +20,7 @@ docker port containername XPortNum
 docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
 # nuke, build, run
-docker rm $(docker ps -a -q) && docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
+docker rm $(docker ps -a -q); docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
 Docker commands
 ————————————————————
