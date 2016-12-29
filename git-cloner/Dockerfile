@@ -55,6 +55,7 @@ RUN echo '#!/bin/bash' > /git-cloner.sh && \
 	echo 'git pull;' >> /git-cloner.sh && \
 	echo '' >> /git-cloner.sh && \
 	echo 'echo ">> git clone / pull completed"' >> /git-cloner.sh && \
+	echo 'cd "/workspace/$WORKSPACE_FOLDER"' >> /git-cloner.sh && \
 	echo 'exec "$@"' >> /git-cloner.sh && \
 	chmod +x /git-cloner.sh && chmod -R 0777 /workspace && chmod +x /workspace;
 	
