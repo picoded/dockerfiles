@@ -47,7 +47,7 @@ RUN echo '#!/bin/bash'                                                          
 	echo ''                                                                           >> /entrypoint/git-cloner.sh && \
 	echo '# Ensures the git repo is cloned'                                           >> /entrypoint/git-cloner.sh && \
 	echo 'if [ ! -d "$GIT_FOLDER/.git" ]; then '                                      >> /entrypoint/git-cloner.sh && \
-	echo '   git clone "$GIT_REPO" "$GIT_FOLDER";'                                    >> /entrypoint/git-cloner.sh && \
+	echo '   git clone --recursive "$GIT_REPO" "$GIT_FOLDER";'                        >> /entrypoint/git-cloner.sh && \
 	echo 'fi '                                                                        >> /entrypoint/git-cloner.sh && \
 	echo ''                                                                           >> /entrypoint/git-cloner.sh && \
 	echo '# Enter git repo and pull updates (if needed)'                              >> /entrypoint/git-cloner.sh && \
