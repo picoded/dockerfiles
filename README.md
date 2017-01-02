@@ -3,9 +3,19 @@
 This repository contains a collection of "Dockerfile" for their respective automated build in Docker hub,
 found at https://hub.docker.com/u/picoded/
 
-# Note
+# hub.docker.com
 
-That gradually overtime, I would be refactoring these various file to a more structured format
+Note that if your seeing this README directly in docker, chances are you are using one of the images that will 
+either be in the process of being rewritten. Or replaced;
+
+# Issue filling
+
+Any problems / comments / kudos should be filed at github =)
+https://github.com/picoded/dockerfiles
+
+# Overhaul in progress
+
+Note that gradually overtime, I would be refactoring these various file to a more structured format
 
 # Organized Dockerfile
 

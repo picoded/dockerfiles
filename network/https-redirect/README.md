@@ -17,3 +17,8 @@ It only has a single optional configuration, the HTTP Code to reply with, as doc
 #
 ENV HTTPCODE 307
 ```
+
+# Issue filling
+
+Any problems / comments / kudos should be filed at github =)
+https://github.com/picoded/dockerfiles

@@ -1,3 +1,6 @@
+# Environment variables notes
+As seen =)
+
 ```
 #########################################
 #
@@ -45,3 +48,8 @@ ENV MAIL_ADAPTER "PhabricatorMailImplementationPHPMailerAdapter"
 #
 ENV JSON_PARAMS ""
 ```
+
+# Issue filling
+
+Any problems / comments / kudos should be filed at github =)
+https://github.com/picoded/dockerfiles

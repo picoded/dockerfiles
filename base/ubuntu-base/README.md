@@ -22,3 +22,8 @@ See [base/README](https://github.com/picoded/dockerfiles/tree/master/base) for m
 + `/workspace` : Contains all the various persistent files related to the image
 
 See [base/README](https://github.com/picoded/dockerfiles/tree/master/base) for more details.
+
+# Issue filling
+
+Any problems / comments / kudos should be filed at github =)
+https://github.com/picoded/dockerfiles
