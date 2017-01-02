@@ -1,4 +1,0 @@
-server {
-    listen         80;
-    return 307 https://$host$request_uri;
-}
