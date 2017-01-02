@@ -19,7 +19,7 @@ EXPOSE 80
 #
 # You may use multiple lines, via \n "newline"
 #
-ENV HTPASSWD="picoded:{PLAIN}isAwesome"
+ENV HTPASSWD="picoded:{PLAIN}isAwesome!"
 
 #
 # Server host to make request to, 

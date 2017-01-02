@@ -6,7 +6,10 @@ https://github.com/picoded/dockerfiles/tree/master/network/http-simple-auth
 ## Summary and configuration
 A simple nginx server, which provides HTTP authentication. While being the protected content proxy.
 
-Environment configuration is as followed in the Dockerfile
+Environment configuration is as followed in the Dockerfile.
+
+Dun forget to setup your server as a named service at `webhost`
+And the password of course at `HTPASSWD`
 
 ``` 
 #
@@ -21,7 +24,7 @@ Environment configuration is as followed in the Dockerfile
 #
 # You may use multiple lines, via \n "newline"
 #
-ENV HTPASSWD="picoded:{PLAIN}isAwesome"
+ENV HTPASSWD="picoded:{PLAIN}isAwesome!"
 
 #
 # Server host to make request to, 
