@@ -9,7 +9,7 @@ Useful in enforcing a HTTPS connection =)
 
 It only has a single optional configuration, the HTTP Code to reply with, as documented below.
 
-```
+``` 
 #
 # Redirection HTTP code. 
 # Use either 307 (default) - Temporary Redirect
