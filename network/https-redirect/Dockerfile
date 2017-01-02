@@ -11,10 +11,6 @@ ENV HTTPCODE 307
 # Port to expose, this is currently fixed to 80
 EXPOSE 80
 
-# Add in the config
-# ADD default /etc/nginx/sites-available/default
-# ADD default /etc/nginx/conf.d/default.conf
-
 # Makes only the entry point, no other points needed
 RUN mkdir /entrypoint;
 
