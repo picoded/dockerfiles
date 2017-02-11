@@ -3,7 +3,7 @@
 https://hub.docker.com/r/picoded/ubuntu-base/
 https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-base
 
-Represents the base package for many other Docker images, normalised to conform to our requirements as outlined 
+Represents the base package for many other Docker images, normalised to conform to our requirements as outlined
 inside the [base/README](https://github.com/picoded/dockerfiles/tree/master/base), read it up for more details.
 
 ## Standard environment variables
