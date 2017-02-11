@@ -9,7 +9,7 @@ MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # Install the python script required for "add-apt-repository"
 RUN apt-get update && \
-	apt-get install -y software-properties-common openjdk-8-jdk \
+	apt-get install -y software-properties-common openjdk-8-jdk && \
 	apt-get clean;
 
 # Setup JAVA_HOME, this is useful for docker commandline
