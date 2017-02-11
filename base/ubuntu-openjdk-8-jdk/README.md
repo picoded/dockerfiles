@@ -3,7 +3,7 @@
 https://hub.docker.com/r/picoded/ubuntu-openjdk-8-jdk/
 https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-openjdk-8-jdk
 
-Represents the base package for many other Docker images, normalised to conform to our requirements as outlined 
+Represents the base package for many other Docker images, normalised to conform to our requirements as outlined
 inside the [base/README](https://github.com/picoded/dockerfiles/tree/master/base), read it up for more details.
 
 ## Legacy note
