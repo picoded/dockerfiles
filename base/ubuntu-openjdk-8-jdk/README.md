@@ -8,7 +8,7 @@ inside the [base/README](https://github.com/picoded/dockerfiles/tree/master/base
 
 ## Legacy note
 
-For the approximately 1k pulls for ubuntu 14.04, you can access it still under `picoded/ubuntu-openjdk-8-jdk:14-04`
+For the approximately 1k pulls for ubuntu 14.04, you can access it still under `picoded/ubuntu-openjdk-8-jdk:14.04`
 
 ## openjdk-8-jdk environment variables
 
