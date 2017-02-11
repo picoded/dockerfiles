@@ -14,7 +14,7 @@ RUN apt-get update && \
 	apt-get clean;
 	
 # Add nodejs distribution
-RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo bash - && apt-get update;
+RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo bash - && apt-get update && apt-get clean;
 
 #
 # Default environment variables
