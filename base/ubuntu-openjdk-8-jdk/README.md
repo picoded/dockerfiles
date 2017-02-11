@@ -6,6 +6,10 @@ https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-openjdk-8-jdk
 Represents the base package for many other Docker images, normalised to conform to our requirements as outlined 
 inside the [base/README](https://github.com/picoded/dockerfiles/tree/master/base), read it up for more details.
 
+## Legacy note
+
+For the approximately 1k pulls for ubuntu 14.04, you can access it still under `picoded/ubuntu-openjdk-8-jdk:14-04`
+
 ## openjdk-8-jdk environment variables
 
 + `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/` : Java home location
