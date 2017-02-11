@@ -9,7 +9,9 @@ MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # Do the various needed installation
 USER root
-RUN apt-get update && apt-get install -y build-essential ant zip python doxygen curl vim git unzip zip
+RUN apt-get update && \
+	apt-get install -y build-essential ant zip python doxygen curl vim git unzip zip && \
+	apt-get clean;
 
 # Ports to expose
 # (already done in jeknins base repo)
