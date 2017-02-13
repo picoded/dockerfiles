@@ -12,6 +12,9 @@ RUN apt-get update && \
 	apt-get install -y nginx && \
 	apt-get clean;
 
+# Expose port 80
+EXPOSE 80;
+
 # Make sure the workspace/www folder is valid
 # and copies over the relevent files
 RUN mkdir -p /workspace/www && \
