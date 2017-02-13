@@ -61,12 +61,13 @@ RUN echo "#!/bin/bash"                                                      > /e
 	echo ''                                                                  >> /entrypoint/jenkins-run.sh && \
 	echo '# Custom JENKINS_CONNECTION settings'                              >> /entrypoint/jenkins-run.sh && \
 	echo 'if [[ ! -z "$JENKINS_CONNECTION" ]]; then'                         >> /entrypoint/jenkins-run.sh && \
-	echo '		CONN="-connectTo $JENKINS_CONNECTION"'                       >> /entrypoint/jenkins-run.sh && \
+	echo '   CONN="-connectTo $JENKINS_CONNECTION"'                          >> /entrypoint/jenkins-run.sh && \
 	echo 'fi'                                                                >> /entrypoint/jenkins-run.sh && \
 	echo '# Jenkins prescript execution'                                     >> /entrypoint/jenkins-run.sh && \
 	echo 'if [[ ! -z "$JENKINS_PRESCRIPT" ]]; then'                          >> /entrypoint/jenkins-run.sh && \
-	echo '		eval "$JENKINS_PRESCRIPT";'                                  >> /entrypoint/jenkins-run.sh && \
+	echo '   eval "$JENKINS_PRESCRIPT";'                                     >> /entrypoint/jenkins-run.sh && \
 	echo 'fi'                                                                >> /entrypoint/jenkins-run.sh && \
+	echo ''                                                                  >> /entrypoint/jenkins-run.sh && \
 	echo 'java $JAVA_OPTS -jar slave.jar $JENKINS_OPTS $CONN -jnlpUrl $JENKINS_HOST/computer/$JENKINS_SLAVE_NAME/slave-agent.jnlp -secret $JENKINS_SLAVE_SECRET "$@";' >> /entrypoint/jenkins-run.sh && \
 	chmod +x /entrypoint/jenkins-run.sh;
 
