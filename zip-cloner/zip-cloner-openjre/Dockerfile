@@ -5,7 +5,7 @@
 #
 # VERSION               1.0.1
 #
-FROM picoded/git-cloner-base:latest
+FROM picoded/zip-cloner-base:latest
 
 # This is in accordance to : https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
 RUN apt-get update && \

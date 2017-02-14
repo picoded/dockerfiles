@@ -1,11 +1,11 @@
 # clones a git repo,
 # do whatever you want with it with a script
 #
-# Now with every single varient of git-cloner-plus
+# Now with every single varient of zip-cloner-plus
 #
 # VERSION               1.0.1
 #
-FROM picoded/git-cloner-base:latest
+FROM picoded/zip-cloner-base:latest
 
 # This is in accordance to : https://nodejs.org/en/download/package-manager/
 # https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
