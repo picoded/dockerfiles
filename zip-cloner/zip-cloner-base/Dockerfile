@@ -51,7 +51,7 @@ RUN echo '#!/bin/bash'                                                          
 	echo 'wget -O "/tmp/$ZIP_FILE" "$ZIP_URL";'                                       >> /entrypoint/zip-cloner.sh && \
 	echo ''                                                                           >> /entrypoint/zip-cloner.sh && \
 	echo '# Unzip the file contents'                                                  >> /entrypoint/zip-cloner.sh && \
-	echo 'unzip "/tmp/$ZIP_FILE" -d "/workspace/$ZIP_FOLDER/";'                       >> /entrypoint/zip-cloner.sh && \
+	echo 'unzip -o "/tmp/$ZIP_FILE" -d "/workspace/$ZIP_FOLDER/";'                    >> /entrypoint/zip-cloner.sh && \
 	echo ''                                                                           >> /entrypoint/zip-cloner.sh && \
 	echo 'if [ -n "$ZIP_POSTSCRIPT" ]; then '                                         >> /entrypoint/zip-cloner.sh && \
 	echo '   cd "/workspace/$ZIP_FOLDER/"'                                            >> /entrypoint/zip-cloner.sh && \
