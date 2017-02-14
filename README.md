@@ -24,10 +24,15 @@ of all my DevOps docker experiences. Refined for multiple use cases.
 
 + (base)[https://github.com/picoded/dockerfiles/tree/master/base]
 	+ (ubuntu-base)[https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-base]
+	+ (ubuntu-openjdk-8-jdk)[https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-openjdk-8-jdk]
 + git-cloner
 	+ (git-cloner-base)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-base]
 	+ (git-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-plus]
 	+ git-cloner-* (see: git-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-plus]
++ zip-cloner
+	+ (zip-cloner-base)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-base]
+	+ (zip-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-plus]
+	+ zip-cloner-* (see: zip-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-plus]
 	
 # Unorganized Dockerfile
 

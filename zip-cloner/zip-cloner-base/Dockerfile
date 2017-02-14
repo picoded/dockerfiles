@@ -38,6 +38,9 @@ RUN echo '#!/bin/bash'                                                          
 	echo 'cd /workspace;'                                                             >> /entrypoint/zip-cloner.sh && \
 	echo ''                                                                           >> /entrypoint/zip-cloner.sh && \
 	echo 'if [ -n "$ZIP_PRESCRIPT" ]; then '                                          >> /entrypoint/zip-cloner.sh && \
+	echo '	echo "###"'                                                              >> /entrypoint/zip-cloner.sh && \
+	echo '	echo "### prescript of picoded/zip-cloner"'                              >> /entrypoint/zip-cloner.sh && \
+	echo '	echo "###"'                                                              >> /entrypoint/zip-cloner.sh && \
 	echo '   eval "$ZIP_PRESCRIPT";'                                                  >> /entrypoint/zip-cloner.sh && \
 	echo 'fi '                                                                        >> /entrypoint/zip-cloner.sh && \
 	echo ''                                                                           >> /entrypoint/zip-cloner.sh && \
@@ -54,6 +57,9 @@ RUN echo '#!/bin/bash'                                                          
 	echo 'unzip -o "/tmp/$ZIP_FILE" -d "/workspace/$ZIP_FOLDER/";'                    >> /entrypoint/zip-cloner.sh && \
 	echo ''                                                                           >> /entrypoint/zip-cloner.sh && \
 	echo 'if [ -n "$ZIP_POSTSCRIPT" ]; then '                                         >> /entrypoint/zip-cloner.sh && \
+	echo '	echo "###"'                                                              >> /entrypoint/zip-cloner.sh && \
+	echo '	echo "### postscript of picoded/zip-cloner"'                             >> /entrypoint/zip-cloner.sh && \
+	echo '	echo "###"'                                                              >> /entrypoint/zip-cloner.sh && \
 	echo '   cd "/workspace/$ZIP_FOLDER/"'                                            >> /entrypoint/zip-cloner.sh && \
 	echo '   eval "$ZIP_POSTSCRIPT";'                                                 >> /entrypoint/zip-cloner.sh && \
 	echo 'fi '                                                                        >> /entrypoint/zip-cloner.sh && \
