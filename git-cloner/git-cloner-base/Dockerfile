@@ -8,7 +8,7 @@ FROM picoded/ubuntu-base
 #
 # Get the required git stuff
 #
-RUN apt-get update && apt-get install -y git;
+RUN apt-get update && apt-get install -y git && apt-get clean;
 
 #
 # Git repo to clone from
