@@ -20,11 +20,11 @@ Extension of [picoded/zip-cloner-base](https://hub.docker.com/r/picoded/zip-clon
 
 ## Environment variables
 
-+ `GIT_REPO="https://user:pass@github.com/picoded/dockerfiles.git"` : Git repo to clone from
-+ `GIT_COMMIT="master"` : Branch or commit hash to checkout from
-+ `GIT_FOLDER="."` : relative folder to clone into, default is "/workspace/./", do not use blank
-+ `GIT_PRESCRIPT=""` : This is the run script, called before git clone/pull
-+ `GIT_POSTSCRIPT=""` : This is the run script, called after git clone/pull
++ `ZIP_URL="https://github.com/picoded/dockerfiles/archive/master.zip"` : Zip URL to download from
++ `ZIP_FILE="master.zip"` : Zip file name to use
++ `ZIP_FOLDER="."` : relative folder to clone into, default is "/workspace/./", do not use blank
++ `ZIP_PRESCRIPT=""` : This is the run script, called before zip download command
++ `ZIP_POSTSCRIPT=""` : This is the run script, called after zip download command
 
 # Inherited from picoded/ubuntu-base
 
