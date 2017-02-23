@@ -46,37 +46,40 @@ ENV PROXY_READ_TIMEOUT 600
 #
 # Prepares the entrypoint primer script, and runs it once
 #  
-RUN echo '#!/bin/sh'                                                                                         > /entrypoint/primer.sh && \
-	echo ''                                                                                                   >> /entrypoint/primer.sh && \
-	echo '# Writes and setup the password'                                                                    >> /entrypoint/primer.sh && \
-	echo 'echo "${HTPASSWD}" > /etc/nginx/auth.htpasswd'                                                      >> /entrypoint/primer.sh && \
-	echo ''                                                                                                   >> /entrypoint/primer.sh && \
-	echo '# Goes into the nginx config folder'                                                                >> /entrypoint/primer.sh && \
-	echo 'cd /etc/nginx/conf.d/'                                                                              >> /entrypoint/primer.sh && \
-	echo ''                                                                                                   >> /entrypoint/primer.sh && \
-	echo '# Setup the server config'                                                                          >> /entrypoint/primer.sh && \
-	echo 'echo "server {"                                                                    > default.conf'  >> /entrypoint/primer.sh && \
-	echo 'echo "   listen 80 default_server;"                                                >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "   location / {"                                                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      auth_basic            \"${AUTH_REALM}\";"                              >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      auth_basic_user_file  auth.htpasswd;"                                  >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      # Dynamic IP DNS workaround"                                           >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      # resolver 127.0.0.1 ipv6=off;"                                          >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      set \$upstream \"${FORWARD_PROT}://${FORWARD_HOST}:${FORWARD_PORT}\";" >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      proxy_pass                    \$upstream;"                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      proxy_read_timeout            ${PROXY_READ_TIMEOUT};"                  >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      proxy_pass_request_headers    on;"                                     >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "   }"                                                                        >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "}"                                                                           >> default.conf' >> /entrypoint/primer.sh && \
-	echo ''                                                                                                   >> /entrypoint/primer.sh && \
-	echo '# Goes back to root folder'                                                                         >> /entrypoint/primer.sh && \
-	echo 'cd /'                                                                                               >> /entrypoint/primer.sh && \
-	echo ''                                                                                                   >> /entrypoint/primer.sh && \
-	echo '# Chain the execution commands'                                                                     >> /entrypoint/primer.sh && \
-	echo 'exec "$@"'                                                                                          >> /entrypoint/primer.sh && \
+RUN echo '#!/bin/sh'                                                                                          > /entrypoint/primer.sh && \
+	echo '# Writes and setup the DNS resolver'                                                                 >> /entrypoint/primer.sh && \
+	echo 'echo resolver \$(awk \'BEGIN{ORS=" "} \$1=="nameserver" {print \$2}\' /etc/resolv.conf) ";" > /etc/nginx/resolvers.conf' >> /entrypoint/primer.sh && \
+	echo ''                                                                                                    >> /entrypoint/primer.sh && \
+	echo '# Writes and setup the password'                                                                     >> /entrypoint/primer.sh && \
+	echo 'echo "${HTPASSWD}" > /etc/nginx/auth.htpasswd'                                                       >> /entrypoint/primer.sh && \
+	echo ''                                                                                                    >> /entrypoint/primer.sh && \
+	echo '# Goes into the nginx config folder'                                                                 >> /entrypoint/primer.sh && \
+	echo 'cd /etc/nginx/conf.d/'                                                                               >> /entrypoint/primer.sh && \
+	echo ''                                                                                                    >> /entrypoint/primer.sh && \
+	echo '# Setup the server config'                                                                           >> /entrypoint/primer.sh && \
+	echo 'echo "server {"                                                                     > default.conf'  >> /entrypoint/primer.sh && \
+	echo 'echo "   listen 80 default_server;"                                                 >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "   location / {"                                                              >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      auth_basic            \"${AUTH_REALM}\";"                               >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      auth_basic_user_file  auth.htpasswd;"                                   >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      # Dynamic IP DNS workaround"                                            >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      include resolvers.conf;"                                                >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      set \$upstream \"${FORWARD_PROT}://${FORWARD_HOST}:${FORWARD_PORT}\";"  >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      proxy_pass                 \$upstream;"                                 >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      proxy_read_timeout         ${PROXY_READ_TIMEOUT};"                      >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      proxy_pass_request_headers on;"                                         >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      proxy_set_header           X-Forwarded-For $proxy_add_x_forwarded_for;" >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "}"                                                                            >> default.conf' >> /entrypoint/primer.sh && \
+	echo ''                                                                                                    >> /entrypoint/primer.sh && \
+	echo '# Goes back to root folder'                                                                          >> /entrypoint/primer.sh && \
+	echo 'cd /'                                                                                                >> /entrypoint/primer.sh && \
+	echo ''                                                                                                    >> /entrypoint/primer.sh && \
+	echo '# Chain the execution commands'                                                                      >> /entrypoint/primer.sh && \
+	echo 'exec "$@"'                                                                                           >> /entrypoint/primer.sh && \
 	chmod +x /entrypoint/primer.sh && \
 	/entrypoint/primer.sh;
 
