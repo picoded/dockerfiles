@@ -63,7 +63,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "      auth_basic_user_file  auth.htpasswd;"                                  >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      # Dynamic IP DNS workaround"                                           >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      resolver 127.0.0.1;"                                                   >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      resolver 127.0.0.1 ipv6=off;"                                          >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      set \$upstream \"${FORWARD_PROT}://${FORWARD_HOST}:${FORWARD_PORT}\";" >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      proxy_pass                    \$upstream;"                             >> default.conf' >> /entrypoint/primer.sh && \
