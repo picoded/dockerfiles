@@ -30,9 +30,5 @@ ENV PROXY_READ_TIMEOUT 600
 
 # Issue filling
 
-Currently this has slight issues resolving hostname to dynamic IP.
-Perhaps implmenting : http://serverfault.com/questions/638822/nginx-resolver-address-from-etc-resolv-conf
-Would help resolve the issue (@TODO)
-
 Any problems / comments / kudos should be filed at github =)
 https://github.com/picoded/dockerfiles
