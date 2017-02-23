@@ -48,7 +48,8 @@ ENV PROXY_READ_TIMEOUT 600
 #  
 RUN echo '#!/bin/sh'                                                                                          > /entrypoint/primer.sh && \
 	echo '# Writes and setup the DNS resolver'                                                                 >> /entrypoint/primer.sh && \
-	echo 'echo resolver \$(awk \'BEGIN{ORS=" "} \$1=="nameserver" {print \$2}\' /etc/resolv.conf) ";" > /etc/nginx/resolvers.conf' >> /entrypoint/primer.sh && \
+	echo 'DNS=$(cat /etc/resolv.conf | grep "nameserver" | awk "{print \$2}")'                                 >> /entrypoint/primer.sh && \
+	echo 'echo "resolver $DNS ;" > /etc/nginx/resolvers.conf'                                                  >> /entrypoint/primer.sh && \
 	echo ''                                                                                                    >> /entrypoint/primer.sh && \
 	echo '# Writes and setup the password'                                                                     >> /entrypoint/primer.sh && \
 	echo 'echo "${HTPASSWD}" > /etc/nginx/auth.htpasswd'                                                       >> /entrypoint/primer.sh && \
