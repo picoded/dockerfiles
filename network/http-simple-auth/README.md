@@ -16,7 +16,7 @@ And the password of course at `HTPASSWD`
 # The htpasswd file configuration.
 # Default is "picoded:{PLAIN}isAwesome!", which is unencrypted. You may overwrite with encrypted htpasswd
 #
-# You can use either an offline httpasswd generator (for the peneroid)
+# You can use either an offline httpasswd generator (for the paranoid)
 # Or an online conguration generator such as : http://aspirine.org/htpasswd_en.html
 #
 # Note, if you are configuring this variable via command line, you will want to use
@@ -34,6 +34,9 @@ ENV FORWARD_HOST webhost
 
 # The destination server port
 ENV FORWARD_PORT 80
+
+# The forwarding protocall
+ENV FORWARD_PROT "http"
 
 # Authentication realm, used by auth_basic (see: http://nginx.org/en/docs/http/ngx_http_auth_basic_module.html)
 ENV AUTH_REALM="Restricted"
