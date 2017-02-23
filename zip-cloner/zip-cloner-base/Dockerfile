@@ -53,6 +53,10 @@ RUN echo '#!/bin/bash'                                                          
 	echo '# Redownload the file'                                                      >> /entrypoint/zip-cloner.sh && \
 	echo 'wget -O "/tmp/$ZIP_FILE" "$ZIP_URL";'                                       >> /entrypoint/zip-cloner.sh && \
 	echo ''                                                                           >> /entrypoint/zip-cloner.sh && \
+	echo 'echo "###"'                                                                 >> /entrypoint/zip-cloner.sh && \
+	echo 'echo "### Unzipping of the file package"'                                   >> /entrypoint/zip-cloner.sh && \
+	echo 'echo "###"'                                                                 >> /entrypoint/zip-cloner.sh && \
+	echo ''                                                                           >> /entrypoint/zip-cloner.sh && \
 	echo '# Unzip the file contents'                                                  >> /entrypoint/zip-cloner.sh && \
 	echo 'unzip -o "/tmp/$ZIP_FILE" -d "/workspace/$ZIP_FOLDER/";'                    >> /entrypoint/zip-cloner.sh && \
 	echo ''                                                                           >> /entrypoint/zip-cloner.sh && \
