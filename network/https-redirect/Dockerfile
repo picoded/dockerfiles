@@ -25,7 +25,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo '# Setup the server config'                                                    >> /entrypoint/primer.sh && \
 	echo 'echo "server {"                                          > default.conf'      >> /entrypoint/primer.sh && \
 	echo 'echo "   # resolver prevents hostname becoming static"   >> default.conf'     >> /entrypoint/primer.sh && \
-	echo 'echo "   resolver 127.0.0.1 ipv6=off;"                   >> default.conf'     >> /entrypoint/primer.sh && \
+	echo 'echo "   # resolver 127.0.0.1 ipv6=off;"                   >> default.conf'     >> /entrypoint/primer.sh && \
 	echo 'echo "   listen 80;"                                     >> default.conf'     >> /entrypoint/primer.sh && \
 	echo 'echo "   return $HTTPCODE https://\$host\$request_uri;"  >> default.conf'     >> /entrypoint/primer.sh && \
 	echo 'echo "}"                                                 >> default.conf'     >> /entrypoint/primer.sh && \
