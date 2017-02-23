@@ -11,6 +11,13 @@ MAINTAINER Eugene Cheah <eugene@picoded.com>
 RUN apt-get update && \
 	apt-get install -y openjdk-8-jdk && \
 	apt-get clean;
+	
+# Fix certificate issues, found as of 
+# https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/983302
+RUN apt-get update && \
+	apt-get install ca-certificates-java && \
+	apt-get clean && \
+	update-ca-certificates -f;
 
 # Setup JAVA_HOME, this is useful for docker commandline
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
