@@ -2,11 +2,11 @@ Docker build process
 ————————————————————
 
 # inside the respective folder (eg: ./ssh/)
-# docker build -t {tagname} .
+docker build -t {tagname} .
 docker build -t $(basename "$PWD") .
 
 # running the build
-# docker run -d -P --name {tagname} {container_name}
+docker run -d -P --name {tagname} {container_name}
 docker run -d -P --name $(basename "$PWD") $(basename "$PWD")
 
 -d : detach mode
