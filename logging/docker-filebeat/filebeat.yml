@@ -64,6 +64,10 @@ output:
     # [filebeat-]YYYY.MM.DD keys.
     index: "${ES_PREFIX}"
 
+    # Compression of the submitted logs: 0-9, higher = more CPU usage
+    # See: https://www.elastic.co/guide/en/beats/filebeat/current/elasticsearch-output.html#_compression_level
+    compression_level: ${ES_COMPRESSION}
+
 ############################# Shipper #########################################
 
 shipper:
