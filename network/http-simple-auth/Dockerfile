@@ -44,10 +44,10 @@ ENV AUTH_REALM="Restricted"
 ENV PROXY_READ_TIMEOUT 600
 
 # Client max body size conig (default 100 MB)
-ENV MAX_BODY_SIZE 100M
+ENV MAX_BODY_SIZE 100m
 
 # Client buffer size, before writing a tmp file
-ENV MAX_BUFFER_SIZE 10M
+ENV MAX_BUFFER_SIZE 10m
 
 #
 # Prepares the entrypoint primer script, and runs it once
