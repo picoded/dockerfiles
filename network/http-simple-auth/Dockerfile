@@ -72,6 +72,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "      proxy_pass           \$upstream;"                                       >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      proxy_read_timeout   ${PROXY_READ_TIMEOUT};"                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      proxy_pass_request_headers on;"                                         >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      proxy_set_header     Authorization \"\";"                               >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      proxy_set_header     X-Forwarded-For \$proxy_add_x_forwarded_for;"      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "}"                                                                            >> default.conf' >> /entrypoint/primer.sh && \
