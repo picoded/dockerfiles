@@ -30,4 +30,4 @@ ENV ES_PREFIX  "filebeat"
 ADD filebeat.yml /etc/filebeat/filebeat.yml
 
 # Entrypoint to run filebeat
-ENTRYPOINT ["/usr/bin/filebeat", "-e", "-v", "-c", "/etc/filebeat/filebeat.yml"]
+ENTRYPOINT ["filebeat", "-e", "-v", "-c", "/etc/filebeat/filebeat.yml"]
