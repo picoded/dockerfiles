@@ -68,6 +68,9 @@ output:
     # See: https://www.elastic.co/guide/en/beats/filebeat/current/elasticsearch-output.html#_compression_level
     compression_level: ${ES_COMPRESSION}
 
+    # The maximum number of events to bulk in a single Elasticsearch bulk API index request.
+    bulk_max_size: ${ES_BATCHSIZE}
+
 ############################# Shipper #########################################
 
 shipper:
