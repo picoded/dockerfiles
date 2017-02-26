@@ -5,6 +5,9 @@ https://github.com/picoded/dockerfiles/tree/master/logging/docker-logrotate/
 
 ## Summary and configuration
 
+You will need the following volume mounted, with read/write access.
+`/var/lib/docker/containers/`
+
 An oversimplified logrotation setup for docker.
 That functions as a base default for docker deployments.
 
