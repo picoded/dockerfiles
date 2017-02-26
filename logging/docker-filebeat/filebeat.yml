@@ -97,6 +97,14 @@ filebeat:
       # but lower the ignore_older value to release files faster.
       #force_close_files: false
 
+      #
+      # JSON file format logging, used for docker : in accodance to filebeat
+      # https://www.elastic.co/guide/en/beats/filebeat/current/configuration-filebeat-options.html#config-json
+      #
+      json.keys_under_root: true
+      json.add_error_key: true
+      json.message_key: log
+
   # General filebeat configuration options
   #
   # Event count spool threshold - forces network flush if exceeded
