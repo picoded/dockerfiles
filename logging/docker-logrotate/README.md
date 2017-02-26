@@ -8,7 +8,7 @@ https://github.com/picoded/dockerfiles/tree/master/logging/docker-logrotate/
 > Normalising docker log handling, to IMO a saner default
 
 You will need the following volume mounted, with read/write access.
-`/var/lib/docker/containers/`
+`/var/lib/docker/containers/:/var/lib/docker/containers/:rw`
 
 ## More details
 
