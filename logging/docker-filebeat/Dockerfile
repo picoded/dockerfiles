@@ -11,11 +11,11 @@ RUN apt-get -y update && \
 # Filebeat db tracker : Required to ensure no log duplicates
 # occur within resets / updates of filebeat image
 ENV LOG_REGISTRY "/var/lib/filebeat/registry"
-VOLUME /var/lib/filebeat
+VOLUME            /var/lib/filebeat
 
 # Log path to read from docker containers
-ENV LOG_PATH     "/var/lib/docker/containers/*/*.json.log.*"
-VOLUME /var/lib/docker/containers
+ENV LOG_PATH     "/var/lib/docker/containers/*/*-json.log.*"
+VOLUME            /var/lib/docker/containers
 
 # Elasticsearch host to push into
 ENV ES_HOST    elasticsearch
