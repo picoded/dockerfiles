@@ -1,7 +1,7 @@
 FROM debian:jessie
 
 RUN apt-get -y update && \
-	apt-get -y install apt-transport-https curl && \
+	apt-get -y install sudo apt-transport-https curl && \
 	curl https://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add - && \
 	echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list && \
 	apt-get -y update && \
