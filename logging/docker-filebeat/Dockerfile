@@ -41,6 +41,9 @@ ENV ES_PORT    9200
 # Elasticsearch prefix to use 
 ENV ES_PREFIX  "filebeat-%{+yyyy.MM.dd}"
 
+# Compression level of log submissions 1 - 9
+ENV ES_COMPRESSION 2
+
 # Filebeat configuration yml (will load environment configs)
 ADD filebeat.yml /etc/filebeat/filebeat.yml
 
