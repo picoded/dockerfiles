@@ -14,7 +14,7 @@ ENV LOG_REGISTRY "/var/lib/filebeat/registry"
 VOLUME            /var/lib/filebeat
 
 # Log path to read from docker containers
-ENV LOG_PATH     "/var/lib/docker/containers/*/*-json.log.*"
+ENV LOG_PATH     "/var/lib/docker/containers/*/*-json.log"
 VOLUME            /var/lib/docker/containers
 
 # Elasticsearch host to push into
