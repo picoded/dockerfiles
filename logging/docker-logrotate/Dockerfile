@@ -12,12 +12,17 @@ VOLUME /var/lib/docker/containers
 
 # The logrotate configuration file
 RUN echo "/var/lib/docker/containers/*/*.log {" >  /etc/logrotate.conf && \
+	# Log files are rotated daily
+	echo "   daily"                              >> /etc/logrotate.conf && \
 	# Log files are rotated after they grow bigger than <size> in bytes
-	# In this case, its anything larger then a newline
-	echo "   size 2"                             >> /etc/logrotate.conf && \
-	# Log files are rotated <count>  times before being removed
-	# 300, is enough to cover 24 hours, which 288 * 5 minutes
-	echo "   rotate 300"                         >> /etc/logrotate.conf && \
+	echo "   size 1M"                           >> /etc/logrotate.conf && \
+	# Log files are rotated after they grow bigger than <size> in bytes, 
+	# regardless of time frame configured. This is for excessive large logs.
+	echo "   maxsize 10M"                        >> /etc/logrotate.conf && \
+	# Log files are rotated <count> times before being removed
+	# 9 should cover 9-10 days, unless excessive amount of logs occur
+	# Capping the maximum log size per container to be +/- 100 MB
+	echo "   rotate 9"                          >> /etc/logrotate.conf && \
 	# If the log file is missing, go on to the next one without error
 	echo "   missingok"                          >> /etc/logrotate.conf && \
 	# Do not rotate the log file if it is empty
