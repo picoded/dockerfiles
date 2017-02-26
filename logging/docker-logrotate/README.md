@@ -15,19 +15,27 @@ You will need the following volume mounted, with read/write access.
 An oversimplified logrotation setup for docker.
 That functions as a base default for docker deployments.
 
-For practical production use of logs, you will need to setup,
-a log infrastructure stack. 
+This was designed to be used along with FileBeat.
 
-However I will still keep this logrotation utility running
-to ensure the less "important" logs do not build up to gigbyte sizes.
+https://hub.docker.com/r/picoded/docker-filebeat/
+https://github.com/picoded/dockerfiles/tree/master/logging/docker-filebeat/
+
+For crtical production use of logs however, you will need to setup,
+a full log infrastructure stack. Such as ELK
+
+And even without filebeat, I would still ensure that this is running,
+so that individual container logs do not build up to gigbyte sizes.
 
 The following is the summary of the container.
 
-+ Clearing of log entry within 24 hours. To prevent gigbyte size log folders.
-+ Works with FileBeat - With 5~10 minutes delay
-+ Accept possible log loss (due to copytruncate)
++ Works with FileBeat
++ Clearing of log entry within 10 days
++ Accept possible log loss (due to copytruncate) on rotation
 
 ## Docker and copytruncate issue
+
+Copytruncate issue : https://linux.die.net/man/8/logrotate
+(Search the copytruncate segment)
 
 Docker issue : https://github.com/docker/docker/issues/7333
 
