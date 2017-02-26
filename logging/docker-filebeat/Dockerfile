@@ -38,8 +38,8 @@ ENV ES_HOST    elasticsearch
 # Elasticsearch port to push into
 ENV ES_PORT    9200
 
-# Elasticsearch prefix to use (-{DATE} is auto appended)
-ENV ES_PREFIX  "filebeat"
+# Elasticsearch prefix to use 
+ENV ES_PREFIX  "filebeat-%{+yyyy.MM.dd}"
 
 # Filebeat configuration yml (will load environment configs)
 ADD filebeat.yml /etc/filebeat/filebeat.yml
