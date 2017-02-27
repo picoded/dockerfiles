@@ -35,7 +35,7 @@ VOLUME            /var/lib/docker/containers
 # Array of Regex rules to filter out lines
 # This is useful for extremly noisy containers,
 # With little logging value : Such as rancher ipsec-router
-ENV LOG_EXCLUDE_LINES '[".*[0-9]{2}\[KNL\].*"]'
+ENV LOG_EXCLUDE_LINES [".*[0-9]{2}\[KNL\].*"]
 
 # A single log line maximum bytes
 # 900,000 bytes was selected, so that 10 log lines
