@@ -29,6 +29,11 @@ filebeat:
       # * stdin: Reads the standard in
       input_type: log
 
+      # A single log line maximum bytes
+      # 900,000 bytes was selected, so that 10 log lines
+      # would be under 10MB with some format overhead.
+      max_bytes: ${LOG_LINE_MAX}
+
       # Ignore files which were modified more then the defined timespan in the past
       # Time strings like 2h (2 hours), 5m (5 minutes) can be used.
       #
@@ -69,6 +74,8 @@ output:
 
     # Compression of the submitted logs: 0-9, higher = more CPU usage
     # See: https://www.elastic.co/guide/en/beats/filebeat/current/elasticsearch-output.html#_compression_level
+    #
+    # NOTE: This is not supported in AWS Elasticsearch
     compression_level: ${ES_COMPRESSION}
 
     # The maximum number of events to bulk in a single Elasticsearch bulk API index request.
