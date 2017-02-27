@@ -27,10 +27,13 @@ Note this is not designed for 0 second realtime log pushes.
 # Log path to read from docker containers
 ENV LOG_PATH     "/var/lib/docker/containers/*/*-json.log"
 
-# Array of Regex rules to filter out lines
+# Regex rules to filter out lines
 # This is useful for extremly noisy containers,
 # With little logging value : Such as rancher ipsec-router
-ENV LOG_EXCLUDE_LINES '[".*[0-9]{2}\[KNL\].*"]'
+#
+# Note that due to the limitation of yml,
+# Arrays are not supported =(
+ENV LOG_EXCLUDE_LINE ".*[0-9]{2}\[KNL\].*"
 
 # A single log line maximum bytes
 # 900,000 bytes was selected, so that 10 log lines
