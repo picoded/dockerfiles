@@ -50,7 +50,8 @@ ENV ES_INDEX  "docker-filebeat-%{+yyyy.MM.dd}"
 # NOTE: This is not supported in AWS Elasticsearch
 ENV ES_COMPRESSION 0
 
-# Bulk batch size
+# Bulk batch size. This is used in conjuncture with LOG_LINE_MAX
+# To ensure that the total BULK request size does not exceed 10MB
 ENV ES_BATCHSIZE 10
 
 # Filebeat configuration yml (will load environment configs)
