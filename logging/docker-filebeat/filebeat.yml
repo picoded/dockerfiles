@@ -31,7 +31,10 @@ filebeat:
 
       # Ignore files which were modified more then the defined timespan in the past
       # Time strings like 2h (2 hours), 5m (5 minutes) can be used.
-      ignore_older: 5m
+      #
+      # NOTE: Default is 0, which disables the setting
+      #
+      # ignore_older: 24h
 
       #
       # JSON file format logging, used for docker : in accodance to filebeat

@@ -28,6 +28,7 @@ so that individual container logs do not build up to gigbyte sizes.
 
 The following is the summary of the container.
 
++ Pickup new containers within 5 minutes
 + Works with FileBeat
 + Clearing of log entry within 10 days
 + Accept possible log loss (due to copytruncate) on rotation
