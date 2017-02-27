@@ -14,6 +14,11 @@ filebeat:
       paths:
         - ${LOG_PATH}
 
+      # Array of Regex rules to filter out lines
+      # This is useful for extremly noisy containers,
+      # With little logging value : Such as rancher ipsec-router
+      exclude_lines: ${LOG_EXCLUDE_LINES}
+
       # Configure the file encoding for reading files with international characters
       # following the W3C recommendation for HTML5 (http://www.w3.org/TR/encoding).
       # Some sample encodings:
