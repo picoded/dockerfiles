@@ -7,7 +7,8 @@ https://github.com/picoded/dockerfiles/tree/master/logging/docker-filebeat/
 
 > Pushing of normalised docker logs, to elasticsearch
 
-This will require docker-logrotate  
+This was designed to work with logrotate for long term usage.
+
 https://hub.docker.com/r/picoded/docker-logrotate/  
 https://github.com/picoded/dockerfiles/tree/master/logging/docker-logrotate/  
 
@@ -17,16 +18,19 @@ You will need the following volume mounted, with read/write access.
 
 And of course `elasticsearch` configured.
 
-Note that the default setting works with logrotate,
-After the data been "COPYTRUNCATE"-ed away.
-
-Meaning there is a +/- 5 minutes delay between log write, to rotation, to shipping.
+Note this is not designed for 0 second realtime log pushes.
+(Beside you cant search so in Elasticsearch).
 
 ## Configuration
 
 ``` 
 # Log path to read from docker containers
-ENV LOG_PATH     "/var/lib/docker/containers/*/*.log.*"
+ENV LOG_PATH     "/var/lib/docker/containers/*/*-json.log"
+
+# Array of Regex rules to filter out lines
+# This is useful for extremly noisy containers,
+# With little logging value : Such as rancher ipsec-router
+ENV LOG_EXCLUDE_LINES '[".*[0-9]{2}\[KNL\].*"]'
 
 # A single log line maximum bytes
 # 900,000 bytes was selected, so that 10 log lines
@@ -46,7 +50,8 @@ ENV ES_INDEX  "docker-filebeat-%{+yyyy.MM.dd}"
 # NOTE: This is not supported in AWS Elasticsearch
 ENV ES_COMPRESSION 0
 
-# Bulk batch size
+# Bulk batch size. This is used in conjuncture with LOG_LINE_MAX
+# To ensure that the total BULK request size does not exceed 10MB
 ENV ES_BATCHSIZE 10
 ```
 
