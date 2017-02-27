@@ -18,7 +18,7 @@ You will need the following volume mounted, with read/write access.
 
 And of course `elasticsearch` configured.
 
-Note this is not designed for 0 second realtime log pushes.
+Note this is NOT designed for 0 second realtime log pushes.
 (Beside you cant search so in Elasticsearch).
 
 ## Configuration
@@ -33,7 +33,7 @@ ENV LOG_PATH     "/var/lib/docker/containers/*/*-json.log"
 #
 # Note that due to the limitation of yml,
 # Arrays are not supported =(
-ENV LOG_EXCLUDE_LINE ".*[0-9]{2}\[KNL\].*"
+ENV LOG_EXCLUDE_LINE ".*[0-9]{2}\[(KNL|IKE|MGR|NET)\].*"
 
 # A single log line maximum bytes
 # 900,000 bytes was selected, so that 10 log lines
