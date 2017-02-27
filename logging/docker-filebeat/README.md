@@ -28,6 +28,11 @@ Meaning there is a +/- 5 minutes delay between log write, to rotation, to shippi
 # Log path to read from docker containers
 ENV LOG_PATH     "/var/lib/docker/containers/*/*.log.*"
 
+# A single log line maximum bytes
+# 900,000 bytes was selected, so that 10 log lines
+# would be under 10MB with some format overhead.
+ENV LOG_LINE_MAX 900000
+
 # Elasticsearch host to push into
 ENV ES_HOST    elasticsearch
 
@@ -35,9 +40,10 @@ ENV ES_HOST    elasticsearch
 ENV ES_PORT    9200
 
 # Elasticsearch index to use 
-ENV ES_INDEX  "filebeat-%{+yyyy.MM.dd}"
+ENV ES_INDEX  "docker-filebeat-%{+yyyy.MM.dd}"
 
 # Compression level of log submissions 0 - 9
+# NOTE: This is not supported in AWS Elasticsearch
 ENV ES_COMPRESSION 0
 
 # Bulk batch size
