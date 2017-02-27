@@ -38,7 +38,7 @@ VOLUME            /var/lib/docker/containers
 #
 # Note that due to the limitation of yml,
 # Arrays are not supported =(
-ENV LOG_EXCLUDE_LINE ".*[0-9]{2}\[(KNL|IKE|MGR|NET)\].*"
+ENV LOG_EXCLUDE_LINE ".*(([0-9]{2}\[(KNL|IKE|MGR|NET)\])|(POST /_bulk HTTP/1.1\" 200 [0-9]* \"-\" \"Go-http-client/1.1)).*"
 
 # A single log line maximum bytes
 # 900,000 bytes was selected, so that 10 log lines
