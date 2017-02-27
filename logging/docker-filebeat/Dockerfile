@@ -32,6 +32,11 @@ VOLUME            /var/lib/filebeat
 ENV LOG_PATH     "/var/lib/docker/containers/*/*-json.log"
 VOLUME            /var/lib/docker/containers
 
+# A single log line maximum bytes
+# 900,000 bytes was selected, so that 10 log lines
+# would be under 10MB with some format overhead.
+ENV LOG_LINE_MAX 900000
+
 # Elasticsearch host to push into
 ENV ES_HOST    elasticsearch
 
@@ -42,6 +47,7 @@ ENV ES_PORT    9200
 ENV ES_INDEX  "docker-filebeat-%{+yyyy.MM.dd}"
 
 # Compression level of log submissions 0 - 9
+# NOTE: This is not supported in AWS Elasticsearch
 ENV ES_COMPRESSION 0
 
 # Bulk batch size
