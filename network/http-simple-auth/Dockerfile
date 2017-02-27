@@ -44,7 +44,7 @@ ENV AUTH_REALM="Restricted"
 ENV PROXY_READ_TIMEOUT 600
 
 # Client max body size conig (default disabled)
-ENV MAX_BODY_SIZE 0
+ENV MAX_BODY_SIZE 200M
 
 # Client buffer size, before writing a tmp file
 ENV MAX_BUFFER_SIZE 10M
