@@ -44,10 +44,10 @@ ENV AUTH_REALM="Restricted"
 ENV PROXY_READ_TIMEOUT 600
 
 # Client max body size conig (default 100 MB)
-ENV MAX_BODY_SIZE 100m
+ENV MAX_BODY_SIZE 100M
 
 # Client buffer size, before writing a tmp file
-ENV MAX_BUFFER_SIZE 10m
+ENV MAX_BUFFER_SIZE 10M
 
 #
 # Prepares the entrypoint primer script, and runs it once
@@ -64,7 +64,10 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'cd /etc/nginx/conf.d/'                                                                               >> /entrypoint/primer.sh && \
 	echo ''                                                                                                    >> /entrypoint/primer.sh && \
 	echo '# Setup the server config'                                                                           >> /entrypoint/primer.sh && \
-	echo 'echo "server {"                                                                     > default.conf'  >> /entrypoint/primer.sh && \
+	echo 'echo "# http level config"                                                          > default.conf'  >> /entrypoint/primer.sh && \
+	echo 'echo "client_max_body_size ${MAX_BODY_SIZE};"                                       >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "server {"                                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   listen 80 default_server;"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   client_max_body_size ${MAX_BODY_SIZE};"                                    >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
