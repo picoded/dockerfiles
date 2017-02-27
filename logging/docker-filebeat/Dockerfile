@@ -38,8 +38,8 @@ ENV ES_HOST    elasticsearch
 # Elasticsearch port to push into
 ENV ES_PORT    9200
 
-# Elasticsearch prefix to use 
-ENV ES_PREFIX  "filebeat-%{+yyyy.MM.dd}"
+# Elasticsearch index to use 
+ENV ES_INDEX  "docker-filebeat-%{+yyyy.MM.dd}"
 
 # Compression level of log submissions 0 - 9
 ENV ES_COMPRESSION 0
