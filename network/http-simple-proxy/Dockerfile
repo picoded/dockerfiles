@@ -26,8 +26,8 @@ ENV FORWARD_PROT "http"
 # Nginx proxy read timed, default is 600 seconds (10 minutes)
 ENV PROXY_READ_TIMEOUT 600
 
-# Client max body size conig (default 100 MB)
-ENV MAX_BODY_SIZE 100M
+# Client max body size conig (default disabled)
+ENV MAX_BODY_SIZE 0
 
 # Client buffer size, before writing a tmp file
 ENV MAX_BUFFER_SIZE 10M

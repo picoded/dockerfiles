@@ -34,8 +34,14 @@ ENV ES_HOST    elasticsearch
 # Elasticsearch port to push into
 ENV ES_PORT    9200
 
-# Elasticsearch prefix to use (-{DATE} is auto appended)
-ENV ES_PREFIX  "filebeat"
+# Elasticsearch index to use 
+ENV ES_INDEX  "filebeat-%{+yyyy.MM.dd}"
+
+# Compression level of log submissions 0 - 9
+ENV ES_COMPRESSION 0
+
+# Bulk batch size
+ENV ES_BATCHSIZE 10
 ```
 
 # Issue filling
