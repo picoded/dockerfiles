@@ -34,37 +34,6 @@ ENV LOG_PATH     "/var/lib/docker/containers/*/*-json.log"
 # These filters were however carefully chosen, to avoid accidentally blocking off
 # logs that could have been wanted elsewhere. In most cases that is.
 # Modify these filters as you require.
-#
-# Note that due to the limitation of yml,
-# Arrays are not supported =(
-#
-# So lets give this long regex. A breakdown
-#
-# ```
-# //
-# // Start by greadily claiming json prefixes, and wrapping in a multi conditional "array"
-# //
-# .*(
-#      //
-#      // Remove the most verbose ipsec, VPN traffic in rancher
-#      //
-#      ([0-9]{2}\[(KNL|IKE|MGR|NET)\])|
-#      //
-#      // Remove the succesful Filebeat elastic search submission, reducing a logging loop
-#      // Which would potentially be perpetual, if BATCHSIZE is 1
-#      //
-#      (POST /_bulk HTTP/1.1\" 200 [0-9]* \"-\" \"Go-http-client/1.1)|
-#      //
-#      // Removing several rancher services logs, but not all
-#      // As some are way too vague to safely filter out, without accidentally 
-#      // filtering out another application
-#      //
-#      (level\=debug.*io\.rancher)
-# //
-# // End by greadily claiming ending char, and closing the multi conditional block
-# //
-# ).*
-# ```
 ENV LOG_EXCLUDE_LINE ".*(([0-9]{2}\[(KNL|IKE|MGR|NET)\])|(POST /_bulk HTTP/1.1\" 200 [0-9]* \"-\" \"Go-http-client/1.1)|(level\=debug.*io\.rancher)).*"
 
 # A single log line maximum bytes
