@@ -1,11 +1,10 @@
-Docker build process
-————————————————————
+# Docker build process
 
-# inside the respective folder (eg: ./ssh/)
+## inside the respective folder (eg: ./ssh/)
 docker build -t {tagname} .
 docker build -t $(basename "$PWD") .
 
-# running the build
+## running the build
 docker run -d -P --name {tagname} {container_name}
 docker run -d -P --name $(basename "$PWD") $(basename "$PWD")
 
@@ -13,32 +12,29 @@ docker run -d -P --name $(basename "$PWD") $(basename "$PWD")
 -P : auto publish all ports
 -e : set env key=value pairs
 
-# adding listener port
+## adding listener port
 docker port containername XPortNum
 
-Useful command chains
-————————————————————-----
+# Useful command chains
 
-# build, run
+## build, run
 docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
-# nuke, build, run
+## nuke, build, run
 docker rm $(docker ps -a -q); docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
-# stop, nuke, build, run
+## stop, nuke, build, run
 docker stop $(docker ps -aq); docker rm $(docker ps -a -q); docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
-Docker commands
-————————————————————
+# Docker commands
 
-# Delete all containers
+## Delete all containers
 docker rm $(docker ps -a -q)
-# Delete all images
+## Delete all images
 docker rmi $(docker images -q)
 
 
-ENTRYPOINT vs CMD
-————————————————————
+# ENTRYPOINT vs CMD
 
 - ENTRYPOINT is runs WITH cmd,
 - CMD is commonly overwritten by user
