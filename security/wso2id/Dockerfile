@@ -18,11 +18,14 @@ ENV BUILD_LOCATION "/wso2is"
 
 # Download the zip file, explodes it, then remove the zip
 RUN \
-	mkdif -f "$BUILD_LOCATION" && \
-	cd "$BUILD_LOCATION" && \
-	wget "$BUILD_URL" -O "$BUILD_FILENAME" && \
-	unzip "$BUILD_FILENAME" && \
-	rm "$BUILD_FILENAME";
+	mkdir -p "$BUILD_LOCATION" && \
+	wget "$BUILD_URL" -O "/tmp/$BUILD_FILENAME"; 
+# && \
+RUN \
+	unzip "/tmp/$BUILD_FILENAME" -d "$BUILD_LOCATION" && \
+	rm "/tmp/$BUILD_FILENAME";
+
+RUN ls "/wso2is";
 
 # The actual run command
 CMD $BUILD_LOCATION/bin/wso2server.sh;
