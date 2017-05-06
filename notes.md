@@ -16,11 +16,17 @@ docker run -d -P --name $(basename "$PWD") $(basename "$PWD")
 # adding listener port
 docker port containername XPortNum
 
+Useful command chains
+————————————————————-----
+
 # build, run
 docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
 # nuke, build, run
 docker rm $(docker ps -a -q); docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
+
+# stop, nuke, build, run
+docker stop $(docker ps -aq); docker rm $(docker ps -a -q); docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
 Docker commands
 ————————————————————
