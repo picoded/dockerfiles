@@ -18,7 +18,7 @@ RUN apt-get update && \
 # Fix certificate issues, found as of 
 # https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/983302
 RUN apt-get update && \
-	apt-get install ca-certificates-java && \
+	apt-get install -y ca-certificates-java && \
 	apt-get clean && \
 	update-ca-certificates -f && \
 	rm -rf /var/lib/apt/lists/* && \
