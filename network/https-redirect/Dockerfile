@@ -17,7 +17,7 @@ RUN mkdir /entrypoint;
 #
 # Prepares the entrypoint primer script, and runs it once
 #
-RUN echo '#!/bin/sh'                                                                  > /entrypoint/primer.sh && \
+RUN echo '#!/bin/sh'                                                                   > /entrypoint/primer.sh && \
 	echo ''                                                                             >> /entrypoint/primer.sh && \
 	echo '# Goes into the nginx config folder'                                          >> /entrypoint/primer.sh && \
 	echo 'cd /etc/nginx/conf.d/'                                                        >> /entrypoint/primer.sh && \
