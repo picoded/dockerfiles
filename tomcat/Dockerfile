@@ -35,8 +35,8 @@ CMD sed -i -e "s/<Connector port=\"8080\" protocol=\"HTTP\/1\.1\"[^\n]*/<Connect
 	echo "              version=\"1.0\">" >> ./conf/tomcat-users.xml && \
 	echo "	<role rolename=\"admin\"/>" >> ./conf/tomcat-users.xml && \
 	echo "	<role rolename=\"manager\"/>" >> ./conf/tomcat-users.xml && \
-	echo "	<role rolename=\"manager-gui\"/>" > ./conf/tomcat-users.xml && \
-	echo "	<role rolename=\"manager-script\"/>" > ./conf/tomcat-users.xml && \
+	echo "	<role rolename=\"manager-gui\"/>" >> ./conf/tomcat-users.xml && \
+	echo "	<role rolename=\"manager-script\"/>" >> ./conf/tomcat-users.xml && \
 	echo "	<user username=\"$MANAGER_USER\" password=\"$MANAGER_PASS\" roles=\"standard,manager,admin,manager-gui,manager-script\"/>" >> ./conf/tomcat-users.xml && \
 	echo "</tomcat-users>" >> ./conf/tomcat-users.xml && \
 	echo "#!/bin/bash" > ./prescript.sh && \
