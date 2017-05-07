@@ -27,7 +27,7 @@ ENV PRE_SCRIPT ""
 #
 CMD sed -i -e "s/<Connector port=\"8080\" protocol=\"HTTP\/1\.1\"[^\n]*/<Connector port=\"8080\" protocol=\"HTTP\/1\.1\" maxPostSize=\"$UPLOAD_MAX\"/g" ./conf/server.xml && \
 	sed -i -e "s/<max-file-size>[0-9]*<\/max-file-size>/<max-file-size>$UPLOAD_MAX<\/max-file-size>/g" ./webapps/manager/WEB-INF/web.xml && \
-	sed -i -e "s/<max-request-size>[0-9]*<\/max-request-size>/<max-request-size>$UPLOAD_MAX<\/max-request-size>/g" ./webapps/manager/WEB-INF/web.xml &&\
+	sed -i -e "s/<max-request-size>[0-9]*<\/max-request-size>/<max-request-size>$UPLOAD_MAX<\/max-request-size>/g" ./webapps/manager/WEB-INF/web.xml && \
 	echo "<?xml version='1.0' encoding='utf-8'?>" > ./conf/tomcat-users.xml && \
 	echo "<tomcat-users xmlns=\"http://tomcat.apache.org/xml\"" >> ./conf/tomcat-users.xml && \
 	echo "              xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" >> ./conf/tomcat-users.xml && \
@@ -35,6 +35,8 @@ CMD sed -i -e "s/<Connector port=\"8080\" protocol=\"HTTP\/1\.1\"[^\n]*/<Connect
 	echo "              version=\"1.0\">" >> ./conf/tomcat-users.xml && \
 	echo "	<role rolename=\"admin\"/>" >> ./conf/tomcat-users.xml && \
 	echo "	<role rolename=\"manager\"/>" >> ./conf/tomcat-users.xml && \
+	echo "	<role rolename=\"manager-gui\"/>" > ./conf/tomcat-users.xml && \
+	echo "	<role rolename=\"manager-script\"/>" > ./conf/tomcat-users.xml && \
 	echo "	<user username=\"$MANAGER_USER\" password=\"$MANAGER_PASS\" roles=\"standard,manager,admin,manager-gui,manager-script\"/>" >> ./conf/tomcat-users.xml && \
 	echo "</tomcat-users>" >> ./conf/tomcat-users.xml && \
 	echo "#!/bin/bash" > ./prescript.sh && \
