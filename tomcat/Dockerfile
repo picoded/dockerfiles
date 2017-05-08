@@ -23,6 +23,16 @@ ENV UPLOAD_MAX 100000000
 ENV PRE_SCRIPT ""
 
 #
+# Reset the manager/html context limation to allow external IP access
+# AKA : /usr/local/tomcat/webapps/manager/META-INF/context.xml
+#
+RUN \
+	cd /usr/local/tomcat/webapps/manager/META-INF/ && \
+	echo '<?xml version="1.0" encoding="UTF-8"?>' > context.xml && \
+	echo '<Context antiResourceLocking="false" privileged="true" >' >> context.xml && \
+	echo '</Context>' >> context.xml;
+
+#
 # Runs with manager user / pass, and start command
 #
 CMD sed -i -e "s/<Connector port=\"8080\" protocol=\"HTTP\/1\.1\"[^\n]*/<Connector port=\"8080\" protocol=\"HTTP\/1\.1\" maxPostSize=\"$UPLOAD_MAX\"/g" ./conf/server.xml && \
