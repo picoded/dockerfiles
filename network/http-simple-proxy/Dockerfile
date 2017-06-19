@@ -27,10 +27,10 @@ ENV FORWARD_PROT "http"
 ENV PROXY_READ_TIMEOUT 600
 
 # Client max body size conig (default 100M)
-ENV MAX_BODY_SIZE 100M;
+ENV MAX_BODY_SIZE "100m";
 
 # Client buffer size, before writing a tmp file
-ENV MAX_BUFFER_SIZE 10M
+ENV MAX_BUFFER_SIZE "10m"
 
 #
 # Prepares the entrypoint primer script, and runs it once
@@ -38,7 +38,7 @@ ENV MAX_BUFFER_SIZE 10M
 RUN echo '#!/bin/sh'                                                                                         > /entrypoint/primer.sh && \
 	echo '# Writes and setup the DNS resolver'                                                                >> /entrypoint/primer.sh && \
 	echo 'DNS=$(cat /etc/resolv.conf | grep "nameserver" | awk "{print \$2}")'                                >> /entrypoint/primer.sh && \
-	echo 'echo "resolver $DNS;" > /etc/nginx/resolvers.conf'                                                  >> /entrypoint/primer.sh && \
+	echo 'echo "resolver ${DNS};" > /etc/nginx/resolvers.conf'                                                >> /entrypoint/primer.sh && \
 	echo ''                                                                                                   >> /entrypoint/primer.sh && \
 	echo '# Goes into the nginx config folder'                                                                >> /entrypoint/primer.sh && \
 	echo 'cd /etc/nginx/conf.d/'                                                                              >> /entrypoint/primer.sh && \
@@ -54,7 +54,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "   location / {"                                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      # Dynamic IP DNS workaround"                                           >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      resolver $DNS;"                                                        >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      resolver ${DNS};"                                                      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      set \$upstream \"${FORWARD_PROT}://${FORWARD_HOST}:${FORWARD_PORT}\";" >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      proxy_pass                    \$upstream;"                             >> default.conf' >> /entrypoint/primer.sh && \
