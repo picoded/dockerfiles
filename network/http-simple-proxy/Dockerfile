@@ -32,13 +32,16 @@ ENV MAX_BODY_SIZE 0
 # Client buffer size, before writing a tmp file
 ENV MAX_BUFFER_SIZE 10M
 
+# DNS Validity timeframe
+ENV DNS_CACHE_TIMEOUT 30s
+
 #
 # Prepares the entrypoint primer script, and runs it once
 #  
 RUN echo '#!/bin/sh'                                                                                         > /entrypoint/primer.sh && \
 	echo '# Writes and setup the DNS resolver'                                                                >> /entrypoint/primer.sh && \
 	echo 'DNS=$(cat /etc/resolv.conf | grep "nameserver" | awk "{print \$2}")'                                >> /entrypoint/primer.sh && \
-	echo 'echo "resolver $DNS ;" > /etc/nginx/resolvers.conf'                                                 >> /entrypoint/primer.sh && \
+	echo 'echo "resolver $DNS valid=$DNS_CACHE_TIMEOUT;" > /etc/nginx/resolvers.conf'                         >> /entrypoint/primer.sh && \
 	echo ''                                                                                                   >> /entrypoint/primer.sh && \
 	echo '# Goes into the nginx config folder'                                                                >> /entrypoint/primer.sh && \
 	echo 'cd /etc/nginx/conf.d/'                                                                              >> /entrypoint/primer.sh && \
