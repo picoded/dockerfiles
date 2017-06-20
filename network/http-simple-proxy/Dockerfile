@@ -33,7 +33,7 @@ ENV MAX_BODY_SIZE 0
 ENV MAX_BUFFER_SIZE 10M
 
 # DNS Validity timeframe
-ENV DNS_CACHE_TIMEOUT 30s
+ENV DNS_CACHE_TIMEOUT 10s
 
 #
 # Prepares the entrypoint primer script, and runs it once
