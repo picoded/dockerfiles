@@ -27,18 +27,33 @@ ENV FORWARD_PROT "http"
 ENV PROXY_READ_TIMEOUT 600
 
 # Client max body size conig (default disabled)
-ENV MAX_BODY_SIZE 0
+ENV MAX_BODY_SIZE 100M
 
 # Client buffer size, before writing a tmp file
 ENV MAX_BUFFER_SIZE 10M
 
+# DNS server to use (if configured)
+ENV DNS ""
+
+# DNS Validity timeframe
+#
+# This can be set as blank to follow DNS declared settings
+# intentionally set to 10s to avoid DNS storms
+ENV DNS_VALID_TIMEOUT 10s
+
 #
 # Prepares the entrypoint primer script, and runs it once
-#  
+#
 RUN echo '#!/bin/sh'                                                                                         > /entrypoint/primer.sh && \
-	echo '# Writes and setup the DNS resolver'                                                                >> /entrypoint/primer.sh && \
-	echo 'DNS=$(cat /etc/resolv.conf | grep "nameserver" | awk "{print \$2}")'                                >> /entrypoint/primer.sh && \
-	echo 'echo "resolver $DNS ;" > /etc/nginx/resolvers.conf'                                                 >> /entrypoint/primer.sh && \
+	echo '# Fetch the DNS resolver'                                                                           >> /entrypoint/primer.sh && \
+	echo 'RESOLVER="$DNS"'                                                                                    >> /entrypoint/primer.sh && \
+	echo 'if [ -z "$RESOLVER" ]; then'                                                                        >> /entrypoint/primer.sh && \
+	echo '    RESOLVER=$(cat /etc/resolv.conf | grep "nameserver" | awk "{print \$2}")'                       >> /entrypoint/primer.sh && \
+	echo 'fi'                                                                                                 >> /entrypoint/primer.sh && \
+	echo 'if [ -z "$DNS_VALID_TIMEOUT" ]; then'                                                               >> /entrypoint/primer.sh && \
+	echo '    RESOLVER="$RESOLVER valid=$DNS_VALID_TIMEOUT"'                                                  >> /entrypoint/primer.sh && \
+	echo 'fi'                                                                                                 >> /entrypoint/primer.sh && \
+	echo 'echo "resolver $RESOLVER ;" > /etc/nginx/resolvers.conf'                                            >> /entrypoint/primer.sh && \
 	echo ''                                                                                                   >> /entrypoint/primer.sh && \
 	echo '# Goes into the nginx config folder'                                                                >> /entrypoint/primer.sh && \
 	echo 'cd /etc/nginx/conf.d/'                                                                              >> /entrypoint/primer.sh && \
