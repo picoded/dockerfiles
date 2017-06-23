@@ -44,7 +44,7 @@ ENV ES_USER    elasticsearch
 ENV ES_PASS    PleaseChangeThisToActualPassword
 
 # Elasticsearch index to use 
-ENV ES_INDEX  "host-metricbeat-%{+yyyy.MM.dd}"
+ENV ES_INDEX  "metricbeat-%{+yyyy.MM.dd}"
 
 ####################################################
 #
