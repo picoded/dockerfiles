@@ -73,9 +73,9 @@ VOLUME            /var/lib/docker/containers
 ENV LOG_EXCLUDE_LINE ".*(([0-9]{2}\[(KNL|IKE|MGR|NET)\])|(POST /_bulk HTTP/1.1\" 200 [0-9]* \"-\" \"Go-http-client/1.1)|(level\=debug.*io\.rancher)).*"
 
 # A single log line maximum bytes
-# 900,000 bytes was selected, so that 10 log lines
+# 250,000 bytes was selected, so that 20 log lines
 # would be under 10MB with some format overhead.
-ENV LOG_LINE_MAX 900000
+ENV LOG_LINE_MAX 250000
 
 # Elasticsearch host to push into
 ENV ES_HOST    elasticsearch
@@ -92,7 +92,7 @@ ENV ES_COMPRESSION 0
 
 # Bulk batch size. This is used in conjuncture with LOG_LINE_MAX
 # To ensure that the total BULK request size does not exceed 10MB
-ENV ES_BATCHSIZE 10
+ENV ES_BATCHSIZE 20
 
 # Filebeat configuration yml (will load environment configs)
 ADD filebeat.yml /etc/filebeat/filebeat.yml
