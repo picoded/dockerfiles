@@ -3,6 +3,17 @@
 #==========================  Modules configuration ============================
 metricbeat.modules:
 
+# This is just to meet minimum configuration requirement
+# This container is used for setup of dashboard not logs collection
+#------------------------------- System Module -------------------------------
+- module: system
+  metricsets:
+    # CPU stats
+    - cpu
+    
+  enabled: true
+  period: 10s
+  processes: ['.*']
 #------------------------------- System Module -------------------------------
 
 #================================ Outputs ======================================
