@@ -35,7 +35,7 @@ filebeat:
       input_type: log
 
       # A single log line maximum bytes
-      # 900,000 bytes was selected, so that 10 log lines
+      # 250,000 bytes was selected, so that 20 log lines
       # would be under 10MB with some format overhead.
       max_bytes: ${LOG_LINE_MAX}
 
