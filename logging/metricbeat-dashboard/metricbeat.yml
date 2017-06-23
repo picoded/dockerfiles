@@ -1,0 +1,196 @@
+########################## Metricbeat Configuration ###########################
+
+#==========================  Modules configuration ============================
+metricbeat.modules:
+
+#------------------------------- System Module -------------------------------
+
+#================================ Outputs ======================================
+
+# Configure what outputs to use when sending the data collected by the beat.
+# Multiple outputs may be used.
+
+#-------------------------- Elasticsearch output -------------------------------
+output.elasticsearch:
+  # Boolean flag to enable or disable the output module.
+  #enabled: true
+
+  # Array of hosts to connect to.
+  # Scheme and port can be left out and will be set to the default (http and 9200)
+  # In case you specify and additional path, the scheme is required: http://localhost:9200/path
+  # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+  hosts: ["${ES_HOST}:${ES_PORT}"]
+
+  # Set gzip compression level.
+  #compression_level: 0
+
+  # Optional protocol and basic auth credentials.
+  protocol: "${ES_PROT}"
+  username: "${ES_USER}"
+  password: "${ES_PASS}"
+
+  # Dictionary of HTTP parameters to pass within the url with index operations.
+  #parameters:
+    #param1: value1
+    #param2: value2
+
+  # Number of workers per Elasticsearch host.
+  #worker: 1
+
+  # Optional index name. The default is "metricbeat" plus date
+  # and generates [metricbeat-]YYYY.MM.DD keys.
+  #index: "metricbeat-%{[beat.version]}-%{+yyyy.MM.dd}"
+  index: "${ES_PREFIX}%{+yyyy.MM.dd}"
+
+  # Optional ingest node pipeline. By default no pipeline will be used.
+  #pipeline: ""
+
+  # Optional HTTP Path
+  #path: "/elasticsearch"
+
+  # Custom HTTP headers to add to each request
+  #headers:
+  #  X-My-Header: Contents of the header
+
+  # Proxy server url
+  #proxy_url: http://proxy:3128
+
+  # The number of times a particular Elasticsearch index operation is attempted. If
+  # the indexing operation doesn't succeed after this many retries, the events are
+  # dropped. The default is 3.
+  #max_retries: 3
+
+  # The maximum number of events to bulk in a single Elasticsearch bulk API index request.
+  # The default is 50.
+  #bulk_max_size: 50
+
+  # Configure http request timeout before failing an request to Elasticsearch.
+  #timeout: 90
+
+  # The number of seconds to wait for new events between two bulk API index requests.
+  # If `bulk_max_size` is reached before this interval expires, addition bulk index
+  # requests are made.
+  #flush_interval: 1s
+
+  # Use SSL settings for HTTPS. Default is true.
+  #ssl.enabled: true
+
+  # Configure SSL verification mode. If `none` is configured, all server hosts
+  # and certificates will be accepted. In this mode, SSL based connections are
+  # susceptible to man-in-the-middle attacks. Use only for testing. Default is
+  # `full`.
+  #ssl.verification_mode: full
+
+  # List of supported/valid TLS versions. By default all TLS versions 1.0 up to
+  # 1.2 are enabled.
+  #ssl.supported_protocols: [TLSv1.0, TLSv1.1, TLSv1.2]
+
+  # SSL configuration. By default is off.
+  # List of root certificates for HTTPS server verifications
+  #ssl.certificate_authorities: ["/etc/pki/root/ca.pem"]
+
+  # Certificate for SSL client authentication
+  #ssl.certificate: "/etc/pki/client/cert.pem"
+
+  # Client Certificate Key
+  #ssl.key: "/etc/pki/client/cert.key"
+
+  # Optional passphrase for decrypting the Certificate Key.
+  #ssl.key_passphrase: ''
+
+  # Configure cipher suites to be used for SSL connections
+  #ssl.cipher_suites: []
+
+  # Configure curve types for ECDHE based cipher suites
+  #ssl.curve_types: []
+
+#----------------------------- Console output ---------------------------------
+#output.console:
+  # Boolean flag to enable or disable the output module.
+  #enabled: true
+
+  # Pretty print json event
+  #pretty: false
+
+#============================== Dashboards =====================================
+# These settings control loading the sample dashboards to the Kibana index. Loading
+# the dashboards is disabled by default and can be enabled either by setting the
+# options here, or by using the `-setup` CLI flag.
+setup.dashboards.enabled: true
+
+# The URL from where to download the dashboards archive. By default this URL
+# has a value which is computed based on the Beat name and version. For released
+# versions, this URL points to the dashboard archive on the artifacts.elastic.co
+# website.
+#setup.dashboards.url:
+
+# The directory from where to read the dashboards. It is used instead of the URL
+# when it has a value.
+#setup.dashboards.directory:
+
+# The file archive (zip file) from where to read the dashboards. It is used instead
+# of the URL when it has a value.
+#setup.dashboards.file:
+
+# If this option is enabled, the snapshot URL is used instead of the default URL.
+#setup.dashboards.snapshot: false
+
+# The URL from where to download the snapshot version of the dashboards. By default
+# this has a value which is computed based on the Beat name and version.
+#setup.dashboards.snapshot_url
+
+# In case the archive contains the dashboards from multiple Beats, this lets you
+# select which one to load. You can load all the dashboards in the archive by
+# setting this to the empty string.
+# setup.dashboards.beat: metricbeat
+
+# The name of the Kibana index to use for setting the configuration. Default is ".kibana"
+#setup.dashboards.kibana_index: .kibana
+
+# The Elasticsearch index name. This overwrites the index name defined in the
+# dashboards and index pattern. Example: testbeat-*
+setup.dashboards.index: ${ES_PREFIX}*
+
+#================================ Logging ======================================
+# There are three options for the log output: syslog, file, stderr.
+# Under Windows systems, the log files are per default sent to the file output,
+# under all other system per default to syslog.
+
+# Sets log level. The default log level is info.
+# Available log levels are: critical, error, warning, info, debug
+#logging.level: info
+
+# Enable debug output for selected components. To enable all selectors use ["*"]
+# Other available selectors are "beat", "publish", "service"
+# Multiple selectors can be chained.
+#logging.selectors: [ ]
+
+# Send all logging output to syslog. The default is false.
+#logging.to_syslog: true
+
+# If enabled, metricbeat periodically logs its internal metrics that have changed
+# in the last period. For each metric that changed, the delta from the value at
+# the beginning of the period is logged. Also, the total values for
+# all non-zero internal metrics are logged on shutdown. The default is true.
+#logging.metrics.enabled: true
+
+# The period after which to log the internal metrics. The default is 30s.
+#logging.metrics.period: 30s
+
+# # Logging to rotating files files. Set logging.to_files to false to disable logging to
+# # files.
+# logging.to_files: true
+# logging.files:
+#   # Configure the path where the logs are written. The default is the logs directory
+#   # under the home path (the binary location).
+#   #path: /var/log/metricbeat
+
+#   # The name of the files where the logs are written to.
+#   #name: metricbeat
+
+#   # Configure log file size limit. If limit is reached, log file will be
+#   # automatically rotated
+#   #rotateeverybytes: 10485760 # = 10MB
+
+#   # Number of rotated log files to keep. Oldest files will be deleted first.
+#   #keepfiles: 7

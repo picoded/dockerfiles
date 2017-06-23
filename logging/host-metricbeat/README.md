@@ -12,16 +12,18 @@ This was designed to work with its sibling `docker-metricbeat`
 https://hub.docker.com/r/picoded/docker-metricbeat/  
 https://github.com/picoded/dockerfiles/tree/master/logging/docker-metricbeat/  
 
-You will need the following volume mounted, with readonly access.
+This container will need be mounted to host network.
+This container will need root access
 
-`/:/hostfs/:ro`
+If you are using rancherOS, or a restricted OS use the following
 
-If your uncomfortable giving FULL directory access,
-you can reduce it down to the following
-
-`/sys/proc/:/hostfs/proc/:ro`
-`/sys/etc/hostname:/hostfs/etc/hostname:ro`
+`/proc/:/hostfs/proc/:ro`
 `/sys/fs/cgroup/:/hostfs/sys/fs/cgroup/:ro`
+`/etc/hostname:/hostfs/etc/hostname:ro`
+
+Otherwise you can simplify with the following (not fully tested)
+
+`/:/hostfs:ro`
 
 Finally of course, ensured that `elasticsearch` is configured.
 
