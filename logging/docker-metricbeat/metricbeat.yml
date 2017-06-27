@@ -16,10 +16,6 @@ metricbeat.modules:
     - load
     # IO stats
     - diskio
-    # Per filesystem stats
-    - filesystem
-    # File system summary stats
-    - fsstat
     # Memory stats
     - memory
     # Network stats
@@ -58,7 +54,8 @@ metricbeat.modules:
   # Enable collection of cgroup metrics from processes on Linux.
   #
   # NOTE: Pratically speaking, unless ur using custom cgroups, this means docker
-  process.cgroups.enabled: ${DOCKER_ENABLE}
+  # This is disabled, as its only pratical from version 6 onwards
+  #process.cgroups.enabled: ${DOCKER_ENABLE}
 
   # A list of regular expressions used to whitelist environment variables
   # reported with the process metricset's events. Defaults to empty.
@@ -68,6 +65,18 @@ metricbeat.modules:
   #socket.reverse_lookup.enabled: false
   #socket.reverse_lookup.success_ttl: 60s
   #socket.reverse_lookup.failure_ttl: 60s
+
+# File system specific monitoring (reduced)
+- module: system
+  enabled: ${SYSTEM_ENABLE}
+  period: ${FS_METRIC_PERIOD}
+  metricsets:
+    # Per filesystem stats
+    - filesystem
+    # File system summary stats
+    - fsstat
+  filters:
+    - drop_event.when.regexp.mount_point: '^/(hostfs|sys|cgroup|proc|dev|etc|host|lib)($|/)'
 
 #------------------------------- Docker Module -------------------------------
 - module: docker
