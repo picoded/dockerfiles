@@ -18,14 +18,10 @@ metricbeat.modules:
     - diskio
     # Memory stats
     - memory
-    # Network stats
-    - network
     # Processes summary
     # - process_summary
     # Per process stats
     # - process
-    # Sockets and connection info (linux only)
-    #- socket
   processes: ['.*']
 
   # if true, exports the CPU usage in ticks, together with the percentage values
@@ -60,6 +56,22 @@ metricbeat.modules:
   # A list of regular expressions used to whitelist environment variables
   # reported with the process metricset's events. Defaults to empty.
   #process.env.whitelist: []
+
+# Network specific monitoring
+- module: system
+  enabled: ${SYSTEM_ENABLE}
+  period: ${METRIC_PERIOD}
+  metricsets:
+    # Network stats
+    - network
+    # Sockets and connection info (linux only)
+    #- socket
+
+  # Filterout excessive veth.* connectors, 
+  # as it excessive show datausage for virtual drives
+  # Which is common in AWS setup
+  filters:
+    - drop_event.when.regex.name: '^veth.*$'
 
   # Configure reverse DNS lookup on remote IP addresses in the socket metricset.
   #socket.reverse_lookup.enabled: false
