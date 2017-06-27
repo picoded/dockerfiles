@@ -64,6 +64,9 @@ ENV SYSTEM_ENABLE "true"
 # Enable / disable docker conatainer monitoring
 ENV DOCKER_ENABLE "true"
 
+# Logging level to output, production should use warning
+ENV LOGGING_LEVEL "info"
+
 ####################################################
 #
 # Actual build and entrypoint
