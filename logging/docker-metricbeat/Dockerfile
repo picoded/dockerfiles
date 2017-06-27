@@ -83,10 +83,18 @@ RUN usermod -aG docker metricbeat
 
 # Copying over the relevent metricbeat configuration
 COPY metricbeat.yml /usr/share/metricbeat/metricbeat.yml
-RUN chown metricbeat /usr/share/metricbeat/metricbeat.yml
+#RUN chown metricbeat /usr/share/metricbeat/metricbeat.yml
 
 # Revert as metricbeat user
-USER metricbeat
+#
+# NOTE: We are not reverting due to a user permission issue
+# with groups, which can be rather host specific. See 
+# https://discuss.elastic.co/t/trouble-running-metricbeat-5-3-0-with-docker-module/82204/6
+# for details and possible long term solution
+#
+# @TODO : Test automated groupid assignment on run solution
+#
+# USER metricbeat
 
 # Build version check logging (for debugging)
 RUN metricbeat --version
