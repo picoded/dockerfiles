@@ -71,7 +71,7 @@ metricbeat.modules:
   # as it excessive show datausage for virtual drives
   # Which is common in AWS setup
   filters:
-    - drop_event.when.regex.name: '^veth.*$'
+    - drop_event.when.regexp.system.network.name: '^veth.*$'
 
   # Configure reverse DNS lookup on remote IP addresses in the socket metricset.
   #socket.reverse_lookup.enabled: false
