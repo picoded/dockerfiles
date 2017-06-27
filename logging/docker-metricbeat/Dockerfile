@@ -65,7 +65,7 @@ ENV SYSTEM_ENABLE "true"
 ENV DOCKER_ENABLE "true"
 
 # Logging level to output, production should use warning
-ENV LOGGING_LEVEL "info"
+ENV LOGGING_LEVEL "debug"
 
 ####################################################
 #
@@ -75,6 +75,11 @@ ENV LOGGING_LEVEL "info"
 
 # Perform setup as root user
 USER root
+
+# Install some common modules needed
+RUN yum check-update && yum install -y curl vim && yum clean all
+RUN curl -fsSL https://get.docker.com/ | sh && yum clean all
+RUN usermod -aG docker metricbeat
 
 # Copying over the relevent metricbeat configuration
 COPY metricbeat.yml /usr/share/metricbeat/metricbeat.yml
