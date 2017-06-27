@@ -78,12 +78,12 @@ USER root
 
 # Install some common modules needed
 RUN yum check-update && yum install -y curl vim && yum clean all
-RUN curl -fsSL https://get.docker.com/ | sh && yum clean all
-RUN usermod -aG docker metricbeat
+# RUN curl -fsSL https://get.docker.com/ | sh && yum clean all
+# RUN usermod -aG docker metricbeat
 
 # Copying over the relevent metricbeat configuration
 COPY metricbeat.yml /usr/share/metricbeat/metricbeat.yml
-#RUN chown metricbeat /usr/share/metricbeat/metricbeat.yml
+# RUN chown metricbeat /usr/share/metricbeat/metricbeat.yml
 
 # Revert as metricbeat user
 #
