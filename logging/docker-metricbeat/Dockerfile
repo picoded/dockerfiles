@@ -58,6 +58,10 @@ ENV ES_INDEX  "metricbeat-%{+yyyy.MM.dd}"
 # SEE:  https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-docker.html
 ENV METRIC_PERIOD 10s
 
+# File system interval (as fluctuations isnt as large)
+# nor critical to be monitoring
+ENV FS_METRIC_PERIOD 1m
+
 # Enable / disable system monitoring
 ENV SYSTEM_ENABLE "true"
 

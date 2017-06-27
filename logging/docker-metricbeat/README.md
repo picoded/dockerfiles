@@ -15,15 +15,16 @@ If you are using rancherOS, or a restricted OS use the following
 `/proc/:/hostfs/proc/:ro`
 `/sys/fs/cgroup/:/hostfs/sys/fs/cgroup/:ro`
 `/etc/hostname:/hostfs/etc/hostname:ro`
+`/var/lib/docker/:/var/lib/docker:ro`
+`/var/run/docker.sock:/hostfs/var/run/docker.sock:rw`
 
 If your system allows it, you can simplify the above with the following (not fully tested)
 
-`/:/hostfs:ro`
+`/:/hostfs/:ro`
+`/var/run/docker.sock:/hostfs/var/run/docker.sock:rw`
 
 For docker monitoring, ensure the following is mounted
 
-`/var/run/docker.sock:/var/run/docker.sock:rw`
-`/var/lib/docker/:/var/lib/docker:ro`
 
 Finally of course, ensured that `elasticsearch` is configured.
 
