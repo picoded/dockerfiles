@@ -65,7 +65,7 @@ ENV SYSTEM_ENABLE "true"
 ENV DOCKER_ENABLE "true"
 
 # Logging level to output, production should use warning
-ENV LOGGING_LEVEL "debug"
+ENV LOGGING_LEVEL "warning"
 
 ####################################################
 #

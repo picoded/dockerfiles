@@ -58,7 +58,7 @@ metricbeat.modules:
   # Enable collection of cgroup metrics from processes on Linux.
   #
   # NOTE: Pratically speaking, unless ur using custom cgroups, this means docker
-  process.cgroups.enabled: true
+  process.cgroups.enabled: ${DOCKER_ENABLE}
 
   # A list of regular expressions used to whitelist environment variables
   # reported with the process metricset's events. Defaults to empty.
