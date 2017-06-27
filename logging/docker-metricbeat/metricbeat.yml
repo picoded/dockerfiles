@@ -5,7 +5,7 @@ metricbeat.modules:
 
 #------------------------------- System Module -------------------------------
 - module: system
-  enabled: true
+  enabled: ${SYSTEM_ENABLE}
   period: ${METRIC_PERIOD}
   metricsets:
     # CPU stats
@@ -70,7 +70,7 @@ metricbeat.modules:
 #------------------------------- Docker Module -------------------------------
 - module: docker
   metricsets: ["container", "cpu", "diskio", "healthcheck", "info", "memory", "network"]
-  hosts: ["unix:///var/run/docker.sock"]
+  hosts: ["unix:///hostfs/var/run/docker.sock"]
   enabled: ${DOCKER_ENABLE}
   period: ${METRIC_PERIOD}
 
