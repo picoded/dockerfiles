@@ -88,7 +88,7 @@ metricbeat.modules:
     # File system summary stats
     - fsstat
   filters:
-    - drop_event.when.regexp.mount_point: '^/(hostfs|sys|cgroup|proc|dev|etc|host|lib)($|/|;)'
+    - drop_event.when.regexp.mount_point: '^/(\.r|hostfs|sys|cgroup|proc|dev|etc|host|lib)($|/|;)'
 
 #------------------------------- Docker Module -------------------------------
 - module: docker
