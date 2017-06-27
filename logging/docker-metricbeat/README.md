@@ -22,7 +22,7 @@ If your system allows it, you can simplify the above with the following (not ful
 
 For docker monitoring, ensure the following is mounted
 
-`/var/run/docker.sock:/var/run/docker.sock/rw`
+`/var/run/docker.sock:/var/run/docker.sock:rw`
 `/var/lib/docker/:/var/lib/docker:ro`
 
 Finally of course, ensured that `elasticsearch` is configured.

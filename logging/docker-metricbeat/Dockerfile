@@ -25,12 +25,9 @@ VOLUME /hostfs;
 #
 ####################################################
 
-# Interval of capturing metrics
-#
-# NOTE: due to the docker API requiring more then 2 seconds
-#       metric period should ATLEAST be 10 seconds to prevent timeouts
-# SEE:  https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-docker.html
-ENV METRIC_PERIOD 10s
+#-----------------------------------------------
+# Elasticsearch settings
+#-----------------------------------------------
 
 # Elasticsearch host to push into
 ENV ES_HOST    elasticsearch
@@ -50,6 +47,21 @@ ENV ES_PASS    PleaseChangeThisToActualPassword
 # Elasticsearch index to use 
 ENV ES_INDEX  "metricbeat-%{+yyyy.MM.dd}"
 
+#-----------------------------------------------
+# metricbeat settings
+#-----------------------------------------------
+
+# Interval of capturing metrics
+#
+# NOTE: due to the docker API requiring more then 2 seconds
+#       metric period should ATLEAST be 10 seconds to prevent timeouts
+# SEE:  https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-docker.html
+ENV METRIC_PERIOD 10s
+
+# Enable / disable system monitoring
+ENV SYSTEM_ENABLE "true"
+
+# Enable / disable docker conatainer monitoring
 ENV DOCKER_ENABLE "true"
 
 ####################################################
@@ -68,7 +80,7 @@ RUN chown metricbeat /usr/share/metricbeat/metricbeat.yml
 # Revert as metricbeat user
 USER metricbeat
 
-# Build version check logging
+# Build version check logging (for debugging)
 RUN metricbeat --version
 
 # Perform a configration file test
