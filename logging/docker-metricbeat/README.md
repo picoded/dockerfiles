@@ -5,12 +5,7 @@ https://github.com/picoded/dockerfiles/tree/master/logging/docker-metricbeat/
 
 ## Summary
 
-> Getting host stats into elasticsearch (not container stats)
-
-This was designed to work with its sibling `docker-metricbeat`
-
-https://hub.docker.com/r/picoded/docker-metricbeat/  
-https://github.com/picoded/dockerfiles/tree/master/logging/docker-metricbeat/  
+> Getting host and container stats into elasticsearch 
 
 This container will need be mounted to host network.
 This container will need root access
@@ -21,9 +16,14 @@ If you are using rancherOS, or a restricted OS use the following
 `/sys/fs/cgroup/:/hostfs/sys/fs/cgroup/:ro`
 `/etc/hostname:/hostfs/etc/hostname:ro`
 
-Otherwise you can simplify with the following (not fully tested)
+If your system allows it, you can simplify the above with the following (not fully tested)
 
 `/:/hostfs:ro`
+
+For docker monitoring, ensure the following is mounted
+
+`/var/run/docker.sock:/var/run/docker.sock/rw`
+`/var/lib/docker/:/var/lib/docker:ro`
 
 Finally of course, ensured that `elasticsearch` is configured.
 
