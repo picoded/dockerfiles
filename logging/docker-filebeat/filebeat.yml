@@ -73,6 +73,11 @@ output:
     # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
     hosts: ["${ES_HOST}:${ES_PORT}"]
 
+    # Optional protocol and basic auth credentials.
+    protocol: "${ES_PROT}"
+    username: "${ES_USER}"
+    password: "${ES_PASS}"
+
     # Optional index name. The default is "filebeat" and generates
     # [filebeat-]YYYY.MM.DD keys.
     index: "${ES_INDEX}"
@@ -123,10 +128,14 @@ shipper:
 
 ############################# Logging #########################################
 
+# Sets log level. The default log level is info.
+# Available log levels are: critical, error, warning, info, debug
+logging.level: ${LOGGING_LEVEL}
+
 # There are three options for the log ouput: syslog, file, stderr.
 # Under Windos systems, the log files are per default sent to the file output,
 # under all other system per default to syslog.
-logging:
+#logging:
 
   # Send all logging output to syslog. On Windows default is false, otherwise
   # default is true.
@@ -137,7 +146,7 @@ logging:
   #to_files: false
 
   # To enable logging to files, to_files option has to be set to true
-  files:
+  # files:
     # The directory where the log files will written to.
     #path: /var/log/mybeat
 
@@ -146,7 +155,7 @@ logging:
 
     # Configure log file size limit. If limit is reached, log file will be
     # automatically rotated
-    rotateeverybytes: 10485760 # = 10MB
+    # rotateeverybytes: 10485760 # = 10MB
 
     # Number of rotated log files to keep. Oldest files will be deleted first.
     #keepfiles: 7
