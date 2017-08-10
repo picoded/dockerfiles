@@ -6,43 +6,32 @@ metricbeat.modules:
 #------------------------------- System Module -------------------------------
 - module: system
   enabled: ${SYSTEM_ENABLE}
-  period: ${METRIC_PERIOD}
+  period: ${PROC_METRIC_PERIOD}
   metricsets:
-    # CPU stats
-    - cpu
-    # Per CPU core stats
-    - core
-    # System Load stats
-    - load
-    # IO stats
-    - diskio
-    # Memory stats
-    - memory
     # Processes summary
     # - process_summary
     # Per process stats
-    # - process
+    - process
+    # Sockets and connection info (linux only)
+    - socket
   processes: ['.*']
-
-  # if true, exports the CPU usage in ticks, together with the percentage values
-  cpu_ticks: true
 
   # These options allow you to filter out all processes that are not
   # in the top N by CPU or memory, in order to reduce the number of documents created.
   # If both the `by_cpu` and `by_memory` options are used, the union of the two sets
   # is included.
-  #process.include_top_n:
+  process.include_top_n:
     #
     # Set to false to disable this feature and include all processes
-    #enabled: true
+    enabled: ${PROC_TOP_ENABLE}
 
     # How many processes to include from the top by CPU. The processes are sorted
     # by the `system.process.cpu.total.pct` field.
-    #by_cpu: 0
+    by_cpu: ${PROC_CPU_TOP}
 
     # How many processes to include from the top by memory. The processes are sorted
     # by the `system.process.memory.rss.bytes` field.
-    #by_memory: 0
+    by_memory: ${PROC_RAM_TOP}
 
   # If false, cmdline of a process is not cached.
   #process.cmdline.cache.enabled: true
@@ -57,26 +46,37 @@ metricbeat.modules:
   # reported with the process metricset's events. Defaults to empty.
   #process.env.whitelist: []
 
+  # Configure reverse DNS lookup on remote IP addresses in the socket metricset.
+  socket.reverse_lookup.enabled: ${SOCKET_REVERSE_LOOKUP}
+  socket.reverse_lookup.success_ttl: 60s
+  socket.reverse_lookup.failure_ttl: 60s
+
 # Network specific monitoring
 - module: system
   enabled: ${SYSTEM_ENABLE}
   period: ${METRIC_PERIOD}
   metricsets:
+    # CPU stats
+    - cpu
+    # Per CPU core stats
+    - core
+    # System Load stats
+    - load
+    # IO stats
+    - diskio
+    # Memory stats
+    - memory
     # Network stats
     - network
-    # Sockets and connection info (linux only)
-    #- socket
+
+  # if true, exports the CPU usage in ticks, together with the percentage values
+  cpu_ticks: true
 
   # Filterout excessive veth.* connectors, 
   # as it excessive show datausage for virtual drives
   # Which is common in AWS setup
   filters:
     - drop_event.when.regexp.name: '^veth.*$'
-
-  # Configure reverse DNS lookup on remote IP addresses in the socket metricset.
-  #socket.reverse_lookup.enabled: false
-  #socket.reverse_lookup.success_ttl: 60s
-  #socket.reverse_lookup.failure_ttl: 60s
 
 # File system specific monitoring (reduced)
 - module: system
@@ -88,14 +88,14 @@ metricbeat.modules:
     # File system summary stats
     - fsstat
   filters:
-    - drop_event.when.regexp.mount_point: '^/(\.r|hostfs|sys|cgroup|proc|dev|etc|host|lib)($|/|;)'
+    - drop_event.when.regexp.mount_point: '^/(?!($|/dev/md.*$))'
 
 #------------------------------- Docker Module -------------------------------
 - module: docker
   metricsets: ["container", "cpu", "diskio", "healthcheck", "info", "memory", "network"]
   hosts: ["unix:///hostfs/var/run/docker.sock"]
   enabled: ${DOCKER_ENABLE}
-  period: ${METRIC_PERIOD}
+  period: ${DOCKER_METRIC_PERIOD}
 
   # To connect to Docker over TLS you must specify a client and CA certificate.
   #ssl:

@@ -1,5 +1,5 @@
-# This uses the offical metricbeat version : 5.4.2
-FROM docker.elastic.co/beats/metricbeat:5.4.2
+# This uses the offical metricbeat version : 5.5.1
+FROM docker.elastic.co/beats/metricbeat:5.5.1
 
 ####################################################
 #
@@ -56,11 +56,33 @@ ENV ES_INDEX  "metricbeat-%{+yyyy.MM.dd}"
 # NOTE: due to the docker API requiring more then 2 seconds
 #       metric period should ATLEAST be 10 seconds to prevent timeouts
 # SEE:  https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-docker.html
-ENV METRIC_PERIOD 10s
+ENV METRIC_PERIOD 1s
+
+# Docker metrics, are polled on a minute basis
+# Due to prolification of microservices, this keeps metrics "sane"
+ENV DOCKER_METRIC_PERIOD 1m
 
 # File system interval (as fluctuations isnt as large)
-# nor critical to be monitoring
-ENV FS_METRIC_PERIOD 1m
+# nor critical to be monitoring on short timeframes
+ENV FS_METRIC_PERIOD 10m
+
+# Regex to use, on dropping file system from logging
+# By default it logs root, and any mdX devices (assuming a storage instance)
+ENV FS_DROP_REGEX "^/(?!($|/dev/md.*$))"
+
+# Likewise process metrics are trottled to limit logging size
+# This logs both process list, and socket information
+# 
+# This information is mainly used for detecting malicious process / intrusion 
+ENV PROC_METRIC_PERIOD 10m
+
+# Process only top X of CPU / ram processes only. 
+ENV PROC_TOP_ENABLE "false"
+ENV PROC_CPU_TOP 25
+ENV PROC_RAM_TOP 25
+
+# Socket logging, with reverese DNS lookup
+ENV SOCKET_REVERSE_LOOKUP "true"
 
 # Enable / disable system monitoring
 ENV SYSTEM_ENABLE "true"

@@ -1,5 +1,5 @@
 #
-# Utility docker, just used to writea single file
+# Simple utility docker, just used to write single file
 # Probably to be mounted to another container as a config
 #
 # VERSION               1.0.1
