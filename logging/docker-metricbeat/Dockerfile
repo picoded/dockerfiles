@@ -103,7 +103,7 @@ ENV LOGGING_LEVEL "warning"
 USER root
 
 # Install some common modules needed
-RUN yum check-update && yum install -y curl vim && yum clean all
+RUN yum install -y curl vim && yum clean all
 # RUN curl -fsSL https://get.docker.com/ | sh && yum clean all
 # RUN usermod -aG docker metricbeat
 
