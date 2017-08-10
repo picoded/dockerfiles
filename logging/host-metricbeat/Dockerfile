@@ -1,5 +1,5 @@
-# This uses the offical metricbeat version : 5.4.2
-FROM docker.elastic.co/beats/metricbeat:5.4.2
+# This uses the offical metricbeat version : 5.5.1
+FROM docker.elastic.co/beats/metricbeat:5.5.1
 
 ####################################################
 #
