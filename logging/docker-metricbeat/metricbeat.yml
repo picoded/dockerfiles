@@ -88,7 +88,11 @@ metricbeat.modules:
     # File system summary stats
     - fsstat
   filters:
-    - drop_event.when.regexp.mount_point: '^/(?!($|/dev/md.*$))'
+    - drop_event:
+        when:
+          and:
+            - not.regexp.mount_point: "${FS_FOR_REGEX}"
+            - regexp.mount_point: "${FS_DROP_REGEX}"
 
 #------------------------------- Docker Module -------------------------------
 - module: docker
@@ -184,18 +188,19 @@ processors:
 # The following example enriches each event with docker metadata, it matches
 # given fields to an existing container id and adds info from that container:
 #
+# PS: `add_docker_metadata` is version 6 onwards (to consider adding, when its up)
+#
 # processors:
 # - add_docker_metadata:
 #    host: "unix:///hostfs/var/run/docker.sock"
 #    match_source: true
 #    match_source_index: 4
 #    match_fields: ["system.process.cgroup.id"]
-#  # To connect to Docker over TLS you must specify a client and CA certificate.
-#  #ssl:
-#  #  certificate_authority: "/etc/pki/root/ca.pem"
-#  #  certificate:           "/etc/pki/client/cert.pem"
-#  #  key:                   "/etc/pki/client/cert.key"
-
+ # To connect to Docker over TLS you must specify a client and CA certificate.
+ #ssl:
+ #  certificate_authority: "/etc/pki/root/ca.pem"
+ #  certificate:           "/etc/pki/client/cert.pem"
+ #  key:                   "/etc/pki/client/cert.key"
 
 #================================ Outputs ======================================
 

@@ -1,4 +1,11 @@
-# picoded/docker-metricbeat
+# picoded/host-metricbeat
+
+https://hub.docker.com/r/picoded/host-metricbeat/
+https://github.com/picoded/dockerfiles/tree/master/logging/host-metricbeat/
+
+## DEPRECATED
+
+Note that this is deprecated in favour of "host-metricbeat"
 
 https://hub.docker.com/r/picoded/docker-metricbeat/
 https://github.com/picoded/dockerfiles/tree/master/logging/docker-metricbeat/
