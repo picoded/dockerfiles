@@ -58,22 +58,38 @@ ENV ES_INDEX  "metricbeat-%{+yyyy.MM.dd}"
 # SEE:  https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-docker.html
 ENV METRIC_PERIOD 1s
 
-# Docker metrics, are polled on a minute basis
+# Docker metrics, are polled on a 10 minute basis
 # Due to prolification of microservices, this keeps metrics "sane"
-ENV DOCKER_METRIC_PERIOD 1m
+#
+# Due to the potential size of this dataset, it is highly recommended 
+# to never go below a minute-by-minute period
+ENV DOCKER_METRIC_PERIOD 10m
 
 # File system interval (as fluctuations isnt as large)
 # nor critical to be monitoring on short timeframes
 ENV FS_METRIC_PERIOD 10m
 
-# Regex to use, on dropping file system from logging
-# By default it logs root, and any mdX devices (assuming a storage instance)
-ENV FS_DROP_REGEX "^/(?!($|/dev/md.*$))"
+# Regex to use, to filter for file systems, and to drop file systems
+# from metric measurment. In event that for, and drop overlap. For takes priority.
+#
+# For example, 
+# if regex matches FS_FOR_REGEX only, the filesystem is monitored
+# if regex matches FS_DROP_REGEX but not FS_FOR_REGEX, the file system is not monitored
+# if regex matches FS_DROP_REGEX and FS_FORE_REGEX, the file system is monitored
+#
+# The default setting monitor the "/" root filesystem, and 
+# any file system (assuming a raid array) following the "/dev/mdX" convention.
+# All other file systems are ignored.
+ENV FS_FOR_REGEX "^(\/|\/dev/md.*)$"
+ENV FS_DROP_REGEX "^.*$"
 
 # Likewise process metrics are trottled to limit logging size
 # This logs both process list, and socket information
 # 
-# This information is mainly used for detecting malicious process / intrusion 
+# This information is mainly used for detecting malicious process / socket intrusion 
+#
+# Due to the size of this dataset, it is highly recommended 
+# to never go below a minute-by-minute period
 ENV PROC_METRIC_PERIOD 10m
 
 # Process only top X of CPU / ram processes only. 
