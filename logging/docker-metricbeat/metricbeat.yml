@@ -87,12 +87,12 @@ metricbeat.modules:
     - filesystem
     # File system summary stats
     - fsstat
-  filters:
-    - drop_event:
-        when:
-          and:
-            - not.regexp.mount_point: "${FS_FOR_REGEX}"
-            - regexp.mount_point: "${FS_DROP_REGEX}"
+  # filters:
+  #   - drop_event:
+  #       when:
+  #         and:
+  #           - not.regexp.mount_point: "${FS_FOR_REGEX}"
+  #           - regexp.mount_point: "${FS_DROP_REGEX}"
 
 #------------------------------- Docker Module -------------------------------
 - module: docker
