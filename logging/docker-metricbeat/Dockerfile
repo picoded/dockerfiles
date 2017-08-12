@@ -80,8 +80,10 @@ ENV FS_METRIC_PERIOD 10m
 # The default setting monitor the "/" root filesystem, and 
 # any file system (assuming a raid array) following the "/dev/mdX" convention.
 # All other file systems are ignored.
-ENV FS_FOR_REGEX "^(\/|\/dev/md.*)$"
-ENV FS_DROP_REGEX "^.*$"
+#
+# (Note: currently dropped, till actual functionality is fixed)
+# ENV FS_FOR_REGEX "^(\/|\/dev/md.*)$"
+# ENV FS_DROP_REGEX "^.*$"
 
 # Likewise process metrics are trottled to limit logging size
 # This logs both process list, and socket information
