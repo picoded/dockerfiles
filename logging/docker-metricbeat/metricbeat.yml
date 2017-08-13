@@ -88,7 +88,7 @@ metricbeat.modules:
     # File system summary stats
     - fsstat
   filters:
-      - drop_event.when.regexp.mount_point: '^/(\.r|hostfs|sys|cgroup|proc|etc|host|lib)($|/|;)'
+      - drop_event.when.regexp.mount_point: '^/(\.r|hostfs|dev|sys|cgroup|proc|etc|host|lib)($|/|;)'
   #   - drop_event:
   #       when:
   #         and:
