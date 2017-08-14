@@ -67,7 +67,7 @@ ENV DOCKER_METRIC_PERIOD 10m
 
 # File system interval (as fluctuations isnt as large)
 # nor critical to be monitoring on short timeframes
-ENV FS_METRIC_PERIOD 10m
+ENV FS_METRIC_PERIOD 1m
 
 # Regex to use, to filter for file systems, and to drop file systems
 # from metric measurment. In event that for, and drop overlap. For takes priority.
