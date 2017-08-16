@@ -6,7 +6,7 @@
 FROM alpine:latest
 
 #
-# Mysql connection configurations
+# File directory, name, and content configurations
 #
 ENV FILE_DIR "/workspace/"
 ENV FILE_NAME "config.json"
