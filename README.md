@@ -22,21 +22,36 @@ Note that gradually overtime, I would be refactoring these various file to a mor
 See their respective README for more details. These Dockerfile, typically represents various iterations,
 of all my DevOps docker experiences. Refined for multiple use cases.
 
-+ (base)[https://github.com/picoded/dockerfiles/tree/master/base]
-	+ (ubuntu-base)[https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-base]
-	+ (ubuntu-openjdk-8-jdk)[https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-openjdk-8-jdk]
-+ git-cloner
-	+ (git-cloner-base)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-base]
-	+ (git-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-plus]
-	+ git-cloner-* (see: git-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-plus]
-+ zip-cloner
-	+ (zip-cloner-base)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-base]
-	+ (zip-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-plus]
-	+ zip-cloner-* (see: zip-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-plus]
-	
+## (base)[https://github.com/picoded/dockerfiles/tree/master/base]
+Base ubuntu images, with additional module (such as openjdk) installed. Used to build applications runners.
+
++ (ubuntu-base)[https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-base]
++ (ubuntu-openjdk-8-jdk)[https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-openjdk-8-jdk]
+
+## git-cloner
+Clones a git repository, and runs a command on it. 
+
++ (git-cloner-base : Ubuntu-base image, with git clone)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-base]
++ (git-cloner-plus : With additional preinstall module, like java, or npm)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-plus]
++ git-cloner-* (see: git-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/git-cloner/git-cloner-plus]
+
+## zip-cloner
+Download a zip file, unzip it, and runs a command on it.
+
++ (zip-cloner-base : Ubuntu-base image, with git clone)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-base]
++ (zip-cloner-plus : With additional preinstall module, like java, or npm)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-plus]
++ zip-cloner-* (see: zip-cloner-plus)[https://github.com/picoded/dockerfiles/tree/master/zip-cloner/zip-cloner-plus]
+
+## runner(s)
+Start container, runs the respective action. Ends. Useful for onetime setup.
+
++ (file-runner : Write content to a file)[https://github.com/picoded/dockerfiles/tree/master/runner/file-runner]
++ (mysql-runner : Execute a mysql query)[https://github.com/picoded/dockerfiles/tree/master/runner/mysql-runner]
++ (curl-post-runner : Runs a curl POST request)[https://github.com/picoded/dockerfiles/tree/master/runner/curl-post-runner]
+
 # Unorganized Dockerfile
 
-Every other folder not in organized Dockerfile, these ranges from awesome, to crap, to not working.
+Every other folder not in organized Dockerfile, ranges from awesome, to crap, to not working.
 
 Even I was a Docker noob once, and had to start from somewhere =P
 
@@ -63,4 +78,4 @@ Eugene @ Picoded.com
 	+ I want things to be deployable without configuration
 	+ Exception is for databases, or similar integration
 + For application servers, build using (ubuntu-base)[https://github.com/picoded/dockerfiles/tree/master/base/ubuntu-base]
-	+ For everthing else priotise according to the following : Offical repo, alpine, debian, ubuntu-base
+	+ For everthing else priotise according to the following : Offical repo, alpine, busybox, debian, ubuntu-base
