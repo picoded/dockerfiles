@@ -1,0 +1,16 @@
+########################## Metricbeat Configuration ###########################
+
+#==========================  Modules configuration ============================
+metricbeat.modules:
+
+#------------------------------- System Module -------------------------------
+metricbeat.modules:
+- module: mysql
+  metricsets: ["status"]
+  enabled: true
+  period: ${METRIC_PERIOD}
+
+  # Host DSN should be defined as "user:pass@tcp(127.0.0.1:3306)/"
+  # The username and password can either be set in the DSN or using the username
+  # and password config options. Those specified in the DSN take precedence.
+  hosts: ["${MYSQL_DSN}"]
