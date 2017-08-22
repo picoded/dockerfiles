@@ -23,6 +23,9 @@ RUN mkdir -p /workspace/www && \
 # Replace the default - 'www' directory to the new workspace www directory
 RUN sed -i 's|/var/www/html|/workspace/www|g' /etc/nginx/sites-available/default;
 
+# Disable sendfile caching, needed to ensure updates a propagated without caching
+# RUN sed -i 's/sendfile on/sendfile off/g' /etc/nginx/nginx.conf;
+
 #
 # Runs nginx service
 #
