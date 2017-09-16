@@ -98,3 +98,8 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'exec "$@"'                                                                                           >> /config-setup.sh && \
 	chmod +x /config-setup.sh && \
 	/config-setup.sh;
+
+#
+# Entrypoint with config
+#
+ENTRYPOINT ["/config-setup.sh", "/entrypoint.sh"]
