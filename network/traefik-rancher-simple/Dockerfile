@@ -2,7 +2,7 @@
 # Preconfigure traefik, for use with rancher as a backend
 #
 # VERSION               1.0.1
-FROM traefik:v1.3.8-alpine
+FROM traefik:v1.4.0-rc2-alpine
 
 # Make the directory for config
 RUN mkdir -p /etc/traefik/
