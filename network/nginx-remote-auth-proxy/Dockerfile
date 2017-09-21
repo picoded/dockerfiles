@@ -86,13 +86,14 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "   # Redirect user to login page"                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location = /error401 {"                                                    >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     internal;"                                                               >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     set \$escape_uri \$request_uri;"                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'if [  "${LOGIN_URL_MODE}" == "redirect" ]; then                                     >> default.conf' >> /entrypoint/primer.sh && \
-	echo '   echo "     return ${LOGIN_URL}?sourceurl=\$request_uri;"                         >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "     return ${LOGIN_URL}?sourceurl=\$escape_uri;"                          >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'else                                                                                >> default.conf' >> /entrypoint/primer.sh && \
 	echo '   echo "     proxy_set_header Host \$host;"                                        >> default.conf' >> /entrypoint/primer.sh && \
 	echo '   echo "     proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;"        >> default.conf' >> /entrypoint/primer.sh && \
 	echo '   echo "     proxy_set_header X-REAL-IP \$remote_addr;"                            >> default.conf' >> /entrypoint/primer.sh && \
-	echo '   echo "     proxy_pass ${LOGIN_URL}?sourceurl=\$request_uri;"                     >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "     proxy_pass ${LOGIN_URL}?sourceurl=\$escape_uri;"                      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'fi                                                                                  >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
@@ -144,5 +145,4 @@ RUN echo '#!/bin/sh'                                                            
 # RUN cat /entrypoint/primer.sh;
 
 ENTRYPOINT ["/entrypoint/primer.sh"]
-CMD cat /entrypoint/primer.sh
 CMD nginx -g "daemon off;"
