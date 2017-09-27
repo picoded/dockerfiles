@@ -88,7 +88,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "     internal;"                                                               >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     set \$escape_uri \$request_uri;"                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'if [  "${LOGIN_URL_MODE}" == "redirect" ]; then                                     >> default.conf' >> /entrypoint/primer.sh && \
-	echo '   echo "     return ${LOGIN_URL}?sourceurl=\$escape_uri;"                          >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "     return ${LOGIN_URL}?sourceurl=\$original_url;"                        >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'else                                                                                >> default.conf' >> /entrypoint/primer.sh && \
 	echo '   echo "     proxy_set_header Host \$host;"                                        >> default.conf' >> /entrypoint/primer.sh && \
 	echo '   echo "     proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;"        >> default.conf' >> /entrypoint/primer.sh && \
@@ -99,6 +99,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   # All endpoints to hit here"                                               >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location / {"                                                              >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     set \$original_url \$scheme://\$http_host\$request_uri;"                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     # Performs subrequest to check if allow"                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     auth_request /auth;"                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     auth_request_set \$auth_status \$upstream_status;"                       >> default.conf' >> /entrypoint/primer.sh && \
@@ -120,7 +121,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "     proxy_set_header Content-Length \"\";"                                   >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header X-Original-URI \$request_uri;"                          >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header Host \$http_host;"                                      >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     proxy_pass ${AUTH_URL};"                                                >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     proxy_pass ${AUTH_URL};"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
 	#echo 'echo "   location / {"                                                              >> default.conf' >> /entrypoint/primer.sh && \
 	#echo 'echo "      proxy_pass_request_headers on;"                                         >> default.conf' >> /entrypoint/primer.sh && \
