@@ -22,4 +22,5 @@ RUN cd /opt && wget https://storage.googleapis.com/golang/go${GOVERSION}.linux-a
     mkdir $GOPATH
 
 # Installing the godep
-RUN go get github.com/tools/godep;
+# Excluded, run this after the git clone
+# RUN go get github.com/tools/godep;
