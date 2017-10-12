@@ -59,7 +59,7 @@ ENV DNS_VALID_TIMEOUT 1s
 RUN echo '#!/bin/sh'                                                                                          > /entrypoint/primer.sh && \
 	echo '# Fetch the DNS resolver'                                                                            >> /entrypoint/primer.sh && \
 	echo 'RESOLVER="$DNS"'                                                                                     >> /entrypoint/primer.sh && \
-	echo 'if [ -n "$RESOLVER" ]; then'                                                                         >> /entrypoint/primer.sh && \
+	echo 'if [ -z "$RESOLVER" ]; then'                                                                         >> /entrypoint/primer.sh && \
 	echo '    RESOLVER=$(cat /etc/resolv.conf | grep "nameserver" | awk "{print \$2}")'                        >> /entrypoint/primer.sh && \
 	echo 'fi'                                                                                                  >> /entrypoint/primer.sh && \
 	echo 'if [ -n "$DNS_VALID_TIMEOUT" ]; then'                                                                >> /entrypoint/primer.sh && \
