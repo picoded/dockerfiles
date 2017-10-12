@@ -26,7 +26,7 @@ EXPOSE 80
 ENV HTPASSWD="picoded:{PLAIN}isAwesome!"
 
 #
-# Server host to make request to, 
+# Server host to make request to,
 # you may use a named container of "webhost" instead
 #
 ENV FORWARD_HOST webhost
@@ -67,7 +67,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'if [ -z "$RESOLVER" ]; then'                                                                         >> /entrypoint/primer.sh && \
 	echo '    RESOLVER=$(cat /etc/resolv.conf | grep "nameserver" | awk "{print \$2}")'                        >> /entrypoint/primer.sh && \
 	echo 'fi'                                                                                                  >> /entrypoint/primer.sh && \
-	echo 'if [ -z "$DNS_VALID_TIMEOUT" ]; then'                                                                >> /entrypoint/primer.sh && \
+	echo 'if [ -n "$DNS_VALID_TIMEOUT" ]; then'                                                                >> /entrypoint/primer.sh && \
 	echo '    RESOLVER="$RESOLVER valid=$DNS_VALID_TIMEOUT"'                                                   >> /entrypoint/primer.sh && \
 	echo 'fi'                                                                                                  >> /entrypoint/primer.sh && \
 	echo 'echo "resolver $RESOLVER ;" > /etc/nginx/resolvers.conf'                                             >> /entrypoint/primer.sh && \
