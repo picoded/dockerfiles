@@ -120,7 +120,8 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "     proxy_set_header Content-Length \"\";"                                   >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header X-Original-URI \$request_uri;"                          >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header Host \$http_host;"                                      >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     proxy_pass ${AUTH_URL};"                                                 >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     set \$auth_url ${AUTH_URL};"                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     proxy_pass \$auth_url;"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "}"                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo ''                                                                                                    >> /entrypoint/primer.sh && \
