@@ -80,14 +80,14 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "server {"                                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   listen 80 default_server;"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   client_max_body_size ${MAX_BODY_SIZE};"                                    >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "   # Dynamic IP DNS workaround"                                               >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "   include /etc/nginx/resolvers.conf;"                                        >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   # Handle any 401 errors, direct to /error401"                              >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   error_page 401 /error401;"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   # Redirect user to login page"                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location = /error401 {"                                                    >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     internal;"                                                               >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     # Dynamic IP DNS workaround"                                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     include /etc/nginx/resolvers.conf;"                                      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     set \$escape_uri \$request_uri;"                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'if [  "${LOGIN_URL_MODE}" == "redirect" ]; then                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo '   echo "     return ${LOGIN_URL}?sourceurl=\$original_url;"                        >> default.conf' >> /entrypoint/primer.sh && \
@@ -106,9 +106,6 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "     auth_request /auth;"                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     auth_request_set \$auth_status \$upstream_status;"                       >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     # Dynamic IP DNS workaround"                                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     include /etc/nginx/resolvers.conf;"                                      >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     # Forward to the respective url"                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     set \$upstream \"${FORWARD_PROT}://${FORWARD_HOST}:${FORWARD_PORT}\";"   >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header Host \$host;"                                           >> default.conf' >> /entrypoint/primer.sh && \
@@ -119,8 +116,6 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "   # Internal routing, check with API server if user is logged in"            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location = /auth {"                                                        >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     internal;"                                                               >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     # Dynamic IP DNS workaround"                                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     include /etc/nginx/resolvers.conf;"                                      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_pass_request_body off;"                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header Content-Length \"\";"                                   >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header X-Original-URI \$request_uri;"                          >> default.conf' >> /entrypoint/primer.sh && \
