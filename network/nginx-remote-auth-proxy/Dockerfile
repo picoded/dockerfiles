@@ -51,7 +51,7 @@ ENV DNS ""
 #
 # This can be set as blank to follow DNS declared settings
 # intentionally set to 10s to avoid DNS storms
-ENV DNS_VALID_TIMEOUT 10s
+ENV DNS_VALID_TIMEOUT 1s
 
 #
 # Prepares the entrypoint primer script, and runs it once
@@ -59,10 +59,10 @@ ENV DNS_VALID_TIMEOUT 10s
 RUN echo '#!/bin/sh'                                                                                          > /entrypoint/primer.sh && \
 	echo '# Fetch the DNS resolver'                                                                            >> /entrypoint/primer.sh && \
 	echo 'RESOLVER="$DNS"'                                                                                     >> /entrypoint/primer.sh && \
-	echo 'if [ -z "$RESOLVER" ]; then'                                                                         >> /entrypoint/primer.sh && \
+	echo 'if [ -n "$RESOLVER" ]; then'                                                                         >> /entrypoint/primer.sh && \
 	echo '    RESOLVER=$(cat /etc/resolv.conf | grep "nameserver" | awk "{print \$2}")'                        >> /entrypoint/primer.sh && \
 	echo 'fi'                                                                                                  >> /entrypoint/primer.sh && \
-	echo 'if [ -z "$DNS_VALID_TIMEOUT" ]; then'                                                                >> /entrypoint/primer.sh && \
+	echo 'if [ -n "$DNS_VALID_TIMEOUT" ]; then'                                                                >> /entrypoint/primer.sh && \
 	echo '    RESOLVER="$RESOLVER valid=$DNS_VALID_TIMEOUT"'                                                   >> /entrypoint/primer.sh && \
 	echo 'fi'                                                                                                  >> /entrypoint/primer.sh && \
 	echo 'echo "resolver $RESOLVER ;" > /etc/nginx/resolvers.conf'                                             >> /entrypoint/primer.sh && \
@@ -86,6 +86,8 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "   # Redirect user to login page"                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location = /error401 {"                                                    >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     internal;"                                                               >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     # Dynamic IP DNS workaround"                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     include resolvers.conf;"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     set \$escape_uri \$request_uri;"                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'if [  "${LOGIN_URL_MODE}" == "redirect" ]; then                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo '   echo "     return ${LOGIN_URL}?sourceurl=\$original_url;"                        >> default.conf' >> /entrypoint/primer.sh && \
@@ -99,7 +101,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   # All endpoints to hit here"                                               >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location / {"                                                              >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     set \$original_url \$scheme://\$http_host\$request_uri;"                            >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     set \$original_url \$scheme://\$http_host\$request_uri;"                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     # Performs subrequest to check if allow"                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     auth_request /auth;"                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     auth_request_set \$auth_status \$upstream_status;"                       >> default.conf' >> /entrypoint/primer.sh && \
@@ -117,18 +119,14 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "   # Internal routing, check with API server if user is logged in"            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location = /auth {"                                                        >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     internal;"                                                               >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     # Dynamic IP DNS workaround"                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "     include resolvers.conf;"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_pass_request_body off;"                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header Content-Length \"\";"                                   >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header X-Original-URI \$request_uri;"                          >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_set_header Host \$http_host;"                                      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_pass ${AUTH_URL};"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
-	#echo 'echo "   location / {"                                                              >> default.conf' >> /entrypoint/primer.sh && \
-	#echo 'echo "      proxy_pass_request_headers on;"                                         >> default.conf' >> /entrypoint/primer.sh && \
-	#echo 'echo "      proxy_set_header     Authorization \"\";"                               >> default.conf' >> /entrypoint/primer.sh && \
-	#echo 'echo "      client_max_body_size ${MAX_BODY_SIZE};"                                 >> default.conf' >> /entrypoint/primer.sh && \
-	#echo 'echo "      client_body_buffer_size ${MAX_BUFFER_SIZE};"                            >> default.conf' >> /entrypoint/primer.sh && \
-	#echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "}"                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo ''                                                                                                    >> /entrypoint/primer.sh && \
 	echo '# Goes back to root folder'                                                                          >> /entrypoint/primer.sh && \
