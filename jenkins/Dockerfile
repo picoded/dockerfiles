@@ -4,7 +4,7 @@
 #
 # Reference: https://hub.docker.com/_/jenkins/
 #
-FROM jenkins:latest
+FROM jenkins/jenkins:lts
 MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # Do the various needed installation
