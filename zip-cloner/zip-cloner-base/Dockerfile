@@ -26,6 +26,12 @@ ENV ZIP_PRESCRIPT ""
 # This is the run script, called after git clone/pull
 ENV ZIP_POSTSCRIPT ""
 
+# The folder to export into within "/workspace"
+ENV ZIP_FOLDER ""
+
+# Remove former content prior to unzip
+# @TODO : To implement
+
 #
 # Prepares the git cloner script
 #
