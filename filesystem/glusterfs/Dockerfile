@@ -28,7 +28,7 @@ RUN echo '#!/bin/bash'                                                          
 	echo 'cd /workspace;'                                                               >> /entrypoint/glusterfs.sh && \
 	echo ''                                                                             >> /entrypoint/glusterfs.sh && \
 	echo '# Reset glusterd logs'                                                        >> /entrypoint/glusterfs.sh && \
-	echo 'echo "" >  /var/log/glusterfs/glusterfs.log'                                  >> /entrypoint/glusterfs.sh && \
+	echo 'echo "" >  /var/log/glusterfs/glusterfs.log;'                                 >> /entrypoint/glusterfs.sh && \
 	echo ''                                                                             >> /entrypoint/glusterfs.sh && \
 	echo '# Startup glusterd'                                                           >> /entrypoint/glusterfs.sh && \
 	echo 'glusterd --version;'                                                          >> /entrypoint/glusterfs.sh && \
@@ -44,7 +44,7 @@ RUN echo '#!/bin/bash'                                                          
 	echo 'echo "###"'                                                                   >> /entrypoint/glusterfs.sh && \
 	echo 'echo "### Eternal log tail of picoded/glusterfs : entrypoint/glusterfs.sh"'   >> /entrypoint/glusterfs.sh && \
 	echo 'echo "###"'                                                                   >> /entrypoint/glusterfs.sh && \
-	echo 'tail -f /var/log/glusterfs/glusterfs.log'                                     >> /entrypoint/glusterfs.sh && \
+	echo 'tail -f /var/log/glusterfs/glusterfs.log;'                                    >> /entrypoint/glusterfs.sh && \
 	chmod +x /entrypoint/glusterfs.sh;
 
 # Overwrite entrypoint and default command (which is blank)
