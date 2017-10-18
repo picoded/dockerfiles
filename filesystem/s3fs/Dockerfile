@@ -49,7 +49,7 @@ ENV \
 	S3FS_OPTIONS='-o use_xattr'
 
 #
-# This script was modified from
+# This script was modified heavily from
 # https://github.com/panubo/docker-s3fs/blob/master/entry.sh
 #
 RUN echo '#!/bin/bash' > /entrypoint/s3fs.sh && \
