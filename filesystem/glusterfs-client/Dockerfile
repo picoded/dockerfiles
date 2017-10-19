@@ -9,7 +9,7 @@ FROM picoded/ubuntu-base
 
 # Setup glusterfs apt-get 
 RUN apt-get install -y software-properties-common python-software-properties && \
-	add-apt-repository ppa:gluster/glusterfs-3.7;
+	add-apt-repository ppa:gluster/glusterfs-3.12;
 
 # Install glusterfs
 RUN apt-get update && \
@@ -32,7 +32,7 @@ ENV GFS_LOG_LEVEL='INFO'
 # And tailed to output stream
 ENV GFS_LOG_FILE='/var/log/glusterfs/glusterfs.log'
 # Direct IO mode is only for system that already handles caching on its own
-# And what pure random read/write performance (which ironically is slower on disk)
+# And what pure random read/write performance. Beyond such use cases this can paradoxically be slower
 # Examples include databases
 ENV GFS_DIRECT_IO='disable' 
 # Additional glusterfs options, see its man docs (its better then offical docs)

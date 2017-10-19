@@ -9,7 +9,7 @@ FROM picoded/ubuntu-base
 
 # Setup glusterfs apt-get 
 RUN apt-get install -y software-properties-common python-software-properties && \
-	add-apt-repository ppa:gluster/glusterfs-3.7;
+	add-apt-repository ppa:gluster/glusterfs-3.12;
 
 # Install glusterfs
 RUN apt-get update && \
