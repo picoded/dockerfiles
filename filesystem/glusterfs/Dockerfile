@@ -20,9 +20,7 @@ RUN apt-get update && \
 #
 RUN echo '#!/bin/bash'                                                                  > /entrypoint/glusterfs.sh && \
 	echo ''                                                                             >> /entrypoint/glusterfs.sh && \
-	echo 'echo "###"'                                                                   >> /entrypoint/glusterfs.sh && \
-	echo 'echo "### Start of picoded/glusterfs : entrypoint/glusterfs.sh"'              >> /entrypoint/glusterfs.sh && \
-	echo 'echo "###"'                                                                   >> /entrypoint/glusterfs.sh && \
+	echo 'echo "##> Start of picoded/glusterfs : entrypoint/glusterfs.sh"'              >> /entrypoint/glusterfs.sh && \
 	echo ''                                                                             >> /entrypoint/glusterfs.sh && \
 	echo '# Enters the /workspace'                                                      >> /entrypoint/glusterfs.sh && \
 	echo 'cd /workspace;'                                                               >> /entrypoint/glusterfs.sh && \
@@ -34,16 +32,10 @@ RUN echo '#!/bin/bash'                                                          
 	echo 'glusterd --version;'                                                          >> /entrypoint/glusterfs.sh && \
 	echo 'glusterd --log-file=/var/log/glusterfs/glusterfs.log;'                        >> /entrypoint/glusterfs.sh && \
 	echo ''                                                                             >> /entrypoint/glusterfs.sh && \
-	echo 'echo "###"'                                                                   >> /entrypoint/glusterfs.sh && \
-	echo 'echo "### Chaining picoded/glusterfs : entrypoint/glusterfs.sh"'              >> /entrypoint/glusterfs.sh && \
-	echo 'echo "###"'                                                                   >> /entrypoint/glusterfs.sh && \
-	echo ''                                                                             >> /entrypoint/glusterfs.sh && \
-	echo '# Chain the execution commands'                                               >> /entrypoint/glusterfs.sh && \
+	echo 'echo "##> Chaining picoded/glusterfs : entrypoint/glusterfs.sh"'              >> /entrypoint/glusterfs.sh && \
 	echo 'exec "$@"'                                                                    >> /entrypoint/glusterfs.sh && \
 	echo ''                                                                             >> /entrypoint/glusterfs.sh && \
-	echo 'echo "###"'                                                                   >> /entrypoint/glusterfs.sh && \
-	echo 'echo "### Eternal log tail of picoded/glusterfs : entrypoint/glusterfs.sh"'   >> /entrypoint/glusterfs.sh && \
-	echo 'echo "###"'                                                                   >> /entrypoint/glusterfs.sh && \
+	echo 'echo "##> Eternal log tail of picoded/glusterfs : entrypoint/glusterfs.sh"'   >> /entrypoint/glusterfs.sh && \
 	echo 'tail -f /var/log/glusterfs/glusterfs.log;'                                    >> /entrypoint/glusterfs.sh && \
 	chmod +x /entrypoint/glusterfs.sh;
 
