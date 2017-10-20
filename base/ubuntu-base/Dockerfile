@@ -10,7 +10,7 @@ FROM ubuntu:16.04
 
 # Add some core repos
 RUN apt-get update && \
-	apt-get install -y sudo curl zip openssl build-essential python-software-properties && \
+	apt-get install -y sudo curl zip openssl build-essential python-software-properties iputils-ping && \
 	apt-get clean;
 	
 # Add nodejs distribution
