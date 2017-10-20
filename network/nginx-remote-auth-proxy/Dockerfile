@@ -77,9 +77,6 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "# http level config"                                                          > default.conf'  >> /entrypoint/primer.sh && \
 	echo 'echo "client_max_body_size ${MAX_BODY_SIZE};"                                       >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
-	# echo 'echo "upstream authserver {"                                                                             >> default.conf' >> /entrypoint/primer.sh && \
-	# echo 'echo "   server ${AUTH_URL};"                                                                             >> default.conf' >> /entrypoint/primer.sh && \
-	# echo 'echo "}"                                                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "server {"                                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   listen 80 default_server;"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   client_max_body_size ${MAX_BODY_SIZE};"                                    >> default.conf' >> /entrypoint/primer.sh && \
