@@ -10,11 +10,14 @@ FROM ubuntu:16.04
 
 # Add some core repos
 RUN apt-get update && \
-	apt-get install -y sudo curl zip openssl build-essential python-software-properties iputils-ping && \
+	apt-get install -y sudo curl zip openssl build-essential software-properties-common python-software-properties iputils-ping && \
 	apt-get clean;
 	
 # Add nodejs distribution
 RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo bash - && apt-get update && apt-get clean;
+
+# Adding glusterfs distribution, for easy gluster-client installation
+RUN add-apt-repository ppa:gluster/glusterfs-3.12;
 
 #
 # Default environment variables

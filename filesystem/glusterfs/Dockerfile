@@ -7,7 +7,7 @@
 # VERSION               1.0.0
 FROM picoded/ubuntu-base
 
-# Setup glusterfs apt-get 
+# Setup glusterfs apt-get (This step will be deprecated by ubuntu-base)
 RUN apt-get install -y software-properties-common python-software-properties && \
 	add-apt-repository ppa:gluster/glusterfs-3.12;
 
