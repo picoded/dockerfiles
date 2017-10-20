@@ -102,15 +102,6 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'fi                                                                                  >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "   # Direct server connection without authentication"                         >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "   location = /healthcheck {"                                                 >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     # Forward to the respective url"                                         >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     set \$upstream \"${FORWARD_PROT}://${FORWARD_HOST}:${FORWARD_PORT}\";"   >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     proxy_set_header Host \$host;"                                           >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     proxy_pass \$upstream;"                                                  >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "     proxy_read_timeout   ${PROXY_READ_TIMEOUT};"                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   # All endpoints to hit here"                                               >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location / {"                                                              >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     set \$original_url \$scheme://\$http_host\$request_uri;"                 >> default.conf' >> /entrypoint/primer.sh && \
