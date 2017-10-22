@@ -36,7 +36,7 @@ RUN echo '#!/bin/bash'                                                          
 	echo 'exec "$@"'                                                                    >> /entrypoint/glusterfs.sh && \
 	echo ''                                                                             >> /entrypoint/glusterfs.sh && \
 	echo 'echo "##> Eternal log tail of picoded/glusterfs : entrypoint/glusterfs.sh"'   >> /entrypoint/glusterfs.sh && \
-	echo 'tail -f /var/log/glusterfs/glusterfs.log;'                                    >> /entrypoint/glusterfs.sh && \
+	echo 'tail -f /var/log/glusterfs/glusterfs.log & wait;'                             >> /entrypoint/glusterfs.sh && \
 	chmod +x /entrypoint/glusterfs.sh;
 
 # Overwrite entrypoint and default command (which is blank)
