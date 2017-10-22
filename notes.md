@@ -20,11 +20,23 @@ docker port containername XPortNum
 ## build, run
 docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
-## nuke, build, run
+## nuke all, build, run
 docker rm $(docker ps -a -q); docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
 
-## stop, nuke, build, run
+## stop all, nuke all, build, run
 docker stop $(docker ps -aq); docker rm $(docker ps -a -q); docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
+
+# Stop current "basename", Nuke it, Build it, Run it
+```
+docker stop $(docker ps -a | grep $(basename "$PWD") | awk '{print $1}'); 
+docker rm $(docker ps -a | grep $(basename "$PWD") | awk '{print $1}');
+docker build -t $(basename "$PWD") . && 
+docker run -d -P --name $(basename "$PWD") $(basename "$PWD");
+```
+
+Or as a single line
+
+`docker stop $(docker ps -a | grep $(basename "$PWD") | awk '{print $1}'); docker rm $(docker ps -a | grep $(basename "$PWD") | awk '{print $1}'); docker build -t $(basename "$PWD") . && docker run -d -P --name $(basename "$PWD") $(basename "$PWD");`
 
 # Docker commands
 
