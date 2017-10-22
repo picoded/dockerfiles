@@ -13,6 +13,9 @@ RUN apt-get install -y software-properties-common python-software-properties && 
 RUN apt-get update && \
 	apt-get install -y glusterfs-server;
 
+# Sets default run mode for s3fs to NOT be foreground
+ENV S3FS_RUNMODE=""
+
 #
 # Prepares the glusterfs script
 #
@@ -38,5 +41,5 @@ RUN echo '#!/bin/bash'                                                          
 	chmod +x /entrypoint/glusterfs.sh;
 
 # Overwrite entrypoint and default command (which is blank)
-ENTRYPOINT [ "/entrypoint/primer.sh",  "/entrypoint/s3fs.sh", "/entrypoint/glusterfs.sh" ]
+ENTRYPOINT [ "/entrypoint/primer.sh", "/entrypoint/s3fs.sh", "/entrypoint/glusterfs.sh" ]
 CMD []

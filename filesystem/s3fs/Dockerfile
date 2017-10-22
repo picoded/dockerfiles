@@ -77,13 +77,13 @@ RUN echo '#!/bin/bash' > /entrypoint/s3fs.sh && \
 	echo '    S3FS_CACHE_OPT="-o use_cache=\\"${S3FS_CACHE_DIR}\\" -o ensure_diskfree=${S3FS_CACHE_ENSURE_DISKFREE_MB}"' >> /entrypoint/s3fs.sh && \
 	echo 'fi'                                                                     >> /entrypoint/s3fs.sh && \
 	echo ''                                                                       >> /entrypoint/s3fs.sh && \
-	echo 'echo "==> Mounting S3 Filesystem"'                                      >> /entrypoint/s3fs.sh && \
+	echo 'echo "==> [picoded/ufs-client-stack] : Mounting S3 Filesystem"'         >> /entrypoint/s3fs.sh && \
 	echo 'mkdir -p ${S3FS_MOUNTPOINT}'                                            >> /entrypoint/s3fs.sh && \
 	echo ''                                                                       >> /entrypoint/s3fs.sh && \
 	echo '# s3fs mount command'                                                   >> /entrypoint/s3fs.sh && \
 	echo 's3fs $S3FS_RUNMODE $S3FS_CACHE_OPT $S3FS_OPTIONS -o passwd_file="${S3FS_AUTHFILE}" -o url=${S3FS_URL} ${S3FS_BUCKET_NAME} ${S3FS_MOUNTPOINT}' >> /entrypoint/s3fs.sh && \
 	echo ''                                                                       >> /entrypoint/s3fs.sh && \
-	echo 'echo "==> Running command $@"'                                          >> /entrypoint/s3fs.sh && \
+	echo 'echo "==> [picoded/ufs-client-stack] : Entrypoint Chain"'               >> /entrypoint/s3fs.sh && \
 	echo 'exec "$@"'                                                              >> /entrypoint/s3fs.sh && \
 	chmod +x /entrypoint/s3fs.sh;
 
