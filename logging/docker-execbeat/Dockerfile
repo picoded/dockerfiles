@@ -27,12 +27,9 @@ RUN apt-get -y update && \
 # Execbeat settings
 #-----------------------------------------------
 
-#
-# The execution command, withotu arguments
-#
+# The execution command, without arguments
 ENV EX_CMD     "date"
 
-#
 # The parameters to pass the command, note that this assume that spaces, 
 # are a seperate param, without the quotes. For example.
 #
@@ -42,19 +39,13 @@ ENV EX_CMD     "date"
 #
 # Unfortunately this crashes / fail if its completely blank
 # So ensure that atleast a " " blank string of one space is used
-#
 ENV EX_PARAMS  " "
 
-#
 # The excution frequency
-#
 ENV EX_CRON "@every 60s"
 
-#
 # The execbeat document type
-#
 ENV EX_DOC_TYPE "execbeat"
-
 
 #-----------------------------------------------
 # Elasticsearch settings
