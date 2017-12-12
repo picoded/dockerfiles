@@ -24,7 +24,7 @@ RUN sudo apt-get update && sudo apt-get install -y google-cloud-sdk && apt-get c
 ENV GS_URL "gs://<bucket-name>/<sub-directory>/<somezipfile>.zip"
 
 # Google storage .json credential service account file to use
-ENV GS_CRED_FILE '/etc/gs-cred.json'
+ENV GS_CRED_FILE '/gs-cred.json'
 
 # Google storage .json credential service account content
 # Leave this blank, if mounting and using the credential file directly

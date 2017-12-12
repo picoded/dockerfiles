@@ -26,7 +26,6 @@ Extension of [picoded/gs-zip-cloner-base](https://hub.docker.com/r/picoded/gs-zi
 
 ## Environment variables
 
-+ `ZIP_URL="https://github.com/picoded/dockerfiles/archive/master.zip"` : Zip URL to download from
 + `ZIP_FILE="master.zip"` : Zip file name to use
 + `ZIP_FOLDER="."` : relative folder to clone into, default is "/workspace/./", do not use blank
 + `ZIP_PRESCRIPT=""` : This is the run script, called before zip download command
