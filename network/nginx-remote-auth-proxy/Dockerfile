@@ -47,6 +47,10 @@ ENV MAX_BUFFER_SIZE 10M
 # DNS server to use (if configured)
 ENV DNS ""
 
+# Regex used to bypass authentication layer
+# For exampe ^/(assets|css|js)/.*$
+ENV AUTH_BYPASS_REGEX ""
+
 # DNS Validity timeframe
 #
 # This can be set as blank to follow DNS declared settings
@@ -112,6 +116,16 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "     proxy_pass \$upstream;"                                                  >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "     proxy_read_timeout   ${PROXY_READ_TIMEOUT};"                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   }"                                                                         >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'if [  -n "${AUTH_BYPASS_REGEX}" ]; then                                             >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "   location ~ ${AUTH_BYPASS_REGEX} {"                                      >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "     # Forward to the respective url"                                      >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "     set \$upstream \"${FORWARD_PROT}://${FORWARD_HOST}:${FORWARD_PORT}\";">> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "     proxy_set_header Host \$host;"                                        >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "     proxy_pass \$upstream;"                                               >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "     proxy_read_timeout   ${PROXY_READ_TIMEOUT};"                          >> default.conf' >> /entrypoint/primer.sh && \
+	echo '   echo "   }"                                                                      >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'fi                                                                                  >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                             >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   # Internal routing, check with API server if user is logged in"            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location = /auth {"                                                        >> default.conf' >> /entrypoint/primer.sh && \
