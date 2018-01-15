@@ -11,11 +11,11 @@ RUN mkdir /entrypoint;
 # Port to expose, this is currently fixed to 80
 EXPOSE 80
 
-#######################
+##########################
 #
 # Common nginx settings
 #
-#######################
+##########################
 
 # Server host to make request to,
 # you may use a named container of "webhost" instead
@@ -48,12 +48,11 @@ ENV DNS ""
 # intentionally set to 10s to avoid DNS storms
 ENV DNS_VALID_TIMEOUT 10s
 
-
-#######################
+##########################
 #
 # Advance nginx settings
 #
-#######################
+##########################
 
 # The forward upstream to use within the 
 # "upstream backend { ... }" block.
@@ -70,6 +69,12 @@ ENV DNS_VALID_TIMEOUT 10s
 #
 ENV FORWARD_UPSTREAM ""
 
+# Zone upstream size
+#
+# This is required, for the resolver to work,
+# Default is 1m which is enough for almost all cases.
+ENV UPSTREAM_ZONE_SIZE 1m
+
 # Automatic failover on multiple upstream, if configured
 # Note that this is only useful in conjuncture with FORWARD_UPSTREAM
 ENV PROXY_NEXT_UPSTREAM "error timeout invalid_header http_500 http_502 http_503 http_504 http_403 http_404 http_429"
@@ -83,11 +88,11 @@ ENV NGINX_SERVER_CONFIG ""
 # Additional Custom nginx root location level setting to add (if applicable)
 ENV NGINX_ROOT_LOCATION_CONFIG ""
 
-#######################
+##########################
 #
 # @TODO : Cache settings support?
 #
-#######################
+##########################
 
 #
 # Prepares the entrypoint primer script, and runs it once
@@ -115,10 +120,12 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "include resolvers.conf;"                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "upstream forward_backend {"                                                  >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "   zone forward_backend_zone ${UPSTREAM_ZONE_SIZE};"                         >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'if [ -n "$FORWARD_UPSTREAM" ]; then'                                                                >> /entrypoint/primer.sh && \
-	echo 'echo "   ${FORWARD_UPSTREAM}"                                                      >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "   ${FORWARD_UPSTREAM};"                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'else'                                                                                               >> /entrypoint/primer.sh && \
-	echo 'echo "   server ${FORWARD_HOST}:${FORWARD_PORT};"                                  >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "   server ${FORWARD_HOST}:${FORWARD_PORT} resolve;"                          >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'fi'                                                                                                 >> /entrypoint/primer.sh && \
 	echo 'echo "}"                                                                           >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
