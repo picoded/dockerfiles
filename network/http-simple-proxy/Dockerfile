@@ -125,7 +125,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'if [ -n "$FORWARD_UPSTREAM" ]; then'                                                                >> /entrypoint/primer.sh && \
 	echo 'echo "   ${FORWARD_UPSTREAM};"                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'else'                                                                                               >> /entrypoint/primer.sh && \
-	echo 'echo "   server ${FORWARD_HOST}:${FORWARD_PORT} resolve;"                          >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "   server ${FORWARD_HOST}:${FORWARD_PORT};"                                  >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'fi'                                                                                                 >> /entrypoint/primer.sh && \
 	echo 'echo "}"                                                                           >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
