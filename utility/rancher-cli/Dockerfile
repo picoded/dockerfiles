@@ -13,9 +13,9 @@ RUN apt-get update && apt-get install -y git docker-ce && apt-get clean;
 RUN cd /etc && git clone https://github.com/picoded/rancher-container-backup-via-cli.git && mv rancher-container-backup-via-cli rancher-cli
 
 # Environment variables for rancher
-ENV RANCHER_URL;
-ENV RANCHER_ACCESS_KEY;
-ENV RANCHER_SECRET_KEY;
+ENV RANCHER_URL "";
+ENV RANCHER_ACCESS_KEY "";
+ENV RANCHER_SECRET_KEY "";
 
 # After configuring those ENV variables
 # if you want to run a rancher command
