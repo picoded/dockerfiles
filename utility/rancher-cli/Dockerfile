@@ -7,7 +7,7 @@ FROM picoded/ubuntu-base
 MAINTAINER Eugene Cheah <eugene@picoded.com>
 
 # Get the required git and docker
-RUN apt-get update && apt-get install -y git docker-ce && apt-get clean;
+RUN apt-get update && apt-get install -y git docker && apt-get clean;
 
 # Clone the ranchers tools
 RUN cd /etc && git clone https://github.com/picoded/rancher-container-backup-via-cli.git && mv rancher-container-backup-via-cli rancher-cli
