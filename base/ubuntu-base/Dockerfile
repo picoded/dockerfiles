@@ -1,3 +1,4 @@
+#
 # Ubuntu base image, see README for more details
 #
 # VERSION               1.0.1
@@ -10,7 +11,9 @@ FROM ubuntu:16.04
 
 # Add some core repos
 RUN apt-get update && \
-	apt-get install -y sudo curl zip openssl build-essential software-properties-common python-software-properties iputils-ping net-tools && \
+	apt-get install -y \
+	sudo apt-transport-https ca-certificates curl zip openssl build-essential \
+	software-properties-common python-software-properties iputils-ping net-tools locales && \
 	apt-get clean;
 	
 # Add nodejs distribution
@@ -18,6 +21,9 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo bash - && apt-get updat
 
 # Adding glusterfs distribution, for easy gluster-client installation
 RUN add-apt-repository ppa:gluster/glusterfs-3.12;
+
+# Adding docker-ce distribution, for easy docker-in-docker installation
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 #
 # Default environment variables
@@ -35,6 +41,25 @@ ENV APTGET_INSTALL=""
 ENV APTGET_UPGRADE=false
 # Commands to execute after aptget install/upgrade on bootup
 ENV APTGET_POSTSCRIPT=""
+
+#
+# Anchor file to validate on startup. 
+#
+# The main intention of the anchor file is to 
+# work around volume mounting race conditions, by ensuring a 
+# specified anchor file is found. On failure to validate the file
+# the docker container will crash, so that the docker manager 
+# (rancher) will reboot the container again, hopefully working 
+# around the mount race condition.
+#
+
+# Path of anchor file to validate if exists,
+# If this value is set, and the file does not exists
+# the docker entrypoint script will terminate and fail.
+ENV ANCHOR_FILE_CHECK_PATH=""
+
+# Delay to wait for, prior to crashing the container
+ENV ANCHOR_FILE_FAILURE_DELAY="10s"
 
 #
 # Core folders setup
@@ -59,6 +84,19 @@ RUN echo '#!/bin/bash'                                                          
 	echo ''                                                                             >> /entrypoint/primer.sh && \
 	echo '# Enters the /workspace'                                                      >> /entrypoint/primer.sh && \
 	echo 'cd /workspace;'                                                               >> /entrypoint/primer.sh && \
+	echo ''                                                                             >> /entrypoint/primer.sh && \
+	echo '# Anchor file check'                                                          >> /entrypoint/primer.sh && \
+	echo 'if [ -n "$ANCHOR_FILE_CHECK_PATH" ] ; then'                                   >> /entrypoint/primer.sh && \
+	echo '   if [ -e "$ANCHOR_FILE_CHECK_PATH" ] ; then'                                >> /entrypoint/primer.sh && \
+	echo '      echo "### Anchor file validated : $ANCHOR_FILE_CHECK_PATH"'             >> /entrypoint/primer.sh && \
+	echo '   else'                                                                      >> /entrypoint/primer.sh && \
+	echo '      echo "### [ERROR] Anchor file missing : $ANCHOR_FILE_CHECK_PATH"'       >> /entrypoint/primer.sh && \
+	echo '      echo "### [ERROR] sleeping for $ANCHOR_FILE_FAILURE_DELAY"'             >> /entrypoint/primer.sh && \
+	echo '      sleep $ANCHOR_FILE_FAILURE_DELAY;'                                      >> /entrypoint/primer.sh && \
+	echo '      echo "### [FATAL] exiting with 404"'                                    >> /entrypoint/primer.sh && \
+	echo '      exit 404;'                                                              >> /entrypoint/primer.sh && \
+	echo '   fi'                                                                        >> /entrypoint/primer.sh && \
+	echo 'fi'                                                                           >> /entrypoint/primer.sh && \
 	echo ''                                                                             >> /entrypoint/primer.sh && \
 	echo '# TIMEZONE run'                                                               >> /entrypoint/primer.sh && \
 	echo 'if [ -n "$TIMEZONE" ] ; then'                                                 >> /entrypoint/primer.sh && \
