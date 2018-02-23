@@ -15,12 +15,12 @@ FROM debian:jessie
 
 RUN apt-get -y update && \
 	apt-get -y install sudo apt-utils apt-transport-https curl && \
-	curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.2.1-amd64.deb && \
-	sudo dpkg -i filebeat-5.2.1-amd64.deb && \
-	rm -f filebeat-5.2.1-amd64.deb;
+	curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.2.2-amd64.deb
+	sudo dpkg -i filebeat-6.2.2-amd64.deb
+	rm -f filebeat-6.2.2-amd64.deb;
 
 # I know this setup was intentional
-# https://www.elastic.co/guide/en/beats/libbeat/current/breaking-changes-5.0.html
+# https://www.elastic.co/guide/en/beats/libbeat/6.2/breaking-changes-6.0.html
 #
 # But really, i prefer having my entrypoint paths working
 RUN mv /usr/bin/filebeat.sh /usr/bin/filebeat 2>/dev/null
