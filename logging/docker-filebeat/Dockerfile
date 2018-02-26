@@ -15,7 +15,7 @@ FROM debian:jessie
 
 RUN apt-get -y update && \
 	apt-get -y install sudo apt-utils apt-transport-https curl && \
-	curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.2.2-amd64.deb
+	curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.2.2-amd64.deb && \
 	sudo dpkg -i filebeat-6.2.2-amd64.deb
 	rm -f filebeat-6.2.2-amd64.deb;
 
