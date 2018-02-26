@@ -23,7 +23,7 @@ RUN apt-get -y update && \
 # https://www.elastic.co/guide/en/beats/libbeat/6.2/breaking-changes-6.0.html
 #
 # But really, i prefer having my entrypoint paths working
-RUN mv /usr/bin/filebeat.sh /usr/bin/filebeat 2>/dev/null
+# RUN mv /usr/bin/filebeat.sh /usr/bin/filebeat 2>/dev/null
 
 # Filebeat db tracker : Required to ensure no log duplicates
 # occur within resets / updates of filebeat image
