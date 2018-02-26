@@ -54,7 +54,16 @@ ENV ES_USER    elasticsearch
 ENV ES_PASS    PleaseChangeThisToActualPassword
 
 # Elasticsearch index to use 
-ENV ES_INDEX  "docker-filebeat-%{+yyyy.MM.dd}"
+ENV ES_INDEX  "docker-filebeat-%{[beat.version]}-%{+yyyy.MM.dd}"
+
+# Elasticsearch template name to use for index setup
+ENV ES_TEMPLATE_NAME "docker-filebeat"
+
+# Elasticsearch template pattern to use for index setup
+ENV ES_TEMPLATE_PATTERN "docker-filebeat-*"
+
+# Kibana Dashboard index to use 
+ENV DASH_INDEX "docker-filebeat-*"
 
 # Compression level of log submissions 0 - 9
 # NOTE: This is not supported in AWS Elasticsearch
