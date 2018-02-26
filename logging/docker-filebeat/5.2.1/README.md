@@ -48,7 +48,7 @@ ENV ES_HOST    elasticsearch
 ENV ES_PORT    9200
 
 # Elasticsearch index to use 
-ENV ES_INDEX  "docker-filebeat-%{+yyyy.MM.dd}"
+ENV ES_INDEX  "docker-filebeat-%{[beat.version]}-%{+yyyy.MM.dd}"
 
 # Compression level of log submissions 0 - 9
 # NOTE: This is not supported in AWS Elasticsearch

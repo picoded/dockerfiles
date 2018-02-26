@@ -1,0 +1,171 @@
+################### Filebeat Configuration Example #########################
+
+############################# Filebeat ######################################
+filebeat:
+  # List of prospectors to fetch data.
+  prospectors:
+    # Each - is a prospector. Below are the prospector specific configurations
+    -
+      # Paths that should be crawled and fetched. Glob based paths.
+      # To fetch all ".log" files from a specific level of subdirectories
+      # /var/log/*/*.log can be used.
+      # For each file found under this path, a harvester is started.
+      # Make sure not file is defined twice as this can lead to unexpected behaviour.
+      paths:
+        - ${LOG_PATH}
+
+      # Array of Regex rules to filter out lines
+      # This is useful for extremly noisy containers,
+      # With little logging value : Such as rancher ipsec-router
+      exclude_lines: ["${LOG_EXCLUDE_LINE}"]
+
+      # Configure the file encoding for reading files with international characters
+      # following the W3C recommendation for HTML5 (http://www.w3.org/TR/encoding).
+      # Some sample encodings:
+      #   plain, utf-8, utf-16be-bom, utf-16be, utf-16le, big5, gb18030, gbk,
+      #    hz-gb-2312, euc-kr, euc-jp, iso-2022-jp, shift-jis, ...
+      encoding: utf-8
+
+      # Type of the files. Based on this the way the file is read is decided.
+      # The different types cannot be mixed in one prospector
+      #
+      # Possible options are:
+      # * log: Reads every line of the log file (default)
+      # * stdin: Reads the standard in
+      input_type: log
+
+      # A single log line maximum bytes
+      # 250,000 bytes was selected, so that 20 log lines
+      # would be under 10MB with some format overhead.
+      max_bytes: ${LOG_LINE_MAX}
+
+      # Ignore files which were modified more then the defined timespan in the past
+      # Time strings like 2h (2 hours), 5m (5 minutes) can be used.
+      #
+      # NOTE: Default is 0, which disables the setting
+      #
+      # ignore_older: 24h
+
+      #
+      # JSON file format logging, used for docker : in accodance to filebeat
+      # https://www.elastic.co/guide/en/beats/filebeat/current/configuration-filebeat-options.html#config-json
+      #
+      json.keys_under_root: true
+      json.add_error_key: true
+      json.message_key: log
+
+  # Name of the registry file. Per default it is put in the current working
+  # directory. In case the working directory is changed after when running
+  # filebeat again, indexing starts from the beginning again.
+  registry_file: /var/lib/filebeat/registry
+
+############################# Output ##########################################
+
+# Configure what outputs to use when sending the data collected by the beat.
+# Multiple outputs may be used.
+output:
+
+  ### Elasticsearch as output
+  elasticsearch:
+    # Array of hosts to connect to.
+    # Scheme and port can be left out and will be set to the default (http and 9200)
+    # In case you specify and additional path, the scheme is required: http://localhost:9200/path
+    # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+    hosts: ["${ES_HOST}:${ES_PORT}"]
+
+    # Optional protocol and basic auth credentials.
+    protocol: "${ES_PROT}"
+    username: "${ES_USER}"
+    password: "${ES_PASS}"
+
+    # Optional index name. The default is "filebeat" and generates
+    # [filebeat-]YYYY.MM.DD keys.
+    index: "${ES_INDEX}"
+
+    # Compression of the submitted logs: 0-9, higher = more CPU usage
+    # See: https://www.elastic.co/guide/en/beats/filebeat/current/elasticsearch-output.html#_compression_level
+    #
+    # NOTE: This is not supported in AWS Elasticsearch
+    compression_level: ${ES_COMPRESSION}
+
+    # The maximum number of events to bulk in a single Elasticsearch bulk API index request.
+    bulk_max_size: ${ES_BATCHSIZE}
+
+############################# Shipper #########################################
+
+shipper:
+  # The name of the shipper that publishes the network data. It can be used to group
+  # all the transactions sent by a single shipper in the web interface.
+  # If this options is not defined, the hostname is used.
+  #name:
+
+  # The tags of the shipper are included in their own field with each
+  # transaction published. Tags make it easy to group servers by different
+  # logical properties.
+  #tags: ["service-X", "web-tier"]
+
+  # Uncomment the following if you want to ignore transactions created
+  # by the server on which the shipper is installed. This option is useful
+  # to remove duplicates if shippers are installed on multiple servers.
+  #ignore_outgoing: true
+
+  # How often (in seconds) shippers are publishing their IPs to the topology map.
+  # The default is 10 seconds.
+  #refresh_topology_freq: 10
+
+  # Expiration time (in seconds) of the IPs published by a shipper to the topology map.
+  # All the IPs will be deleted afterwards. Note, that the value must be higher than
+  # refresh_topology_freq. The default is 15 seconds.
+  #topology_expire: 15
+
+  # Configure local GeoIP database support.
+  # If no paths are not configured geoip is disabled.
+  #geoip:
+    #paths:
+    #  - "/usr/share/GeoIP/GeoLiteCity.dat"
+    #  - "/usr/local/var/GeoIP/GeoLiteCity.dat"
+
+
+############################# Logging #########################################
+
+# Sets log level. The default log level is info.
+# Available log levels are: critical, error, warning, info, debug
+logging.level: ${LOGGING_LEVEL}
+
+# There are three options for the log ouput: syslog, file, stderr.
+# Under Windos systems, the log files are per default sent to the file output,
+# under all other system per default to syslog.
+#logging:
+
+  # Send all logging output to syslog. On Windows default is false, otherwise
+  # default is true.
+  #to_syslog: true
+
+  # Write all logging output to files. Beats automatically rotate files if rotateeverybytes
+  # limit is reached.
+  #to_files: false
+
+  # To enable logging to files, to_files option has to be set to true
+  # files:
+    # The directory where the log files will written to.
+    #path: /var/log/mybeat
+
+    # The name of the files where the logs are written to.
+    #name: mybeat
+
+    # Configure log file size limit. If limit is reached, log file will be
+    # automatically rotated
+    # rotateeverybytes: 10485760 # = 10MB
+
+    # Number of rotated log files to keep. Oldest files will be deleted first.
+    #keepfiles: 7
+
+  # Enable debug output for selected components. To enable all selectors use ["*"]
+  # Other available selectors are beat, publish, service
+  # Multiple selectors can be chained.
+  #selectors: [ ]
+
+  # Sets log level. The default log level is error.
+  # Available log levels are: critical, error, warning, info, debug
+  #level: error
+
