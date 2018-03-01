@@ -97,7 +97,7 @@ ENV NGINX_ROOT_LOCATION_CONFIG ""
 #
 # Prepares the entrypoint primer script, and runs it once
 #
-RUN echo '#!/bin/sh'                                                                                         > /entrypoint/primer.sh && \
+RUN echo '#!/bin/bash'                                                                                       > /entrypoint/primer.sh && \
 	echo '# Fetch the DNS resolver'                                                                           >> /entrypoint/primer.sh && \
 	echo 'RESOLVER="$DNS"'                                                                                    >> /entrypoint/primer.sh && \
 	echo 'if [ -z "$RESOLVER" ]; then'                                                                        >> /entrypoint/primer.sh && \
