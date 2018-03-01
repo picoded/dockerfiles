@@ -97,7 +97,7 @@ ENV NGINX_ROOT_LOCATION_CONFIG ""
 #
 # Prepares the entrypoint primer script, and runs it once
 #
-RUN echo '#!/bin/bash'                                                                                       > /entrypoint/primer.sh && \
+RUN echo '#!/bin/sh'                                                                                         > /entrypoint/primer.sh && \
 	echo '# Fetch the DNS resolver'                                                                           >> /entrypoint/primer.sh && \
 	echo 'RESOLVER="$DNS"'                                                                                    >> /entrypoint/primer.sh && \
 	echo 'if [ -z "$RESOLVER" ]; then'                                                                        >> /entrypoint/primer.sh && \
@@ -123,7 +123,7 @@ RUN echo '#!/bin/bash'                                                          
 	echo 'echo "   zone forward_backend_zone ${UPSTREAM_ZONE_SIZE};"                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'if [ -n "$FORWARD_UPSTREAM" ]; then'                                                                >> /entrypoint/primer.sh && \
-	echo 'if [[ "$FORWARD_UPSTREAM" == *\; ]]; then'                                                          >> /entrypoint/primer.sh && \
+	echo 'if [[ "$FORWARD_UPSTREAM" == *";" ]]; then'                                                          >> /entrypoint/primer.sh && \
 	echo 'echo "   ${FORWARD_UPSTREAM}"                                                      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'else'                                                                                               >> /entrypoint/primer.sh && \
 	echo 'echo "   ${FORWARD_UPSTREAM};"                                                     >> default.conf' >> /entrypoint/primer.sh && \
