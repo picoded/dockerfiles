@@ -123,8 +123,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "   zone forward_backend_zone ${UPSTREAM_ZONE_SIZE};"                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'if [ -n "$FORWARD_UPSTREAM" ]; then'                                                                >> /entrypoint/primer.sh && \
-	echo 'SEMICOLON_CHECK=$FORWARD_UPSTREAM'                                                                  >> /entrypoint/primer.sh && \
-	echo 'if [[ "${SEMICOLON_CHECK:~0}" == ';' ]]; then'                                                      >> /entrypoint/primer.sh && \
+	echo 'if [[ "${FORWARD_UPSTREAM: -1}" == ";" ]]; then'                                                    >> /entrypoint/primer.sh && \
 	echo 'echo "   ${FORWARD_UPSTREAM}"                                                      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'else'                                                                                               >> /entrypoint/primer.sh && \
 	echo 'echo "   ${FORWARD_UPSTREAM};"                                                     >> default.conf' >> /entrypoint/primer.sh && \
