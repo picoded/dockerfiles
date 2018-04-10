@@ -17,7 +17,8 @@ RUN apt-get update && \
 	apt-get clean;
 	
 # Add nodejs distribution
-RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo bash - && apt-get update && apt-get clean;
+RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && apt-get update && apt-get clean;
+RUN sudo apt-get install -y nodejs;
 
 # Adding glusterfs distribution, for easy gluster-client installation
 RUN add-apt-repository ppa:gluster/glusterfs-3.12;
