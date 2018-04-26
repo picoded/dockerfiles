@@ -3,7 +3,7 @@
 #
 # VERSION               1.0.1
 #
-FROM picoded/ubuntu-base
+FROM picoded/glusterfs-client
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -48,6 +48,19 @@ ENV ZIP_FOLDER ""
 
 # Remove former content prior to unzip
 # @TODO : To implement
+
+
+#
+# Overwrite the GFS environment config used by default
+#
+
+# Gluster FS mounting point inside this container
+ENV GFS_MOUNT='/storage'
+# Glusterfs volume to mount
+ENV GFS_VOLUME=''
+# Glusterfs hostname to fetch configuration on the volume on
+# NOTE : Subsequent IO read/write will directly connect to the respective volume
+ENV GFS_STARTING_HOST=''
 
 #
 # Prepares the gs zip cloner script
@@ -112,5 +125,5 @@ RUN echo '#!/bin/bash'                                                          
 #
 # Runs with entry point and command
 #
-ENTRYPOINT ["/entrypoint/primer.sh", "/entrypoint/zip-cloner.sh"] 
+ENTRYPOINT ["/entrypoint/primer.sh",  "/entrypoint/glusterfs-client.sh", "/entrypoint/zip-cloner.sh"] 
 CMD echo "hello world : run your actual command here"

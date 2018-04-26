@@ -38,28 +38,37 @@ ENV GFS_DIRECT_IO='disable'
 # Additional glusterfs options, see its man docs (its better then offical docs)
 # https://manpages.debian.org/unstable/glusterfs-client/fusermount-glusterfs.8.en.html
 ENV GFS_OPTIONS=''
+# @TODO - Enables / Disable glsuterfs log tailing
+ENV GFS_LOGTAIL='true'
 
 #
 # The actual runtime script
 #
 RUN echo '#!/bin/bash' > /entrypoint/glusterfs-client.sh && \
-	echo ''                                                                        >> /entrypoint/glusterfs-client.sh && \
-	echo 'echo "##> Start of picoded/glusterfs : glusterfs-client.sh"'             >> /entrypoint/glusterfs-client.sh && \
-	echo ''                                                                        >> /entrypoint/glusterfs-client.sh && \
-	echo '# Reset glusterfs logs'                                                  >> /entrypoint/glusterfs-client.sh && \
-	echo 'echo "" >  "${GFS_LOG_FILE}";'                                           >> /entrypoint/glusterfs-client.sh && \
-	echo ''                                                                        >> /entrypoint/glusterfs-client.sh && \
-	echo 'echo "##> Mounting Glusterfs Filesystem"'                                >> /entrypoint/glusterfs-client.sh && \
-	echo 'mkdir -p "${GFS_MOUNT}"'                                                 >> /entrypoint/glusterfs-client.sh && \
-	echo ''                                                                        >> /entrypoint/glusterfs-client.sh && \
-	echo '# glusterfs-client mount command'                                        >> /entrypoint/glusterfs-client.sh && \
-	echo 'mount -t glusterfs -o log-level="${GFS_LOG_LEVEL}",log-file="${GFS_LOG_FILE}",direct-io-mode="${GFS_DIRECT_IO}" ${GFS_OPTIONS} "${GFS_STARTING_HOST}:/${GFS_VOLUME}" "${GFS_MOUNT}"' >> /entrypoint/glusterfs-client.sh && \
-	echo ''                                                                        >> /entrypoint/glusterfs-client.sh && \
-	echo 'echo "##> Chaining picoded/glusterfs : glusterfs-client.sh"'             >> /entrypoint/glusterfs-client.sh && \
-	echo 'exec "$@"'                                                               >> /entrypoint/glusterfs-client.sh && \
-	echo ''                                                                        >> /entrypoint/glusterfs-client.sh && \
-	echo 'echo "##> Eternal log tail of picoded/glusterfs : glusterfs-clients.sh"' >> /entrypoint/glusterfs-client.sh && \
-	echo 'tail -f "${GFS_LOG_FILE}";'                                              >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo '# GFS_STARTING_HOST run'                                                    >> /entrypoint/glusterfs-client.sh && \
+	echo 'if [ -n "$GFS_STARTING_HOST" ] ; then'                                      >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo '   echo "##> Start of picoded/glusterfs : glusterfs-client.sh"'             >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo '   # Reset glusterfs logs'                                                  >> /entrypoint/glusterfs-client.sh && \
+	echo '   echo "" >  "${GFS_LOG_FILE}";'                                           >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo '   echo "##> Mounting Glusterfs Filesystem"'                                >> /entrypoint/glusterfs-client.sh && \
+	echo '   mkdir -p "${GFS_MOUNT}"'                                                 >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo '   # glusterfs-client mount command'                                        >> /entrypoint/glusterfs-client.sh && \
+	echo '   mount -t glusterfs -o log-level="${GFS_LOG_LEVEL}",log-file="${GFS_LOG_FILE}",direct-io-mode="${GFS_DIRECT_IO}" ${GFS_OPTIONS} "${GFS_STARTING_HOST}:/${GFS_VOLUME}" "${GFS_MOUNT}"' >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo 'fi'                                                                         >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo 'echo "##> Chaining picoded/glusterfs : glusterfs-client.sh"'                >> /entrypoint/glusterfs-client.sh && \
+	echo 'exec "$@"'                                                                  >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo 'if [[  -n "$GFS_STARTING_HOST" && ( "$GFS_LOGTAIL" = true  ||  "$GFS_LOGTAIL" = "true" ) ]] ; then'         >> /entrypoint/glusterfs-client.sh && \
+	echo '   echo "##> Eternal log tail of picoded/glusterfs : glusterfs-clients.sh"' >> /entrypoint/glusterfs-client.sh && \
+	echo '   tail -f "${GFS_LOG_FILE}";'                                              >> /entrypoint/glusterfs-client.sh && \
+	echo 'fi'                                                                         >> /entrypoint/glusterfs-client.sh && \
 	chmod +x /entrypoint/glusterfs-client.sh;
 
 # Chain up the entrypoints
