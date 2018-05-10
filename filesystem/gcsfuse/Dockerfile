@@ -1,5 +1,5 @@
 #
-# gcsfuse : Google cloud storage, on disk!
+# gcsfuse : Google cloud storage, as a mounted volume!
 #
 # VERSION                   1.0.0
 #
