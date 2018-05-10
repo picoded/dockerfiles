@@ -74,3 +74,6 @@ RUN mkdir -p /entrypoint/ && \
 
 # Chain up the entrypoints
 ENTRYPOINT [ "/entrypoint/gcsfuse.sh" ]
+
+# Default, sleep infinitely
+CMD tail -f /dev/null
