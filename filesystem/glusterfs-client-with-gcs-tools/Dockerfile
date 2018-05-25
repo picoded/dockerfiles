@@ -52,9 +52,9 @@ ENV GFS_OPTIONS=''
 # @TODO - Enables / Disable glsuterfs log tailing
 ENV GFS_LOGTAIL='true'
 # Commands to execute prior to aptget install/upgrade on bootup
-ENV APTGET_GS_PRESCRIPT=""
+ENV GFS_PRESCRIPT=""
 # Commands to execute after aptget install/upgrade on bootup
-ENV APTGET_GS_POSTSCRIPT=""
+ENV GFS_POSTSCRIPT=""
 
 
 #
@@ -62,10 +62,10 @@ ENV APTGET_GS_POSTSCRIPT=""
 #
 RUN echo '#!/bin/bash' > /entrypoint/glusterfs-client.sh && \
 	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
-	echo '# APTGET_GS_PRESCRIPT run'                                                  >> /entrypoint/glusterfs-client.sh && \
-	echo 'if [ -n "$APTGET_GS_PRESCRIPT" ] ; then'                                    >> /entrypoint/glusterfs-client.sh && \
-	echo '   echo "### Running APTGET_GS_PRESCRIPT"'                                  >> /entrypoint/glusterfs-client.sh && \
-	echo '   eval "$APTGET_GS_PRESCRIPT";'                                            >> /entrypoint/glusterfs-client.sh && \
+	echo '# GFS_PRESCRIPT run'                                                        >> /entrypoint/glusterfs-client.sh && \
+	echo 'if [ -n "$GFS_PRESCRIPT" ] ; then'                                          >> /entrypoint/glusterfs-client.sh && \
+	echo '   echo "### Running GFS_PRESCRIPT"'                                        >> /entrypoint/glusterfs-client.sh && \
+	echo '   eval "$GFS_PRESCRIPT";'                                                  >> /entrypoint/glusterfs-client.sh && \
 	echo 'fi'                                                                         >> /entrypoint/glusterfs-client.sh && \
 	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
 	echo '# GFS_STARTING_HOST run'                                                    >> /entrypoint/glusterfs-client.sh && \
@@ -84,10 +84,10 @@ RUN echo '#!/bin/bash' > /entrypoint/glusterfs-client.sh && \
 	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
 	echo 'fi'                                                                         >> /entrypoint/glusterfs-client.sh && \
 	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
-	echo '# APTGET_GS_POSTSCRIPT run'                                                 >> /entrypoint/glusterfs-client.sh && \
-	echo 'if [ -n "$APTGET_GS_POSTSCRIPT" ] ; then'                                   >> /entrypoint/glusterfs-client.sh && \
-	echo '   echo "### Running APTGET_GS_POSTSCRIPT"'                                 >> /entrypoint/glusterfs-client.sh && \
-	echo '   eval "$APTGET_GS_POSTSCRIPT";'                                           >> /entrypoint/glusterfs-client.sh && \
+	echo '# GFS_POSTSCRIPT run'                                                       >> /entrypoint/glusterfs-client.sh && \
+	echo 'if [ -n "$GFS_POSTSCRIPT" ] ; then'                                         >> /entrypoint/glusterfs-client.sh && \
+	echo '   echo "### Running GFS_POSTSCRIPT"'                                       >> /entrypoint/glusterfs-client.sh && \
+	echo '   eval "$GFS_POSTSCRIPT";'                                                 >> /entrypoint/glusterfs-client.sh && \
 	echo 'fi'                                                                         >> /entrypoint/glusterfs-client.sh && \
 	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
 	echo 'echo "##> Chaining picoded/glusterfs : glusterfs-client.sh"'                >> /entrypoint/glusterfs-client.sh && \
