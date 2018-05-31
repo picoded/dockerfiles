@@ -56,6 +56,14 @@ ENV GFS_PRESCRIPT=""
 # Commands to execute after aptget install/upgrade on bootup
 ENV GFS_POSTSCRIPT=""
 
+# Path of anchor file to validate if exists,
+# If this value is set, and the file does not exists
+# the docker entrypoint script will terminate and fail.
+ENV GFS_ANCHOR_FILE_CHECK_PATH=""
+
+# Delay to wait for, prior to crashing the container
+ENV GFS_ANCHOR_FILE_FAILURE_DELAY="10s"
+
 
 #
 # The actual runtime script
@@ -82,6 +90,19 @@ RUN echo '#!/bin/bash' > /entrypoint/glusterfs-client.sh && \
 	echo '   # glusterfs-client mount command'                                        >> /entrypoint/glusterfs-client.sh && \
 	echo '   mount -t glusterfs -o log-level="${GFS_LOG_LEVEL}",log-file="${GFS_LOG_FILE}",direct-io-mode="${GFS_DIRECT_IO}" ${GFS_OPTIONS} "${GFS_STARTING_HOST}:/${GFS_VOLUME}" "${GFS_MOUNT}"' >> /entrypoint/glusterfs-client.sh && \
 	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo 'fi'                                                                         >> /entrypoint/glusterfs-client.sh && \
+	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
+	echo '# Anchor file check'                                                        >> /entrypoint/glusterfs-client.sh && \
+	echo 'if [ -n "$GFS_ANCHOR_FILE_CHECK_PATH" ] ; then'                             >> /entrypoint/glusterfs-client.sh && \
+	echo '   if [ -e "$GFS_ANCHOR_FILE_CHECK_PATH" ] ; then'                          >> /entrypoint/glusterfs-client.sh && \
+	echo '      echo "### Anchor file validated : $GFS_ANCHOR_FILE_CHECK_PATH"'       >> /entrypoint/glusterfs-client.sh && \
+	echo '   else'                                                                    >> /entrypoint/glusterfs-client.sh && \
+	echo '      echo "### [ERROR] Anchor file missing : $GFS_ANCHOR_FILE_CHECK_PATH"' >> /entrypoint/glusterfs-client.sh && \
+	echo '      echo "### [ERROR] sleeping for $GFS_ANCHOR_FILE_FAILURE_DELAY"'       >> /entrypoint/glusterfs-client.sh && \
+	echo '      sleep $GFS_ANCHOR_FILE_FAILURE_DELAY;'                                >> /entrypoint/glusterfs-client.sh && \
+	echo '      echo "### [FATAL] exiting with 404"'                                  >> /entrypoint/glusterfs-client.sh && \
+	echo '      exit 404;'                                                            >> /entrypoint/glusterfs-client.sh && \
+	echo '   fi'                                                                      >> /entrypoint/glusterfs-client.sh && \
 	echo 'fi'                                                                         >> /entrypoint/glusterfs-client.sh && \
 	echo ''                                                                           >> /entrypoint/glusterfs-client.sh && \
 	echo '# GFS_POSTSCRIPT run'                                                       >> /entrypoint/glusterfs-client.sh && \
