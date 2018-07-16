@@ -67,7 +67,7 @@ ENV ES_USER    elasticsearch
 ENV ES_PASS    PleaseChangeThisToActualPassword
 
 # Elasticsearch index to use 
-ENV ES_INDEX  "execbeat-%{+yyyy.MM.dd}"
+ENV ES_INDEX  "execbeat-%{+yyyy.MM}"
 
 # Logging level to output, production should use warning
 ENV LOGGING_LEVEL "warning"
@@ -91,4 +91,4 @@ RUN /usr/share/execbeat/bin/execbeat -configtest -path.config=/etc/execbeat/
 RUN /usr/share/execbeat/bin/execbeat -version
 
 # The final execution
-ENTRYPOINT ["/entrypoint/primer.sh", "/usr/share/execbeat/bin/execbeat", "-e", "-path.config=/etc/execbeat/"]
+ENTRYPOINT ["/entrypoint/primer.sh", "/usr/share/execbeat/bin/execbeat", "-v", "-e", "-path.config=/etc/execbeat/"]
