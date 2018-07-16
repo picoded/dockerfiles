@@ -91,4 +91,5 @@ RUN /usr/share/execbeat/bin/execbeat -configtest -path.config=/etc/execbeat/
 RUN /usr/share/execbeat/bin/execbeat -version
 
 # The final execution
-ENTRYPOINT ["/entrypoint/primer.sh", "/usr/share/execbeat/bin/execbeat", "-v", "-e", "-path.config=/etc/execbeat/"]
+ENTRYPOINT [ "/entrypoint/primer.sh", "/usr/share/execbeat/bin/execbeat" ]
+CMD [ "-v", "-e", "-path.config=/etc/execbeat/" ]
