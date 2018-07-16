@@ -45,7 +45,7 @@ ENV EX_PARAMS  " "
 ENV EX_CRON "@every 60s"
 
 # The execbeat document type
-ENV EX_DOC_TYPE "execbeat"
+ENV EX_DOC_TYPE "date"
 
 #-----------------------------------------------
 # Elasticsearch settings
