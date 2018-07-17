@@ -6,6 +6,32 @@
 #
 FROM picoded/execbeat
 
+#-----------------------------------------------
+#
+# Execbeat settings
+#
+#-----------------------------------------------
+
+# The execution command, without arguments
+ENV EX_CMD     "gluster"
+
+# The parameters to pass the command, note that this assume that spaces, 
+# are a seperate param, without the quotes. For example.
+#
+# ENV_PARAMS="argA argB argC"
+#
+# Refrence: https://github.com/christiangalsterer/execbeat/issues/7
+#
+# Unfortunately this crashes / fail if its completely blank
+# So ensure that atleast a " " blank string of one space is used
+ENV EX_PARAMS  "volume status"
+
+# The excution frequency
+ENV EX_CRON "@every 60s"
+
+# The execbeat document type
+ENV EX_DOC_TYPE "gluster-volume-status"
+
 ####################################################
 #
 # execbeat installation
