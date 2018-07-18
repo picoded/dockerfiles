@@ -16,7 +16,8 @@ RUN apt-get update && \
 	apt-get install -y glusterfs-client;
 
 # Install git stuff
-RUN apt-get update && apt-get install -y git && apt-get clean;
+RUN apt-get update && apt-get install -y git && apt-get install -y openjdk-8-jdk && \
+	apt-get install -y ant && apt-get clean;
 
 #
 # Environment variables to configure glusterfs-client
