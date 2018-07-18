@@ -33,6 +33,7 @@ filebeat:
       # * log: Reads every line of the log file (default)
       # * stdin: Reads the standard in
       input_type: log
+      type: log
 
       # A single log line maximum bytes
       # 250,000 bytes was selected, so that 20 log lines
@@ -44,7 +45,7 @@ filebeat:
       #
       # NOTE: Default is 0, which disables the setting
       #
-      # ignore_older: 24h
+      ignore_older: 480h
 
       #
       # JSON file format logging, used for docker : in accodance to filebeat
@@ -53,6 +54,10 @@ filebeat:
       json.keys_under_root: true
       json.add_error_key: true
       json.message_key: log
+
+      # Adding of docker information to filebeat log
+      processors:
+      - add_docker_metadata: ~
 
   # Name of the registry file. Per default it is put in the current working
   # directory. In case the working directory is changed after when running
