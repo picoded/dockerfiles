@@ -144,7 +144,7 @@ COPY metricbeat.yml /usr/share/metricbeat/metricbeat.yml
 RUN metricbeat --version
 
 # Perform a configration file test
-RUN metricbeat -c /usr/share/metricbeat/metricbeat.yml -configtest
+RUN metricbeat -c /usr/share/metricbeat/metricbeat.yml test config
 
 # Assumes hostfs metricbeat binding 
 # (as that is what this container is for)
