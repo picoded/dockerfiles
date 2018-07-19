@@ -47,7 +47,7 @@ ENV ES_PASS    PleaseChangeThisToActualPassword
 # Elasticsearch index to use 
 ENV ES_INDEX  "metricbeat-%{[beat.version]}-%{+yyyy.MM.dd}"
 
- Elasticsearch template name to use for index setup
+# Elasticsearch template name to use for index setup
 ENV ES_TEMPLATE_NAME "metricbeat"
 
 # Elasticsearch template pattern to use for index setup
