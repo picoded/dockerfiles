@@ -203,6 +203,25 @@ processors:
  #  certificate:           "/etc/pki/client/cert.pem"
  #  key:                   "/etc/pki/client/cert.key"
 
+############################# Setup #########################################
+# https://www.elastic.co/guide/en/beats/filebeat/6.2/configuration-template.html
+# Configure setup for templates when index is changed by user.
+# Multiple setup may be used.
+setup:
+
+  ### templates for setup
+  template:
+    # Name for template setup
+    name: "${ES_TEMPLATE_NAME}"
+
+    # Pattern for template setup
+    pattern: "${ES_TEMPLATE_PATTERN}"
+
+  ### Dashboard for setup
+  # dashboards:
+  #   # Pattern for the dashboard index
+  #   index: "${DASH_INDEX}"
+
 #================================ Outputs ======================================
 
 # Configure what outputs to use when sending the data collected by the beat.
