@@ -3,17 +3,18 @@
 #==========================  Modules configuration ============================
 metricbeat.modules:
 
-#------------------------------- System Module -------------------------------
+#-----------------------------------------------
+# Running processes metrics
+# (Seperate from docker)
+#-----------------------------------------------
 - module: system
-  enabled: ${SYSTEM_ENABLE}
+  enabled: ${PROC_ENABLE}
   period: ${PROC_METRIC_PERIOD}
   metricsets:
     # Processes summary
     # - process_summary
     # Per process stats
     - process
-    # Sockets and connection info (linux only)
-    - socket
   processes: ['.*']
 
   # These options allow you to filter out all processes that are not
@@ -21,9 +22,6 @@ metricbeat.modules:
   # If both the `by_cpu` and `by_memory` options are used, the union of the two sets
   # is included.
   process.include_top_n:
-    #
-    # Set to false to disable this feature and include all processes
-    enabled: ${PROC_TOP_ENABLE}
 
     # How many processes to include from the top by CPU. The processes are sorted
     # by the `system.process.cpu.total.pct` field.
@@ -36,25 +34,32 @@ metricbeat.modules:
   # If false, cmdline of a process is not cached.
   #process.cmdline.cache.enabled: true
 
-  # Enable collection of cgroup metrics from processes on Linux.
-  #
-  # NOTE: Pratically speaking, unless ur using custom cgroups, this means docker
-  # This is disabled, as its only pratical from version 6 onwards
-  #process.cgroups.enabled: ${DOCKER_ENABLE}
-
   # A list of regular expressions used to whitelist environment variables
   # reported with the process metricset's events. Defaults to empty.
   #process.env.whitelist: []
 
+#-----------------------------------------------
+# Network socket metrics
+# (Seperate from docker)
+#-----------------------------------------------
+- module: system
+  enabled: ${SOCKET_ENABLE}
+  period: ${SOCKET_METRIC_PERIOD}
+  metricsets:
+    # Sockets and connection info (linux only)
+    - socket
+  
   # Configure reverse DNS lookup on remote IP addresses in the socket metricset.
   socket.reverse_lookup.enabled: ${SOCKET_REVERSE_LOOKUP}
-  socket.reverse_lookup.success_ttl: 60s
-  socket.reverse_lookup.failure_ttl: 60s
+  socket.reverse_lookup.success_ttl: ${SOCKET_REVERSE_TTL}
+  socket.reverse_lookup.failure_ttl: ${SOCKET_REVERSE_TTL}
 
-# Network specific monitoring
+#-----------------------------------------------
+# System metrics
+#-----------------------------------------------
 - module: system
   enabled: ${SYSTEM_ENABLE}
-  period: ${METRIC_PERIOD}
+  period: ${SYSTEM_METRIC_PERIOD}
   metricsets:
     # CPU stats
     - cpu
@@ -69,33 +74,40 @@ metricbeat.modules:
     # Network stats
     - network
 
-  # if true, exports the CPU usage in ticks, together with the percentage values
+  # if true, exports the CPU usage in ticks, 
+  # together with the percentage values
   cpu_ticks: true
 
   # Filterout excessive veth.* connectors, 
   # as it excessive show datausage for virtual drives
   # Which is common in AWS setup
-  filters:
-    - drop_event.when.regexp.name: '^veth.*$'
+  processors:
+    - drop_event.when.regexp:
+        name: '^veth.*$'
 
-# File system specific monitoring (reduced)
+#-----------------------------------------------
+# File System metrics
+#-----------------------------------------------
 - module: system
-  enabled: ${SYSTEM_ENABLE}
+  enabled: ${FS_ENABLE}
   period: ${FS_METRIC_PERIOD}
   metricsets:
     # Per filesystem stats
     - filesystem
     # File system summary stats
     - fsstat
-  filters:
-      - drop_event.when.regexp.mount_point: '^/(\.r|hostfs|dev|sys|cgroup|proc|etc|host|lib)($|/|;)'
+  processors:
+    - drop_event.when.regexp:
+        system.filesystem.mount_point: ^/(\.r|hostfs|dev|sys|cgroup|proc|etc|host|lib)($|/|;)'
   #   - drop_event:
   #       when:
   #         and:
   #           - not.regexp.mount_point: "${FS_FOR_REGEX}"
   #           - regexp.mount_point: "${FS_DROP_REGEX}"
 
-#------------------------------- Docker Module -------------------------------
+#-----------------------------------------------
+# Docker metrics
+#-----------------------------------------------
 - module: docker
   metricsets: ["container", "cpu", "diskio", "healthcheck", "info", "memory", "network"]
   hosts: ["unix:///hostfs/var/run/docker.sock"]
@@ -108,6 +120,20 @@ metricbeat.modules:
     #certificate:           "/etc/pki/client/cert.pem"
     #key:                   "/etc/pki/client/cert.key"
 
+#-----------------------------------------------
+# Kublet metrics (from kubernetes)
+#-----------------------------------------------
+- module: kubernetes
+  enabled: ${KUBLET_METRIC_ENABLE}
+  metricsets:
+    - node
+    - system
+    - pod
+    - container
+    - volume
+  period: ${KUBLET_METRIC_PERIOD}
+  hosts: ["${KUBLET_METRIC_HOST}"]
+
 #================================ General ======================================
 
 # The name of the shipper that publishes the network data. It can be used to group
@@ -118,7 +144,7 @@ metricbeat.modules:
 # The tags of the shipper are included in their own field with each
 # transaction published. Tags make it easy to group servers by different
 # logical properties.
-#tags: ["service-X", "web-tier"]
+tags: ${BEAT_TAGS}
 
 # Optional fields that you can specify to add additional information to the
 # output. Fields can be scalar values, arrays, dictionaries, or any nested
@@ -241,6 +267,15 @@ output.elasticsearch:
   #index: "metricbeat-%{[beat.version]}-%{+yyyy.MM.dd}"
   index: "${ES_INDEX}"
 
+  # Compression of the submitted logs: 0-9, higher = more CPU usage
+  # See: https://www.elastic.co/guide/en/beats/filebeat/current/elasticsearch-output.html#_compression_level
+  #
+  # NOTE: This is not supported in AWS Elasticsearch
+  compression_level: ${ES_COMPRESSION}
+
+  # The maximum number of events to bulk in a single Elasticsearch bulk API index request.
+  bulk_max_size: ${ES_BATCHSIZE}
+
   # Optional ingest node pipeline. By default no pipeline will be used.
   #pipeline: ""
 
@@ -338,7 +373,7 @@ setup:
 
 # Sets log level. The default log level is info.
 # Available log levels are: critical, error, warning, info, debug
-logging.level: ${LOGGING_LEVEL}
+logging.level: "${BEAT_LOGGING_LEVEL}"
 
 # Enable debug output for selected components. To enable all selectors use ["*"]
 # Other available selectors are "beat", "publish", "service"
