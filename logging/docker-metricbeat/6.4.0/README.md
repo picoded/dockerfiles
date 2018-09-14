@@ -31,6 +31,9 @@ Finally of course, ensured that `elasticsearch` is configured.
 ## Configuration
 
 ``` 
+# Interval of capturing metrics
+ENV METRIC_PERIOD 1s
+
 # Elasticsearch host to push into
 ENV ES_HOST    elasticsearch
 
@@ -47,21 +50,7 @@ ENV ES_USER    elasticsearch
 ENV ES_PASS    PleaseChangeThisToActualPassword
 
 # Elasticsearch index to use 
-ENV ES_INDEX  "metricbeat-%{[beat.version]}-%{+yyyy.MM}"
-
-# Elasticsearch template name to use for index setup
-ENV ES_TEMPLATE_NAME "metricbeat"
-
-# Elasticsearch template pattern to use for index setup
-ENV ES_TEMPLATE_PATTERN "metricbeat-*"
-
-# Compression level of log submissions 0 - 9
-# NOTE: This is not supported in AWS Elasticsearch
-ENV ES_COMPRESSION 0
-
-# Bulk batch size. This is used to approximately ensure
-# To ensure that the total BULK request size does not exceed 100MB
-ENV ES_BATCHSIZE 50
+ENV ES_INDEX  "metricbeat-%{+yyyy.MM.dd}"
 ```
 
 ## Data collected
