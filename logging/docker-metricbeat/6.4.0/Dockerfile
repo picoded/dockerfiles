@@ -1,4 +1,4 @@
-# This uses the offical metricbeat version : 6.3.0
+# This uses the offical metricbeat version
 FROM docker.elastic.co/beats/metricbeat:6.4.0
 
 ####################################################
