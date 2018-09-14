@@ -67,7 +67,7 @@ ENV ES_BATCHSIZE 50
 
 # Logging level to output, production should use warning
 # Possible values : critical, error, warning, info, debug
-ENV BEAT_LOGGING_LEVEL "warning"
+ENV BEAT_LOGGING_LEVEL "info"
 
 # Metricbeat tags to add
 ENV BEAT_TAGS "[]"
