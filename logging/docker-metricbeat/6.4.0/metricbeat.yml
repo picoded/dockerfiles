@@ -229,7 +229,6 @@ processors:
  #  certificate:           "/etc/pki/client/cert.pem"
  #  key:                   "/etc/pki/client/cert.key"
 
-
 #================================ Outputs ======================================
 
 # Configure what outputs to use when sending the data collected by the beat.
