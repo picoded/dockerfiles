@@ -72,6 +72,9 @@ ENV BEAT_LOGGING_LEVEL "info"
 # Metricbeat tags to add
 ENV BEAT_TAGS "[]"
 
+# The logging period for metricbeat internal metrics
+ENV BEAT_LOGGING_PERIOD "10m"
+
 #-----------------------------------------------
 # Running processes metrics
 # (Seperate from docker)
@@ -196,11 +199,11 @@ ENV FS_METRIC_PERIOD 10m
 # Default : false (because you might want to use kubernetes metrics instead)
 ENV DOCKER_ENABLE "false"
 
-# Docker metrics, are polled on a 10 minute basis
-# Due to prolification of microservices, this keeps metrics "sane"
+# Docker metrics, are polled on a 10 minute basis by default
 #
-# Due to the potential size of this dataset, it is highly recommended 
-# to never go below a minute-by-minute period
+# Due to the potential size of this dataset, and the timeout involves 
+# for the docker api call : it is highly recommended to never go 
+# below a minute-by-minute period
 ENV DOCKER_METRIC_PERIOD 10m
 
 #-----------------------------------------------
@@ -224,7 +227,7 @@ ENV DOCKER_METRIC_PERIOD 10m
 ENV KUBLET_METRIC_ENABLE "false"
 
 # Kubernetes metrics interval
-ENV KUBLET_METRIC_PERIOD 10s
+ENV KUBLET_METRIC_PERIOD 10m
 
 #
 # The kubernetes local metric endpoint

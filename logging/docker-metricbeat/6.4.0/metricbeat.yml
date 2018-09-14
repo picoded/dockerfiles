@@ -390,7 +390,7 @@ logging.level: "${BEAT_LOGGING_LEVEL}"
 #logging.metrics.enabled: true
 
 # The period after which to log the internal metrics. The default is 30s.
-#logging.metrics.period: 30s
+logging.metrics.period: "${BEAT_LOGGING_PERIOD}"
 
 # # Logging to rotating files files. Set logging.to_files to false to disable logging to
 # # files.
