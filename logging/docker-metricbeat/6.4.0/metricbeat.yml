@@ -380,7 +380,7 @@ logging.level: "${BEAT_LOGGING_LEVEL}"
 #logging.selectors: ["*"]
 
 # Send all logging output to syslog. The default is false.
-#logging.to_syslog: true
+logging.to_syslog: true
 
 # If enabled, metricbeat periodically logs its internal metrics that have changed
 # in the last period. For each metric that changed, the delta from the value at
