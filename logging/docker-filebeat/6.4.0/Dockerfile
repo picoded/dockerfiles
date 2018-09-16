@@ -111,7 +111,7 @@ ENV LOG_EXCLUDE_LINE ".*(([0-9]{2}\[(KNL|IKE|MGR|NET)\])|(POST /_bulk HTTP/1.1\"
 ADD filebeat.yml /etc/filebeat/filebeat.yml
 
 # Build version check
-RUN filebeat --version
+RUN filebeat version
 
 # Entrypoint to run filebeat
-ENTRYPOINT ["/usr/bin/filebeat", "-e", "-v", "-c", "/etc/filebeat/filebeat.yml"]
+ENTRYPOINT ["/usr/bin/filebeat", "-e", "-c", "/etc/filebeat/filebeat.yml"]
