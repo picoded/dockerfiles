@@ -114,4 +114,4 @@ ADD filebeat.yml /etc/filebeat/filebeat.yml
 RUN filebeat version
 
 # Entrypoint to run filebeat
-ENTRYPOINT ["/usr/bin/filebeat", "-e", "-c", "/etc/filebeat/filebeat.yml"]
+ENTRYPOINT ["filebeat", "-e", "-c", "/etc/filebeat/filebeat.yml"]
