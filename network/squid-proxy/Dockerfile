@@ -30,6 +30,9 @@ RUN chmod +x /entrypoint/*.sh
 ENV USERNAME=proxy_user \
 	PASSWORD=proxy_password
 
+# Enable debugging
+ENV SQUID_DEBUG=false
+
 # Permitted IP addresses for the proxy
 # ENV ALLOWED_IP_RANGE=0.0.0.0/0
 
