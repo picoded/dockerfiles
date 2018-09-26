@@ -25,7 +25,7 @@ echo "$SQUID_CONFIG" > "$SQUID_CONF_DIR/squid.conf"
 # Execute squid with additional args
 echo "## Executing squid"
 if [ "$SQUID_DEBUG" = true ]; then
-    squid -f "$SQUID_CONF_DIR/squid.conf" -NXYCd 1 $@
+    squid -f "$SQUID_CONF_DIR/squid.conf" -NXYCd 9 $@
 else
-    squid -f "$SQUID_CONF_DIR/squid.conf" -NYCd 1 $@
+    squid -f "$SQUID_CONF_DIR/squid.conf" -NYCd 9 $@
 fi
