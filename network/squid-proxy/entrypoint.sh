@@ -4,7 +4,7 @@
 set -e
 
 # Configuration directory for squid, exporting for envsubst
-SQUID_CONF_DIR="/etc/squid"
+SQUID_CONF_DIR="/etc/squid3"
 export SQUID_CONF_DIR="$SQUID_CONF_DIR"
 
 # Squid config template
@@ -25,7 +25,7 @@ echo "$SQUID_CONFIG" > "$SQUID_CONF_DIR/squid.conf"
 # Execute squid with additional args
 echo "## Executing squid"
 if [ "$SQUID_DEBUG" = true ]; then
-    squid -f "$SQUID_CONF_DIR/squid.conf" -NXYCd 9 $@
+    squid3 -f "$SQUID_CONF_DIR/squid.conf" -NXYCd 9 $@
 else
-    squid -f "$SQUID_CONF_DIR/squid.conf" -NYCd 9 $@
+    squid3 -f "$SQUID_CONF_DIR/squid.conf" -NYCd 9 $@
 fi

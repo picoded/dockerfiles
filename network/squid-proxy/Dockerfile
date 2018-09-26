@@ -1,17 +1,13 @@
 # Provides a squid forward proxy, with an authtication layer
 #
 # VERSION               1.0.1
-FROM alpine:latest
+FROM sameersbn/squid:3.3.8-23
 
-# install a specific version of squid + curl
-# and dependencies for envsubst (needed for config)
-RUN apk update \
-    && apk add squid=3.5.27-r2 \
-    && apk add curl \
-    && apk add gettext \
-    && apk add libintl \
-    && apk add apache2-utils \
-    && rm -rf /var/cache/apk/*
+# Dependencies for envsubst and htpassword (needed for config)
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y gettext \
+    && apt-get install -y apache2-utils \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create the entrypoint folder and log dir
 RUN mkdir -p /entrypoint && mkdir -p /workspace && mkdir -p /var/log/squid
