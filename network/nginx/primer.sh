@@ -79,6 +79,13 @@ else
 fi
 
 #
+# Echo out assumed nginx settings
+#
+echo ">>> Assuming the following for - /etc/nginx/conf.d/default.conf"
+cat /etc/nginx/conf.d/default.conf
+echo ">>>"
+
+#
 # Goes back to root folder and
 # Chain the execution commands 
 #
