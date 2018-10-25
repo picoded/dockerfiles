@@ -4,40 +4,47 @@ https://hub.docker.com/r/picoded/nginx/
 https://github.com/picoded/dockerfiles/tree/master/network/nginx
 
 ## Summary and configuration
-A simple nginx server, with container configured DNS resolver preloaded
+nginx - with container DNS and additional settings made available via environment variables
 
 ``` 
 #
-# The htpasswd file configuration.
-# Default is "picoded:{PLAIN}isAwesome!", which is unencrypted. You may overwrite with encrypted htpasswd
+# Most common settings to adjust
 #
-# You can use either an offline httpasswd generator (for the paranoid)
-# Or an online conguration generator such as : http://aspirine.org/htpasswd_en.html
-#
-# Note, if you are configuring this variable via command line, you will want to use
-# single quotes, to ensure the $ signs in the hashed password.
-#
-# You may use multiple lines, via \n "newline"
-#
-ENV HTPASSWD="picoded:{PLAIN}isAwesome!"
+
+# Client max body size conig (default 100M)
+ENV CLIENT_MAX_BODY_SIZE 100M
+
+# Client buffer size, before writing a tmp file
+ENV CLIENT_MAX_BUFFER_SIZE 10M
+
+# /etc/nginx/conf.d/default.conf overwrite (if configured)
+ENV DEFAULT_CONF ""
 
 #
-# Server host to make request to, 
-# you may use a named container of "webhost" instead
+# Settings you probably should 
+# NOT adjust unless you know what
+# you are doing
 #
-ENV FORWARD_HOST webhost
 
-# The destination server port
-ENV FORWARD_PORT 80
+# DNS server to use (if configured)
+ENV DNS ""
 
-# The forwarding protocall
-ENV FORWARD_PROT "http"
+# DNS Validity timeframe
+#
+# This can be set as blank to follow DNS declared settings
+# intentionally set to 10s to avoid DNS storms
+ENV DNS_VALID_TIMEOUT 1s
 
-# Authentication realm, used by auth_basic (see: http://nginx.org/en/docs/http/ngx_http_auth_basic_module.html)
-ENV AUTH_REALM="Restricted"
+# Number of worker process
+ENV WORKER_PROCESSES 1
 
-# Nginx proxy read timed, default is 600 seconds (10 minutes)
-ENV PROXY_READ_TIMEOUT 600
+# Number of worker connections per process
+ENV WORKER_CONNECTIONS 10240
+
+# /etc/nginx/nginx.conf overwrite (if configured)
+# NOTE if this is configured and used, all other configs
+# parameters would be effectively useless
+ENV NGINX_CONF ""
 ```
 
 # Issue filling
