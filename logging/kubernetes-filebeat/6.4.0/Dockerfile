@@ -8,7 +8,7 @@ FROM docker.elastic.co/beats/filebeat:6.4.0
 # RUN mv /usr/bin/filebeat.sh /usr/bin/filebeat 2>/dev/null
 
 # Filebeat folder - used to store data for tracking of changes
-VOLUME            /var/lib/filebeat/
+VOLUME            /var/lib/filebeat-data/
 
 # Log path to read from docker containers
 VOLUME            /var/lib/docker/containers/
