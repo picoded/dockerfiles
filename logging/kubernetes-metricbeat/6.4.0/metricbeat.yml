@@ -14,7 +14,7 @@ metricbeat.modules:
     - container
     - volume
   period: 10s
-  host: ${NODE_NAME}
+  host: ${HOSTNAME}
   hosts: ["localhost:10255"]
   # If using Red Hat OpenShift remove the previous hosts entry and 
   # uncomment these settings:

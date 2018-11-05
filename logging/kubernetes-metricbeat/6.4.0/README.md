@@ -1,11 +1,11 @@
-# picoded/host-metricbeat
+# picoded/kubernetes-metricbeat
 
-https://hub.docker.com/r/picoded/host-metricbeat/
-https://github.com/picoded/dockerfiles/tree/master/logging/host-metricbeat/
+https://hub.docker.com/r/picoded/kubernetes-metricbeat/
+https://github.com/picoded/dockerfiles/tree/master/logging/kubernetes-metricbeat/
 
 ## Summary
 
-> Getting host stats into elasticsearch 
+> Getting host container stats into elasticsearch 
 
 This container will need be mounted to host network.
 
