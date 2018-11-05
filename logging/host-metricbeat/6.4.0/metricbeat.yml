@@ -263,6 +263,25 @@ output.elasticsearch:
   # Configure curve types for ECDHE based cipher suites
   #ssl.curve_types: []
 
+############################# Setup #########################################
+# https://www.elastic.co/guide/en/beats/filebeat/6.2/configuration-template.html
+# Configure setup for templates when index is changed by user.
+# Multiple setup may be used.
+setup:
+
+  ### templates for setup
+  template:
+    # Name for template setup
+    name: "${ES_TEMPLATE_NAME}"
+
+    # Pattern for template setup
+    pattern: "${ES_TEMPLATE_PATTERN}"
+
+  ### Dashboard for setup
+  # dashboards:
+  #   # Pattern for the dashboard index
+  #   index: "${DASH_INDEX}"
+
 #================================ Logging ======================================
 # There are three options for the log output: syslog, file, stderr.
 # Under Windows systems, the log files are per default sent to the file output,
