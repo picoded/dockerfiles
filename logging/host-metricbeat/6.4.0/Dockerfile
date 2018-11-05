@@ -196,4 +196,4 @@ RUN metricbeat -c /usr/share/metricbeat/metricbeat.yml test config
 # Assumes hostfs metricbeat binding 
 # (as that is what this container is for)
 ENTRYPOINT ["metricbeat"]
-CMD [ "-e", "-system.hostfs=/hostfs"]
+CMD [ "-e", "-system.hostfs=/hostfs" ]
