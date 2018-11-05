@@ -1,17 +1,23 @@
-# This uses the offical metricbeat version
+# This uses the offical filebeat version
 FROM docker.elastic.co/beats/filebeat:6.4.0
 
-# I know this setup was intentional
-# https://www.elastic.co/guide/en/beats/libbeat/6.3/breaking-changes-6.0.html
+####################################################
 #
-# But really, i prefer having my entrypoint paths working
-# RUN mv /usr/bin/filebeat.sh /usr/bin/filebeat 2>/dev/null
+# Required volumes and network bindings
+#
+####################################################
 
 # Filebeat folder - used to store data for tracking of changes
 VOLUME            /var/lib/filebeat/data/
 
 # Log path to read from docker containers
 VOLUME            /var/lib/docker/containers/
+
+####################################################
+#
+# Environment variable configurations 
+#
+####################################################
 
 #-----------------------------------------------
 # Elasticsearch settings
@@ -48,13 +54,27 @@ ENV DASH_INDEX "filebeat-*"
 # NOTE: This is not supported in AWS Elasticsearch
 ENV ES_COMPRESSION 0
 
-#-----------------------------------------------
-# filebeat settings
-#-----------------------------------------------
-
 # Bulk batch size. This is used in conjuncture with LOG_LINE_MAX
 # To ensure that the total BULK request size does not exceed 100MB
 ENV ES_BATCHSIZE 20
+
+#-----------------------------------------------
+# metricbeat specific settings
+#-----------------------------------------------
+
+# Logging level to output, production should use warning
+# Possible values : critical, error, warning, info, debug
+ENV BEAT_LOGGING_LEVEL "info"
+
+# Metricbeat tags to add
+ENV BEAT_TAGS "[]"
+
+# The logging period for metricbeat internal metrics
+ENV BEAT_LOGGING_PERIOD "10m"
+
+#-----------------------------------------------
+# filebeat settings
+#-----------------------------------------------
 
 # A single log line maximum bytes
 # 250,000 bytes was selected, so that 20 log lines
@@ -112,14 +132,6 @@ ENV LOG_EXCLUDE_LINE ".*(([0-9]{2}\[(KNL|IKE|MGR|NET)\])|(POST /_bulk HTTP/1.1\"
 # Actual build and entrypoint
 #
 ####################################################
-
-# Perform setup as root user
-USER root
-
-# Install some common modules needed
-RUN yum install -y curl vim && yum clean all
-# RUN curl -fsSL https://get.docker.com/ | sh && yum clean all
-# RUN usermod -aG docker metricbeat
 
 # Filebeat configuration yml (will load environment configs)
 ADD filebeat.yml /etc/filebeat/filebeat.yml
