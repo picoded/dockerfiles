@@ -3,7 +3,7 @@
 ############################# Filebeat ######################################
 filebeat:
   # List of prospectors to fetch data.
-  prospectors:
+  inputs:
     # Each - is a prospector. Below are the prospector specific configurations
     -
       # Type of prospector is docker
@@ -152,47 +152,54 @@ shipper:
     #  - "/usr/share/GeoIP/GeoLiteCity.dat"
     #  - "/usr/local/var/GeoIP/GeoLiteCity.dat"
 
+#----------------------------- Console output ---------------------------------
+#output.console:
+  # Boolean flag to enable or disable the output module.
+  #enabled: true
 
-############################# Logging #########################################
+  # Pretty print json event
+  #pretty: false
+
+#================================ Logging ======================================
+# There are three options for the log output: syslog, file, stderr.
+# Under Windows systems, the log files are per default sent to the file output,
+# under all other system per default to syslog.
 
 # Sets log level. The default log level is info.
 # Available log levels are: critical, error, warning, info, debug
-logging.level: ${LOGGING_LEVEL}
+logging.level: "${BEAT_LOGGING_LEVEL}"
 
-# There are three options for the log ouput: syslog, file, stderr.
-# Under Windos systems, the log files are per default sent to the file output,
-# under all other system per default to syslog.
-#logging:
+# Enable debug output for selected components. To enable all selectors use ["*"]
+# Other available selectors are "beat", "publish", "service"
+# Multiple selectors can be chained.
+#logging.selectors: ["*"]
 
-  # Send all logging output to syslog. On Windows default is false, otherwise
-  # default is true.
-  #to_syslog: true
+# Send all logging output to syslog. The default is false.
+#logging.to_syslog: true
 
-  # Write all logging output to files. Beats automatically rotate files if rotateeverybytes
-  # limit is reached.
-  #to_files: false
+# If enabled, metricbeat periodically logs its internal metrics that have changed
+# in the last period. For each metric that changed, the delta from the value at
+# the beginning of the period is logged. Also, the total values for
+# all non-zero internal metrics are logged on shutdown. The default is true.
+#logging.metrics.enabled: true
 
-  # To enable logging to files, to_files option has to be set to true
-  # files:
-    # The directory where the log files will written to.
-    #path: /var/log/mybeat
+# The period after which to log the internal metrics. The default is 30s.
+logging.metrics.period: "${BEAT_LOGGING_PERIOD}"
 
-    # The name of the files where the logs are written to.
-    #name: mybeat
+# # Logging to rotating files files. Set logging.to_files to false to disable logging to
+# # files.
+# logging.to_files: true
+# logging.files:
+#   # Configure the path where the logs are written. The default is the logs directory
+#   # under the home path (the binary location).
+#   path: /var/log/metricbeat
 
-    # Configure log file size limit. If limit is reached, log file will be
-    # automatically rotated
-    # rotateeverybytes: 10485760 # = 10MB
+#   # The name of the files where the logs are written to.
+#   name: metricbeat
 
-    # Number of rotated log files to keep. Oldest files will be deleted first.
-    #keepfiles: 7
+#   # Configure log file size limit. If limit is reached, log file will be
+#   # automatically rotated
+#   rotateeverybytes: 10485760 # = 10MB
 
-  # Enable debug output for selected components. To enable all selectors use ["*"]
-  # Other available selectors are beat, publish, service
-  # Multiple selectors can be chained.
-  #selectors: [ ]
-
-  # Sets log level. The default log level is error.
-  # Available log levels are: critical, error, warning, info, debug
-  #level: error
-
+#   # Number of rotated log files to keep. Oldest files will be deleted first.
+#   keepfiles: 10

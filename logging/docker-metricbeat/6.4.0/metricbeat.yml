@@ -357,7 +357,6 @@ setup:
   #   # Pattern for the dashboard index
   #   index: "${DASH_INDEX}"
 
-
 #----------------------------- Console output ---------------------------------
 #output.console:
   # Boolean flag to enable or disable the output module.

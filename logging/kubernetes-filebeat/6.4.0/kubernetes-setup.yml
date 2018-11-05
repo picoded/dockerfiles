@@ -47,3 +47,85 @@ metadata:
   labels:
     k8s-app: multibeat
 ---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: k8-filebeat
+  namespace: multibeat
+  labels:
+    k8s-app: filebeat
+spec:
+  template:
+    metadata:
+      labels:
+        k8s-app: filebeat
+    spec:
+      serviceAccountName: multibeat
+      terminationGracePeriodSeconds: 30
+      hostNetwork: true
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: no-multibeat
+                operator: NotIn
+                values:
+                - "true"
+              - key: multibeat
+                operator: NotIn
+                values:
+                - "false"
+              - key: no-filebeat
+                operator: NotIn
+                values:
+                - "true"
+              - key: filebeat
+                operator: NotIn
+                values:
+                - "false"
+      containers:
+      - name: k8-filebeat
+        image: picoded/kubernetes-filebeat
+        imagePullPolicy: Always
+        env:
+        - name: BEAT_TAGS
+          value: '[]'
+        - name: ES_COMPRESSION
+          value: "9"
+        - name: ES_HOST
+          value: _______________________
+        - name: ES_INDEX
+          value: filebeat-%{[beat.version]}-%{+yyyy.MM}
+        - name: ES_USER
+          value: _______________________
+        - name: ES_PASS
+          value: _______________________
+        - name: ES_PORT
+          value: "443"
+        - name: ES_PROT
+          value: https
+        securityContext:
+          runAsUser: 0
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: data
+          mountPath: /usr/share/filebeat/data
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      volumes:
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+      # data folder stores a registry of read status for all files, so we don't send everything again on a Filebeat pod restart
+      - name: data
+        hostPath:
+          path: /var/lib/k8-filebeat-data
+          type: DirectoryOrCreate
+---
