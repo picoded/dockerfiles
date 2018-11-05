@@ -107,6 +107,20 @@ ENV BEAT_LOGGING_PERIOD "10m"
 # ```
 ENV LOG_EXCLUDE_LINE ".*(([0-9]{2}\[(KNL|IKE|MGR|NET)\])|(POST /_bulk HTTP/1.1\" 200 [0-9]* \"-\" \"Go-http-client/1.1)|(level\=debug.*io\.rancher)).*"
 
+####################################################
+#
+# Actual build and entrypoint
+#
+####################################################
+
+# Perform setup as root user
+USER root
+
+# Install some common modules needed
+RUN yum install -y curl vim && yum clean all
+# RUN curl -fsSL https://get.docker.com/ | sh && yum clean all
+# RUN usermod -aG docker metricbeat
+
 # Filebeat configuration yml (will load environment configs)
 ADD filebeat.yml /etc/filebeat/filebeat.yml
 

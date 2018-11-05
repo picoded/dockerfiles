@@ -3,34 +3,21 @@
 https://hub.docker.com/r/picoded/host-metricbeat/
 https://github.com/picoded/dockerfiles/tree/master/logging/host-metricbeat/
 
-## DEPRECATED
-
-Note that this is deprecated in favour of "host-metricbeat"
-
-https://hub.docker.com/r/picoded/docker-metricbeat/
-https://github.com/picoded/dockerfiles/tree/master/logging/docker-metricbeat/
-
 ## Summary
 
-> Getting host stats into elasticsearch (not container stats)
-
-This was designed to work with its sibling `docker-metricbeat`
-
-https://hub.docker.com/r/picoded/docker-metricbeat/  
-https://github.com/picoded/dockerfiles/tree/master/logging/docker-metricbeat/  
+> Getting host stats into elasticsearch 
 
 This container will need be mounted to host network.
-This container will need root access
 
-If you are using rancherOS, or a restricted OS use the following
+If you are using rancherOS, or a restricted OS use the following.
 
 `/proc/:/hostfs/proc/:ro`
 `/sys/fs/cgroup/:/hostfs/sys/fs/cgroup/:ro`
 `/etc/hostname:/hostfs/etc/hostname:ro`
 
-Otherwise you can simplify with the following (not fully tested)
+If your system allows it, you can simplify the above with the following (not fully tested).
 
-`/:/hostfs:ro`
+`/:/hostfs/:ro`
 
 Finally of course, ensured that `elasticsearch` is configured.
 
@@ -63,23 +50,23 @@ ENV ES_INDEX  "metricbeat-%{+yyyy.MM.dd}"
 
 Currently this metricbeat is configured to collect the following inside metricbeat.yml
 ```
-  metricsets:
-    # CPU stats
-    - cpu
-    # Per CPU core stats
-    - core
-    # System Load stats
-    - load
-    # IO stats
-    - diskio
-    # Per filesystem stats
-    - filesystem
-    # File system summary stats
-    - fsstat
-    # Memory stats
-    - memory
-    # Network stats
-    - network
+metricsets:
+  # CPU stats
+  - cpu
+  # Per CPU core stats
+  - core
+  # System Load stats
+  - load
+  # IO stats
+  - diskio
+  # Per filesystem stats
+  - filesystem
+  # File system summary stats
+  - fsstat
+  # Memory stats
+  - memory
+  # Network stats
+  - network
 ```
 
 # Issue filling
