@@ -7,10 +7,10 @@ FROM docker.elastic.co/beats/metricbeat:6.4.0
 #
 ####################################################
 
-# Metricbeat required host mount volumes
-VOLUME /hostfs/proc
-VOLUME /hostfs/sys/fs/cgroup
-VOLUME /hostfs
+# # Metricbeat required host mount volumes
+# VOLUME /hostfs/proc
+# VOLUME /hostfs/sys/fs/cgroup
+# VOLUME /hostfs
 
 # Note that you will need to bind the network to host
 # aka : --net=host
