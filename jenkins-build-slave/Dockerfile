@@ -21,7 +21,7 @@ MAINTAINER Eugene Cheah <eugene@picoded.com>
 # - curl
 # - vim (useful for direct access debugging)
 #
-RUN apt-get update && apt-get install -y build-essential php5-cli php5-mcrypt python ant git unzip zip doxygen curl vim
+RUN apt-get update && apt-get install -y build-essential php7.0-cli php7.0-mcrypt python ant git unzip zip doxygen curl vim
 
 # Updates SSH negotiation algorithms 
 # 
