@@ -33,4 +33,4 @@ RUN apt-get update && apt-get install -y build-essential php7.0-cli php7.0-mcryp
 # RUN apt-get install -y apache2 php5 libapache2-mod-php5 php5-mcrypt
 
 # And start up the slave
-CMD ["./setup-and-run.sh"]
+# CMD ["./setup-and-run.sh"]
