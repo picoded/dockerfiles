@@ -43,7 +43,7 @@ RUN mkdir /workspace && mkdir /entrypoint && \
 	chmod -R 0777 /workspace && chmod +x /workspace;
 	
 WORKDIR /workspace
-VOLUME /workspace
+# VOLUME /workspace
 
 #
 # Prepares the entrypoint primer script
