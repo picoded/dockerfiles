@@ -119,7 +119,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "# Dynamic IP DNS workaround"                                                 >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "include resolvers.conf;"                                                     >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "upstream forward_backend {"                                                  >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "upstream forward-backend {"                                                  >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   zone forward_backend_zone ${UPSTREAM_ZONE_SIZE};"                         >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'if [ -n "$FORWARD_UPSTREAM" ]; then'                                                                >> /entrypoint/primer.sh && \
@@ -147,7 +147,7 @@ RUN echo '#!/bin/sh'                                                            
 	echo 'echo "   proxy_next_upstream ${PROXY_NEXT_UPSTREAM};"                              >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "   location / {"                                                             >> default.conf' >> /entrypoint/primer.sh && \
-	echo 'echo "      proxy_pass                    ${FORWARD_PROT}://forward_backend;"      >> default.conf' >> /entrypoint/primer.sh && \
+	echo 'echo "      proxy_pass                    ${FORWARD_PROT}://forward-backend;"      >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo ""                                                                            >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      proxy_connect_timeout         ${PROXY_CONNECT_TIMEOUT};"               >> default.conf' >> /entrypoint/primer.sh && \
 	echo 'echo "      proxy_read_timeout            ${PROXY_READ_TIMEOUT};"                  >> default.conf' >> /entrypoint/primer.sh && \
